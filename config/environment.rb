@@ -7,6 +7,7 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
+  config.gem 'authlogic', :lib => false
   config.gem 'rspec-rails', :lib => false, :version => '>= 1.3.2'
   config.gem 'rspec', :lib => false, :version => '>= 1.3.0'
   config.gem 'factory_girl', :lib => false, :version => '>= 1.2.3'
