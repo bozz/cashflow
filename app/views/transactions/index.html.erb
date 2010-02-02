@@ -1,0 +1,25 @@
+<% title "Transactions" %>
+
+<table>
+  <tr>
+    <th>Account</th>
+    <th>Date</th>
+    <th>Description</th>
+    <th>Amount</th>
+    <th>Note</th>
+  </tr>
+  <% for transaction in @transactions %>
+    <tr>
+      <td><%=h transaction.account_id %></td>
+      <td><%=h transaction.date %></td>
+      <td><%=h transaction.description %></td>
+      <td><%=h transaction.amount %></td>
+      <td><%=h transaction.note %></td>
+      <td><%= link_to "Show", transaction %></td>
+      <td><%= link_to "Edit", edit_transaction_path(transaction) %></td>
+      <td><%= link_to "Destroy", transaction, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Transaction", new_transaction_path %></p>

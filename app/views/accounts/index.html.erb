@@ -1,0 +1,23 @@
+<% title "Accounts" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Bank</th>
+    <th>Number</th>
+    <th>Description</th>
+  </tr>
+  <% for account in @accounts %>
+    <tr>
+      <td><%=h account.name %></td>
+      <td><%=h account.bank %></td>
+      <td><%=h account.number %></td>
+      <td><%=h account.description %></td>
+      <td><%= link_to "Show", account %></td>
+      <td><%= link_to "Edit", edit_account_path(account) %></td>
+      <td><%= link_to "Destroy", account, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Account", new_account_path %></p>

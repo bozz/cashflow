@@ -1,0 +1,11 @@
+one:
+  name: MyString
+  bank: MyString
+  number: 1
+  description: MyText
+
+two:
+  name: MyString
+  bank: MyString
+  number: 1
+  description: MyText

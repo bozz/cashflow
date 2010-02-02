@@ -1,0 +1,12 @@
+<% semantic_form_for @transaction do |f| %>
+  <%= f.error_messages %>
+  <% f.inputs do %>
+    <%= f.input :account, :include_blank => false %>
+    <%= f.input :date, :start_year => 1995 %>
+    <%= f.input :amount %>
+		<%= f.input :tags, :as => :check_boxes %>
+    <%= f.input :description, :input_html => { :rows => 4 } %>
+    <%= f.input :note, :input_html => { :rows => 4 } %>
+  <% end %>
+  <%= f.buttons %>
+<% end %>
