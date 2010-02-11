@@ -1,6 +1,26 @@
 class TransactionsController < ApplicationController
   def index
-    @transactions = Transaction.all
+    
+    #@transactions = Transaction.all
+    respond_to do |format|
+      format.html 
+      
+      format.json do
+        
+        columnMapping = ["account_id", "date", "description", "amount", "note"]
+        columnName = columnMapping[ params[:iSortCol_0].to_i ]
+        
+        page = params[:iDisplayStart].nil? ? 1 : (params[:iDisplayStart].to_i/params[:iDisplayLength].to_i)+1
+        @transactions = Transaction.paginate :per_page => params[:iDisplayLength], :page => page, :order => "#{columnName} #{params[:sSortDir_0]}", :conditions => "description like '%#{params[:sSearch]}%'"
+        render :json => {
+          :sEcho => params[:sEcho],
+          :iTotalRecords => 430,
+          :iTotalDisplayedRecords => 25,
+          :aaData =>  @transactions.map {|t| [t.account.name, t.date.strftime("%d.%m.%Y"), t.description, t.amount, t.note.to_s] }
+        }
+      end
+    end
+    
   end
   
   def show

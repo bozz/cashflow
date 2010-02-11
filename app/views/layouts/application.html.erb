@@ -3,7 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <title><%= h(yield(:title) || "Untitled") %></title>
-    <%= stylesheet_link_tag 'application', 'formtastic', 'formtastic_changes', :cache => 'base' %>
+    
+		<%= stylesheet_link_tag 'table_jui.css', 'themes/smoothness/jquery-ui-1.7.2.custom', 'formtastic', 'formtastic_changes', 'application', :cache => 'base' %>
+		
+		<%= javascript_include_tag "jquery-1.4.1.min", "jquery.dataTables.min", "behaviour.js" %>
+
     <%= yield(:head) %>
   </head>
   <body>
