@@ -1,0 +1,35 @@
+<table id="transaction-table">
+	<thead>
+  	<tr>
+	    <th>Account</th>
+	    <th>Date</th>
+	    <th>Description</th>
+	    <th>Amount</th>
+	    <th>Note</th>
+	    <th>Show</th>
+      <th>Edit</th>
+      <th>Destroy</th>
+	  </tr>
+	</thead>
+	<tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+	</tbody>
+</table>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		CF.initializeDataTable({
+			tableSelector: "#transaction-table",
+			columnMapping: ["Account", "Date", "Description", "Amount", "Note", "Show", "Edit", "Destroy"]
+		});
+	});
+</script>

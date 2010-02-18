@@ -1,24 +1,8 @@
+<% javascript "jquery.dataTables.min" %>
+<% stylesheet "table_jui.css", "themes/smoothness/jquery-ui-1.7.2.custom" %>
+
 <% title "Transactions" %>
 
 <p><%= link_to "New Transaction", new_transaction_path %></p>
 
-<table id="data-table">
-	<thead>
-  	<tr>
-	    <th>Account</th>
-	    <th>Date</th>
-	    <th>Description</th>
-	    <th>Amount</th>
-	    <th>Note</th>
-	  </tr>
-	</thead>
-	<tbody>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-	</tbody>
-</table>
+<%= render :partial => 'data_table' %>

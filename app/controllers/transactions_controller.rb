@@ -14,9 +14,9 @@ class TransactionsController < ApplicationController
         @transactions = Transaction.paginate :per_page => params[:iDisplayLength], :page => page, :order => "#{columnName} #{params[:sSortDir_0]}", :conditions => "description like '%#{params[:sSearch]}%'"
         render :json => {
           :sEcho => params[:sEcho],
-          :iTotalRecords => 430,
-          :iTotalDisplayedRecords => 25,
-          :aaData =>  @transactions.map {|t| [t.account.name, t.date.strftime("%d.%m.%Y"), t.description, t.amount, t.note.to_s] }
+          :iTotalRecords => Transaction.count,
+          :iTotalDisplayRecords => @transactions.total_entries,
+          :aaData =>  @transactions.map {|t| [t.account.name, t.date.strftime("%d.%m.%Y"), t.description, t.amount, t.note.to_s, t.id, t.id, t.id] }
         }
       end
     end
