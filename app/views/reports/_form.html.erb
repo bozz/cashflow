@@ -1,0 +1,20 @@
+<%
+	# this ugly switch is needed because of STI, wouldn't automatically figure it out
+	urlType = @current_action=="new" || @current_action=="create" ? :reports : :report
+	postMethod = @current_action=="new" || @current_action=="create" ? :post : :put
+%>
+
+<% semantic_form_for :report, @report, :url => urlType, :html => { :method => postMethod } do |f| %>
+  <%= f.error_messages %>
+  <% f.inputs do %>
+    <%= f.input :name %>
+		<li><label>Type</label><%= @report.type ? @report.type : "" %></li>
+    <%= f.input :beginning_at, :start_year => 1995 %>
+		<%= f.input :ending_at, :start_year => 1995 %>
+		
+		<%= render :partial => f.object.type.downcase + "form", :locals=>{:f=>f} %>
+		
+		<%= f.input :type, :as => :hidden %>	
+  <% end %>
+  <%= f.buttons %>
+<% end %>

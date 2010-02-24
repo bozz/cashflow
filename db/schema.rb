@@ -9,13 +9,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100131144215) do
+ActiveRecord::Schema.define(:version => 20100224112606) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
     t.string   "bank"
     t.integer  "number"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reports", :force => true do |t|
+    t.string   "name"
+    t.string   "type"
+    t.string   "chart_type"
+    t.string   "recurrence"
+    t.date     "beginning_at"
+    t.date     "ending_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,0 +1,17 @@
+<% title "Reports" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for report in @reports %>
+    <tr>
+      <td><%=h report.name %></td>
+      <td><%= link_to "Show", report %></td>
+      <td><%= link_to "Edit", edit_report_path(report) %></td>
+      <td><%= link_to "Destroy", report, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Basic Report", new_report_path(:type=>:BasicReport)  %></p>
