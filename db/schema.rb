@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100225113111) do
+ActiveRecord::Schema.define(:version => 20100225115112) do
 
   create_table "accounts", :force => true do |t|
     t.string   "name"
@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(:version => 20100225113111) do
     t.string   "recurrence"
     t.date     "beginning_at"
     t.date     "ending_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reports_tag_groups", :id => false, :force => true do |t|
+    t.integer "report_id"
+    t.integer "tag_group_id"
+  end
+
+  create_table "tag_groups", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -13,7 +13,7 @@
     <%= f.input :beginning_at, :start_year => 1995 %>
 		<%= f.input :ending_at, :start_year => 1995 %>
 		
-		<%= render :partial => f.object.type.downcase + "form", :locals=>{:f=>f} %>
+		<%= render :partial => f.object.type.downcase + "_form", :locals=>{:f=>f} %>
 		
 		<%= f.input :type, :as => :hidden %>	
   <% end %>

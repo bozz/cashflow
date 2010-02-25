@@ -1,0 +1,17 @@
+<% title "Tag Groups" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+  <% for tag_group in @tag_groups %>
+    <tr>
+      <td><%=h tag_group.name %></td>
+      <td><%= link_to "Show", tag_group %></td>
+      <td><%= link_to "Edit", edit_tag_group_path(tag_group) %></td>
+      <td><%= link_to "Destroy", tag_group, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Tag Group", new_tag_group_path %></p>

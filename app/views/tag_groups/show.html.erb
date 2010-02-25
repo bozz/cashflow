@@ -1,0 +1,12 @@
+<% title "Tag Group" %>
+
+<p>
+  <strong>Name:</strong>
+  <%=h @tag_group.name %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_tag_group_path(@tag_group) %> |
+  <%= link_to "Destroy", @tag_group, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", tag_groups_path %>
+</p>

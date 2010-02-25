@@ -1,6 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :tag_groups
+
   map.resources :reports
   map.resources :basic_reports, :controller => :reports
+  map.resources :recurrent_sum_reports, :controller => :reports
 
   map.resources :user_sessions
   map.resources :users
