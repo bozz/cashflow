@@ -9,6 +9,7 @@
   <% f.inputs do %>
     <%= f.input :name %>
 		<li><label>Type</label><%= @report.type ? @report.type : "" %></li>
+		<%= f.input :accounts, :as => :check_boxes, :required => true %>
     <%= f.input :beginning_at, :start_year => 1995 %>
 		<%= f.input :ending_at, :start_year => 1995 %>
 		
