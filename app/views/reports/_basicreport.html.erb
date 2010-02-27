@@ -1,1 +1,104 @@
+<% javascript 'highcharts' %>
+
 <p>Add Report here...</p>
+<div id="chart"></div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+	$(document).ready(function() {
+		var jsonData = eval('<%= @jsonData %>');
+		//console.log("jsonData: ", jsonData, jsonData.length);
+	
+		var seriesData = [];
+		for(var i=0; i<jsonData.length; i++) {
+			var series = jsonData[i];
+			var sum = 0; //parseFloat(series.balance);
+			var data = [];
+			for(var j=0; j<series.data.length; j++) {
+				var segs = series.data[j][0].split('-');
+				var year = segs[0];
+				var month = segs[1];
+				var day = segs[2];
+				//var date1 = Date.UTC(year, month-1, day-1);
+				//data.push([date1, sum])
+				var date = Date.UTC(year, month-1, day);
+				sum += parseFloat(series.data[j][1]);
+				data.push([date, sum])
+			}
+			seriesData.push({
+				type: 'line',
+				name: series.name,
+				data: data
+			});
+		}
+
+		var chart1 = new Highcharts.Chart({
+			chart: {
+				renderTo: 'chart',
+				defaultSeriesType: 'line',
+				zoomType: 'x'
+			},
+			title: {
+				text: "<%= @report.name %>"
+			},
+			xAxis: {
+				type: 'datetime',
+				maxZoom: 14 * 24 * 3600000, // fourteen days
+				title: { text: '2010' }
+			},
+			yAxis: {
+				title: { text: 'Balance (€)' }
+			},
+			tooltip: {
+				enabled: true,
+				formatter: function() {
+					return '<b>'+ this.series.name +'<\/b><br/>date: ' + Highcharts.dateFormat('%A %B %e %Y', this.x) + ' - amount: '+this.y;
+				}
+			},
+			plotOptions: {
+				line: {
+					lineWidth: 2,
+					marker: { 
+						enabled: false,
+						states: {
+							hover: {
+								enabled: true, 
+								radius: 3
+							}
+						}
+					},
+					shadow: false,
+					dataLabels: {
+						enabled: false
+					},
+					states: {
+						hover: { lineWidth: 1 }
+					}
+				},
+				area: {
+					lineWidth: 1,
+					marker: { 
+						enabled: false,
+						states: {
+							hover: {
+								enabled: true, 
+								radius: 3
+							}
+						}
+					},
+					shadow: false,
+					dataLabels: {
+						enabled: false
+					},
+					states: {
+						hover: { lineWidth: 1 }
+					}
+				}
+			},
+			series: seriesData
+		});
+	});
+
+</script>

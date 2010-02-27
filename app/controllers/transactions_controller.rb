@@ -1,11 +1,11 @@
 class TransactionsController < ApplicationController
+  before_filter :only => [:create, :update] { |c| c.send(:get_tag_list, c.params[:transaction]) }
   
   def index
     respond_to do |format|
       format.html 
-      
-      format.json do
         
+      format.json do
         columnMapping = ["account_id", "date", "description", "amount", "note"]
         columnName = columnMapping[ params[:iSortCol_0].to_i ]
         

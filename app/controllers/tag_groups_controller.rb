@@ -1,4 +1,6 @@
 class TagGroupsController < ApplicationController
+  before_filter :only => [:create, :update] { |c| c.send(:get_tag_list, c.params[:tag_group]) }
+  
   def index
     @tag_groups = TagGroup.all
   end
@@ -41,4 +43,5 @@ class TagGroupsController < ApplicationController
     flash[:notice] = "Successfully destroyed tag group."
     redirect_to tag_groups_url
   end
+  
 end

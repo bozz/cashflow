@@ -1,0 +1,60 @@
+<% javascript 'highcharts' %>
+
+<p>Add Report here...</p>
+<div id="chart"></div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+
+	$(document).ready(function() {
+		var jsonData = eval('(' + '<%= @jsonData %>' + ')');
+		//console.log("jsonData: ", jsonData, jsonData.series.length);
+		
+		var seriesData = [];
+			for(var i=0; i<jsonData.series.length; i++) {
+				var series = jsonData.series[i];
+				seriesData.push({
+					name: series.name,
+					data: series.data
+				});
+			}
+		
+		/*
+		seriesData = [{
+		      name: 'John',
+		      data: [5, 3, 4, 7, 2]
+		   }, {
+		      name: 'Jane',
+		      data: [2, -2, -3, 2, 1]
+		   }, {
+		      name: 'Joe',
+		      data: [3, 4, 4, -2, 5]
+		   }];
+		*/
+
+		var chart1 = new Highcharts.Chart({
+			chart: {
+				renderTo: 'chart',
+				defaultSeriesType: 'column'
+			},
+			title: {
+				text: "<%= @report.name %>"
+			},
+			xAxis: {
+				categories: jsonData.categories
+			},
+			yAxis: {
+				title: { text: 'Balance (€)' }
+			},
+			tooltip: {
+				enabled: true,
+				formatter: function() {
+					return '<b>'+ this.series.name +'<\/b><br/>amount: '+this.y;
+				}
+			},
+			series: seriesData
+		});
+	});
+
+</script>

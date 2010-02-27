@@ -6,6 +6,7 @@ class ReportsController < ApplicationController
   
   def show
     @report = Report.find(params[:id])
+    @jsonData = @report.get_data_as_json
   end
   
   def new
