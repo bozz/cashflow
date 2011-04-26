@@ -1,0 +1,21 @@
+embed_assets: on
+
+javascripts:
+  workspace:
+    - public/lib/jquery.js
+    - public/lib/rails.js
+    - public/lib/jquery-ui/jquery-ui.js
+    - public/lib/underscore.js
+    - public/lib/backbone.js
+    - public/lib/backbonerailsauthtokenadapter.js
+    - public/javascripts/application.js
+    - public/javascripts/controllers/*.js
+    - public/javascripts/models/*.js
+    - public/javascripts/views/**/*.js
+    - app/views/**/*.jst
+
+stylesheets:
+  common:
+    - public/lib/jquery-ui/smoothness/jquery-ui.css
+    - public/stylesheets/reset.css
+    - public/stylesheets/screen.css

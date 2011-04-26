@@ -1,0 +1,20 @@
+<form>
+  <div class="form-row">
+    <label for='name'>Name</label>
+    <input id="name-field" name='name' type='text' value="<%= model.get('name') %>" />
+  </div>
+
+  <div class="form-row">
+    <label for='identifier'>Kennzahl</label>
+    <input name='identifier' type='text' value="<%= model.get('identifier') %>" />
+  </div>
+
+  <div class="form-row">
+    <label for='description'>Beschreibung</label>
+    <textarea name='description'><%= model.get('description') %></textarea>
+  </div>
+
+  <div class="form-row">
+    <button><%= model.isNew() ? 'Anlegen' : 'Speichern' %></button>
+  </div>
+</form>

@@ -1,0 +1,22 @@
+<form>
+  <div class="form-row">
+    <label for='date'>Datum</label>
+    <input id="date-field" name='date' type='text' value="<%= model.get('date') %>" />
+  </div>
+
+  <div class="form-row">
+    <label for='amount'>Betrag (&euro;)</label>
+    <input name='amount' type='text' value="<%= model.get('amount') %>" />
+  </div>
+
+  <div class="form-row">
+    <label for='description'>Verwendungszweck</label>
+    <textarea name='description'><%= model.get('description') %></textarea>
+  </div>
+
+  <div class="form-row">
+    <button><%= model.isNew() ? 'Anlegen' : 'Speichern' %></button>
+  </div>
+</form>
+
+

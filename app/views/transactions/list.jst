@@ -1,0 +1,24 @@
+
+<h3><a id="new-transaction-btn" href='#new'>Neue Transaktion</a></h3>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Datum</th>
+    <th>Konto</th>
+    <th>Verwendungszweck</th>
+    <th>Betrag &euro;</th>
+    <th style="width: 50px">Bearbeiten</th>
+    <th style="width: 50px">Löschen</th>
+  </tr>
+  <% collection.each(function(item) { %>
+    <tr>
+      <td><%= item.get('id') %></td>
+      <td><%= item.get('date') %></td>
+      <td><%= item.get('account_id') %></td>
+      <td><%= item.escape('description') %></td>
+      <td><%= item.get('amount') %></td>
+      <td><a class="edit-transaction" href="#edit/<%= item.get('id') %>">&nbsp;</a></td>
+      <td><a class="delete-transaction" href="#delete/<%= item.get('id') %>">&nbsp;</a></td>
+    </tr>
+  <% }); %>
+</table>

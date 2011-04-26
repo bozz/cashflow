@@ -1,4 +1,10 @@
 Cashflow::Application.routes.draw do
+  resources :accounts
+
+  resources :bank_accounts
+
+  resources :transactions
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -48,7 +54,7 @@ Cashflow::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => "welcome#index"
+  root :to => "main#transactions"
 
   # See how all your routes lay out with "rake routes"
 

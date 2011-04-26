@@ -2,13 +2,47 @@
 <html>
 <head>
   <title>Cashflow</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
+  <%= include_stylesheets :common, :media => 'all' %>
+  <!--[if IE 6]>
+    <%= stylesheet_link_tag 'ie.css', :media => 'screen, projection' %>
+  <![endif]-->
   <%= csrf_meta_tag %>
 </head>
 <body>
 
-<%= yield %>
+  <header>
+    <h1>Cashflow</h1>
+  </header>
 
-</body>
+  <div id="wrapper">
+    <div id="toolbar">
+    </div>
+
+    <aside>
+      <ul>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#transactions">Transaktionen</a></li>
+        <li><a href="#accounts">Konten</a></li>
+        <li><a href="#bank_accounts">Bankkonten</a></li>
+        <li><a href="#settings">Einstellungen</a></li>
+      </ul>
+    </aside>
+
+    <div id="content">
+    </div>
+  </div>
+
+  <div id="notice"></div>
+
+  <footer>
+  </footer>
+
+  <%= include_javascripts :workspace %>
+  <script type="text/javascript">
+    $(function() {
+      App.init();
+    });
+  </script>
+
+  </body>
 </html>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  bank_account_id: 1
+  account_id: 1
+  date: 2011-04-22
+  description: MyText
+  amount: 
+  note: MyText
+
+two:
+  bank_account_id: 1
+  account_id: 1
+  date: 2011-04-22
+  description: MyText
+  amount: 
+  note: MyText

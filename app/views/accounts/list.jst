@@ -1,0 +1,22 @@
+
+<h3><a id="new-account-btn" href='#new'>Neues Konto</a></h3>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Kennzahl</th>
+    <th>Beschreibung</th>
+    <th style="width: 50px">Bearbeiten</th>
+    <th style="width: 50px">Löschen</th>
+  </tr>
+  <% collection.each(function(item) { %>
+    <tr>
+      <td><%= item.get('id') %></td>
+      <td><%= item.get('name') %></td>
+      <td><%= item.get('identifier') %></td>
+      <td><%= item.escape('description') %></td>
+      <td><a class="edit-account" href="#edit/<%= item.get('id') %>">&nbsp;</a></td>
+      <td><a class="delete-account" href="#delete/<%= item.get('id') %>">&nbsp;</a></td>
+    </tr>
+  <% }); %>
+</table>

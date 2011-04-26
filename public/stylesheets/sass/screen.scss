@@ -1,0 +1,106 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "compass/reset";
+@import "compass/css3";
+
+body {
+  background: #ccc;
+  font-family: verdana;
+}
+
+span.add-btn {
+  background: url('../images/add.png') no-repeat left center !important;
+}
+
+header {
+  height: 30px;
+  h1 {
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 15px 0 0 15px;
+  }
+}
+
+#toolbar {
+  @include box-shadow;
+  background: #aaa;
+  height: 60px;
+  width: 100%;
+}
+
+aside {
+  @include border-radius(6px);
+  @include box-shadow;
+  background: #ddd;
+  float: left;
+  margin: 25px 15px 25px -10px;
+  padding: 15px;
+  width: 120px;
+}
+aside li a {
+  color: #333;
+  display: block;
+  padding: 10px 5px;
+  text-decoration: none;
+}
+aside li a:hover,
+aside li a:active {
+  background: #fff;
+}
+
+#content {
+  @include border-radius(6px);
+  @include box-shadow;
+  background: #ddd;
+  margin: 25px 50px 25px 160px;
+  padding: 15px;
+}
+
+table {
+  margin: 20px 0;
+  width: 100%;
+}
+table th {
+  background: #b9c9fe;
+  color: #003399;
+  font-weight: normal;
+  padding: 8px;
+}
+table td {
+  background: none repeat scroll 0 0 #e8edff;
+  border-top: 1px solid #fff;
+  color: #666699;
+  padding: 8px;
+}
+table tr:hover td {
+  background: none repeat scroll 0 0 #d0dafd;
+  color: #333399;
+}
+a.edit-transaction {
+  background: url(../images/wrench.png) no-repeat left center;
+  display: block;
+  margin: 0 auto;
+  text-decoration: none;
+  width: 30px;
+}
+a.delete-transaction {
+  @extend a.edit-transaction;
+  background: url(../images/delete.png) no-repeat left center;
+}
+
+div.form-row {
+  margin: 10px 0;
+}
+div.form-row label {
+  float: left;
+  width: 200px;
+}
+div.form-row input,
+div.form-row textarea {
+  width: 300px;
+}
+

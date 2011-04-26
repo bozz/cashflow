@@ -8,6 +8,11 @@ gem 'rails', '3.0.7'
 gem 'sqlite3'
 gem 'jquery-rails'
 
+gem "haml-rails"
+gem "compass", ">= 0.10.6"
+
+gem "jammit"
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
