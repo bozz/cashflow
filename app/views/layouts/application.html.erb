@@ -12,21 +12,41 @@
 
   <header>
     <h1>Cashflow</h1>
+    <ul style="display:none">
+      <li><a href="#">bsearles</a></li>
+      <li><a href="#">logout</a></li>
+    </ul>
   </header>
 
-  <div id="wrapper">
-    <div id="toolbar">
-    </div>
+  <div id="interval-tbar">
+  </div>
 
-    <aside>
-      <ul>
-        <li><a href="#dashboard">Dashboard</a></li>
-        <li><a href="#transactions">Transaktionen</a></li>
-        <li><a href="#accounts">Konten</a></li>
-        <li><a href="#bank_accounts">Bankkonten</a></li>
-        <li><a href="#settings">Einstellungen</a></li>
-      </ul>
-    </aside>
+  <div id="main-graph">
+  </div>
+
+  <div id="wrapper">
+
+    <div id="filter">
+
+      <h3><a href="#">Section 2</a></h3>
+      <div>
+        <aside>
+          <ul>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#transactions">Transaktionen</a></li>
+            <li><a href="#accounts">Konten</a></li>
+            <li><a href="#bank_accounts">Bankkonten</a></li>
+            <li><a href="#settings">Einstellungen</a></li>
+          </ul>
+        </aside>
+      </div>
+
+      <h3><a href="#">Section 1</a></h3>
+      <div>
+        <p>Mauris mauris ante, blandit et,quam.</p>
+      </div>
+
+    </div>
 
     <div id="content">
     </div>
@@ -34,13 +54,39 @@
 
   <div id="notice"></div>
 
-  <footer>
-  </footer>
-
   <%= include_javascripts :workspace %>
   <script type="text/javascript">
     $(function() {
-      App.init();
+
+        App.init();
+
+        $("#filter").accordion({ autoHeight: false, clearStyle: true });
+
+        var sWidth = document.width;
+        var graph = Raphael("main-graph", sWidth, 100);
+
+        var xaxis = graph.path('M0 50H' + sWidth);
+        xaxis.attr('stroke', '#cccccc');
+
+        var pathString = 'M0 0';
+        var xpos = 0;
+        while(xpos <= sWidth) {
+          var newY = Math.random() * 100;
+          pathString += 'L' + xpos + ' ' + newY;
+          xpos += Math.random() * 50;
+        }
+        var graphPath = graph.path(pathString);
+        graphPath.attr('stroke', '#003399');
+
+        /*
+        var c = graph.circle(50, 50, 30);
+        c.attr('fill', '#cccccc');
+        console.log("node: ", c.node);
+        c.node.onclick = function () {
+          console.log("uuuuu");
+          c.attr("fill", "red");
+        };
+        */
     });
   </script>
 

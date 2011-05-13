@@ -8,6 +8,7 @@ javascripts:
     - public/lib/underscore.js
     - public/lib/backbone.js
     - public/lib/backbonerailsauthtokenadapter.js
+    - public/lib/raphael-min.js
     - public/javascripts/application.js
     - public/javascripts/controllers/*.js
     - public/javascripts/models/*.js

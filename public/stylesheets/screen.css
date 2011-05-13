@@ -3,7 +3,7 @@
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 /* line 14, ../../../../../../.rvm/gems/ruby-1.9.2-p0@rails3/gems/compass-0.10.6/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
-html, body, div, span, applet, object, iframe,
+html, body, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
 del, dfn, em, font, img, ins, kbd, q, s, samp,
@@ -63,21 +63,27 @@ a img {
 }
 
 /* line 9, sass/screen.scss */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* line 14, sass/screen.scss */
 body {
   background: #ccc;
   font-family: verdana;
 }
 
-/* line 14, sass/screen.scss */
+/* line 20, sass/screen.scss */
 span.add-btn {
   background: url("../images/add.png") no-repeat left center !important;
 }
 
-/* line 18, sass/screen.scss */
+/* line 24, sass/screen.scss */
 header {
-  height: 30px;
+  height: 40px;
 }
-/* line 20, sass/screen.scss */
+/* line 26, sass/screen.scss */
 header h1 {
   color: #333;
   font-size: 20px;
@@ -85,37 +91,33 @@ header h1 {
   margin: 15px 0 0 15px;
 }
 
-/* line 28, sass/screen.scss */
-#toolbar {
+/* line 34, sass/screen.scss */
+#interval-tbar {
   -moz-box-shadow: #333333 1px 1px 5px 0;
   -webkit-box-shadow: #333333 1px 1px 5px 0;
   -o-box-shadow: #333333 1px 1px 5px 0;
   box-shadow: #333333 1px 1px 5px 0;
   background: #aaa;
-  height: 60px;
+  height: 30px;
   width: 100%;
 }
 
-/* line 35, sass/screen.scss */
-aside {
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
-  -o-border-radius: 6px;
-  -ms-border-radius: 6px;
-  -khtml-border-radius: 6px;
-  border-radius: 6px;
-  -moz-box-shadow: #333333 1px 1px 5px 0;
-  -webkit-box-shadow: #333333 1px 1px 5px 0;
-  -o-box-shadow: #333333 1px 1px 5px 0;
-  box-shadow: #333333 1px 1px 5px 0;
-  background: #ddd;
-  float: left;
-  margin: 25px 15px 25px -10px;
-  padding: 15px;
-  width: 120px;
+/* line 41, sass/screen.scss */
+#main-graph {
+  background: white;
+  height: 100px;
 }
 
-/* line 44, sass/screen.scss */
+/* line 46, sass/screen.scss */
+aside {
+  /* @include border-radius(6px);
+  @include box-shadow; */
+  background: #ddd;
+  padding: 15px;
+  width: 160px;
+}
+
+/* line 53, sass/screen.scss */
 aside li a {
   color: #333;
   display: block;
@@ -123,36 +125,53 @@ aside li a {
   text-decoration: none;
 }
 
-/* line 51, sass/screen.scss */
+/* line 60, sass/screen.scss */
 aside li a:hover,
 aside li a:active {
   background: #fff;
 }
 
-/* line 55, sass/screen.scss */
+/* line 64, sass/screen.scss */
+#wrapper {
+  background: red;
+  height: 100%;
+}
+
+/* line 69, sass/screen.scss */
+#filter {
+  float: left;
+  height: 400px;
+  /* 100%; */
+  width: 220px;
+}
+
+/* line 74, sass/screen.scss */
+#filter h3 {
+  font-size: 14px;
+}
+
+/* line 77, sass/screen.scss */
+#filter div {
+  font-size: 12px;
+}
+
+/* line 81, sass/screen.scss */
 #content {
-  -moz-border-radius: 6px;
-  -webkit-border-radius: 6px;
-  -o-border-radius: 6px;
-  -ms-border-radius: 6px;
-  -khtml-border-radius: 6px;
-  border-radius: 6px;
-  -moz-box-shadow: #333333 1px 1px 5px 0;
-  -webkit-box-shadow: #333333 1px 1px 5px 0;
-  -o-box-shadow: #333333 1px 1px 5px 0;
-  box-shadow: #333333 1px 1px 5px 0;
+  /* @include border-radius(6px);
+  @include box-shadow; */
   background: #ddd;
-  margin: 25px 50px 25px 160px;
+  margin-left: 225px;
+  overflow: auto;
   padding: 15px;
 }
 
-/* line 63, sass/screen.scss */
+/* line 90, sass/screen.scss */
 table {
   margin: 20px 0;
   width: 100%;
 }
 
-/* line 67, sass/screen.scss */
+/* line 94, sass/screen.scss */
 table th {
   background: #b9c9fe;
   color: #003399;
@@ -160,7 +179,7 @@ table th {
   padding: 8px;
 }
 
-/* line 73, sass/screen.scss */
+/* line 100, sass/screen.scss */
 table td {
   background: none repeat scroll 0 0 #e8edff;
   border-top: 1px solid #fff;
@@ -168,13 +187,13 @@ table td {
   padding: 8px;
 }
 
-/* line 79, sass/screen.scss */
+/* line 106, sass/screen.scss */
 table tr:hover td {
   background: none repeat scroll 0 0 #d0dafd;
   color: #333399;
 }
 
-/* line 83, sass/screen.scss */
+/* line 110, sass/screen.scss */
 a.edit-transaction, a.delete-transaction {
   background: url(../images/wrench.png) no-repeat left center;
   display: block;
@@ -183,23 +202,23 @@ a.edit-transaction, a.delete-transaction {
   width: 30px;
 }
 
-/* line 90, sass/screen.scss */
+/* line 117, sass/screen.scss */
 a.delete-transaction {
   background: url(../images/delete.png) no-repeat left center;
 }
 
-/* line 95, sass/screen.scss */
+/* line 122, sass/screen.scss */
 div.form-row {
   margin: 10px 0;
 }
 
-/* line 98, sass/screen.scss */
+/* line 125, sass/screen.scss */
 div.form-row label {
   float: left;
   width: 200px;
 }
 
-/* line 103, sass/screen.scss */
+/* line 130, sass/screen.scss */
 div.form-row input,
 div.form-row textarea {
   width: 300px;
