@@ -1,5 +1,12 @@
 <form>
   <div class="form-row">
+    <label for='account_id'>Konto</label>
+    <select id='account_id' name='account_id'>
+      <option value="1">some val</option>
+    </select>
+  </div>
+
+  <div class="form-row">
     <label for='date'>Datum</label>
     <input id="date-field" name='date' type='text' value="<%= model.get('date') %>" />
   </div>
