@@ -2,7 +2,9 @@
   <div class="form-row">
     <label for='account_id'>Konto</label>
     <select id='account_id' name='account_id'>
-      <option value="1">some val</option>
+      <% accounts.each(function(item) { %>
+      <option value="<%= item.get('id') %>" <%= item.get('id')===model.get('account_id') ? 'selected="selected"' : '' %>><%= item.get('name') %></option>
+      <% }); %>
     </select>
   </div>
 

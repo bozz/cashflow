@@ -26,7 +26,7 @@ App.Views.TransactionDetail = Backbone.View.extend({
     var msg = isNew ? 'Successfully created!' : "Saved!";
 
     var data = { transaction: {} };
-    this.$('form input, form textarea').each(function (i, field) {
+    this.$('form input, form textarea, form select').each(function (i, field) {
       data.transaction[field.name] = field.value;
     });
 
@@ -57,7 +57,7 @@ App.Views.TransactionDetail = Backbone.View.extend({
   },
 
   render: function() {
-    $(this.el).html(JST['transactions/detail']({ model: this.model }));
+    $(this.el).html(JST['transactions/detail']({ model: this.model, accounts: App.global.accounts }));
 
     $('#edit-transaction-dialog').dialog('open');
 
