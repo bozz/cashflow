@@ -38,5 +38,6 @@ gem 'jquery-rails'
 
 group :test do
   gem 'minitest'
+  gem 'factory_girl_rails'
   gem 'turn'
 end
