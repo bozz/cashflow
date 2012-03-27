@@ -1,4 +1,4 @@
-require 'minitest_helper'
+require 'unit_test_helper'
 
 class TransactionTest < MiniTest::Unit::TestCase
 

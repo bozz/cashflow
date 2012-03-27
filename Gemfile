@@ -40,5 +40,7 @@ gem 'money'
 group :test do
   gem 'minitest'
   gem 'factory_girl_rails'
+  gem 'rack-test'
+  gem 'database_cleaner'
   gem 'turn'
 end
