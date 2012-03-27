@@ -2,8 +2,11 @@ Cashflow::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  match 'bank-accounts'     => 'BankAccount#list'
-  match 'bank-accounts/:id' => 'BankAccount#show'
+  get    'bank-accounts'     => 'BankAccount#list'
+  post   'bank-accounts'     => 'BankAccount#create'
+  get    'bank-accounts/:id' => 'BankAccount#show'
+  put    'bank-accounts/:id' => 'BankAccount#update'
+  delete 'bank-accounts/:id' => 'BankAccount#delete'
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
