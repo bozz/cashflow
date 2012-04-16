@@ -20,6 +20,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'backbone-on-rails'
 gem 'money'
 
 # To use ActiveModel has_secure_password
