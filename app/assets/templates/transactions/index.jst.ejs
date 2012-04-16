@@ -1,1 +1,7 @@
 <h1>Transactions</h1>
+
+<ul>
+<% for(var i=0; i<transactions.length; i++) { %>
+  <li><%= transactions.models[i].get('amount') %></li>
+<% } %>
+</ul>
