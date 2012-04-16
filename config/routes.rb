@@ -8,6 +8,12 @@ Cashflow::Application.routes.draw do
   put    'bank-accounts/:id' => 'BankAccount#update'
   delete 'bank-accounts/:id' => 'BankAccount#delete'
 
+  get    'transactions'     => 'Transaction#list'
+  post   'transactions'     => 'Transaction#create'
+  get    'transactions/:id' => 'Transaction#show'
+  put    'transactions/:id' => 'Transaction#update'
+  delete 'transactions/:id' => 'Transaction#delete'
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

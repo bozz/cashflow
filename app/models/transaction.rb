@@ -19,4 +19,10 @@ class Transaction < ActiveRecord::Base
     errors.add(:amount, "must be nonzero") if amount.cents.zero?
   end
 
+  def as_json(*args)
+    hash = super(*args)
+    hash['amount'] = amount.dollars
+    return hash
+  end
+
 end
