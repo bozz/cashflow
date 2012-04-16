@@ -11,7 +11,7 @@ class BankAccountApiTest < MiniTest::Unit::TestCase
     FactoryGirl.create(:bank_account)
     FactoryGirl.create(:bank_account, bank: "AnotherBank")
 
-    get '/bank-accounts'
+    get '/api/bank-accounts'
     data = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.ok?
@@ -22,7 +22,7 @@ class BankAccountApiTest < MiniTest::Unit::TestCase
   def test_show_bank_account
     FactoryGirl.create(:bank_account)
 
-    get '/bank-accounts/1'
+    get '/api/bank-accounts/1'
     data = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.ok?
@@ -39,7 +39,7 @@ class BankAccountApiTest < MiniTest::Unit::TestCase
       }
     }
 
-    post '/bank-accounts', params
+    post '/api/bank-accounts', params
     data = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.successful?
@@ -55,7 +55,7 @@ class BankAccountApiTest < MiniTest::Unit::TestCase
       }
     }
 
-    put '/bank-accounts/1', params
+    put '/api/bank-accounts/1', params
     assert last_response.ok?
     assert_match('application/json', last_response.content_type)
     assert_equal("Updated Name", BankAccount.find(1).name)
@@ -63,7 +63,7 @@ class BankAccountApiTest < MiniTest::Unit::TestCase
 
   def test_delete_bank_account
     FactoryGirl.create(:bank_account)
-    delete 'bank-accounts/1'
+    delete '/api/bank-accounts/1'
 
     assert last_response.ok?
     assert_match('application/json', last_response.content_type)

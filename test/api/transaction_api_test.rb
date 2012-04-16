@@ -11,7 +11,7 @@ class TransactionApiTest < MiniTest::Unit::TestCase
     FactoryGirl.create(:transaction)
     FactoryGirl.create(:transaction, amount: 250.00)
 
-    get '/transactions'
+    get '/api/transactions'
     data = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.ok?
@@ -22,7 +22,7 @@ class TransactionApiTest < MiniTest::Unit::TestCase
   def test_show_transaction
     FactoryGirl.create(:transaction)
 
-    get '/transactions/1'
+    get '/api/transactions/1'
     data = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.ok?
@@ -39,7 +39,7 @@ class TransactionApiTest < MiniTest::Unit::TestCase
       }
     }
 
-    post '/transactions', params
+    post '/api/transactions', params
     data = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.successful?
@@ -55,7 +55,7 @@ class TransactionApiTest < MiniTest::Unit::TestCase
       }
     }
 
-    put '/transactions/1', params
+    put '/api/transactions/1', params
     assert last_response.ok?
     assert_match('application/json', last_response.content_type)
     assert_equal(150.00, Transaction.find(1).amount)
@@ -63,7 +63,7 @@ class TransactionApiTest < MiniTest::Unit::TestCase
 
   def test_delete_transaction
     FactoryGirl.create(:transaction)
-    delete 'transactions/1'
+    delete '/api/transactions/1'
 
     assert last_response.ok?
     assert_match('application/json', last_response.content_type)
