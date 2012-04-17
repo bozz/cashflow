@@ -1,7 +1,33 @@
-<h1>Transactions</h1>
+<h1>Journal of Transactions</h1>
 
-<ul>
-<% for(var i=0; i<transactions.length; i++) { %>
-  <li><%= transactions.models[i].get('amount') %></li>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Bank Account</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+<% for(var i=0; i<transactions.length; i++) {
+    var transaction = transactions.models[i];
+%>
+    <tr>
+      <td><%= transaction.get('id') %></td>
+      <td><%= transaction.get('date') %></td>
+      <td><%= transaction.get('bank_account') %></td>
+      <td><%= transaction.get('description') %></td>
+      <td><%= transaction.get('amount') %></td>
+      <td>
+        <button class="btn btn-mini" type="button">Edit</button>
+        <button class="btn btn-danger btn-mini" type="button">Delete</button>
+      </td>
+    </tr>
 <% } %>
-</ul>
+  </tbody>
+</table>
+
+<button class="btn btn-primary" type="button">New</button>

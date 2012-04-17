@@ -11,7 +11,7 @@ Cashflow.Routers.Transactions = Backbone.Router.extend({
 
   index: function() {
     view = new Cashflow.Views.TransactionsIndex({collection: this.collection});
-    $('#container').html(view.render().el);
+    $('#content').html(view.render().el);
   },
 
   show: function(id) {
