@@ -22,12 +22,12 @@
       <td><%= transaction.get('description') %></td>
       <td><%= transaction.get('amount') %></td>
       <td>
-        <button class="btn btn-mini" type="button">Edit</button>
-        <button class="btn btn-danger btn-mini" type="button">Delete</button>
+        <button class="btn-edit btn btn-mini" type="button" value="<%= transaction.get('id') %>">Edit</button>
+        <button class="btn-delete btn btn-danger btn-mini" type="button" value="<%= transaction.get('id') %>">Delete</button>
       </td>
     </tr>
 <% } %>
   </tbody>
 </table>
 
-<button class="btn btn-primary" type="button">New</button>
+<button class="btn-new btn btn-primary" type="button">New</button>

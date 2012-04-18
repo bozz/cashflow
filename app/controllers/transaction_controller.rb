@@ -1,4 +1,5 @@
 class TransactionController < ApplicationController
+  wrap_parameters Transaction
 
   def list
     list = Transaction.all
@@ -11,6 +12,8 @@ class TransactionController < ApplicationController
   end
 
   def create
+
+    print params.to_s
     item = Transaction.new(params[:transaction])
 
     if item.save

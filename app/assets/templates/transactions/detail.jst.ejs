@@ -1,13 +1,45 @@
-<div class="modal" id="myModal">
+<div class="modal" id="transaction-modal">
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
-    <h3>Transaction</h3>
+    <h3><%= model.isNew() ? "New" : "Edit" %> Transaction</h3>
   </div>
   <div class="modal-body">
-    <p>One fine body…</p>
+    <form class="form-horizontal">
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label" for="tm-bank">Bank Account</label>
+          <div class="controls">
+            <select type="text" class="input-xlarge" id="tm-bank" name="bank_account_id">
+              <option value="1">Bank1</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="tm-date">Date</label>
+          <div class="controls">
+            <input type="text" class="input-xlarge" id="tm-date" name="date" value="<%= model.get('date') %>">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="tm-amount">Amount</label>
+          <div class="controls">
+            <div class="input-prepend">
+              <span class="add-on">EUR</span>
+              <input type="text" class="span2" id="tm-amount" name="amount" value="<%= model.get('amount') %>">
+            </div>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="tm-description">Description</label>
+          <div class="controls">
+            <textarea class="input-xlarge" id="tm-description" name="description"><%= model.get('description') %></textarea>
+          </div>
+        </div>
+      </fieldset>
+    </form>
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn">Close</a>
-    <a href="#" class="btn btn-primary">Save changes</a>
+    <a href="#" class="btn-close btn">Close</a>
+    <a href="#" class="btn-submit btn btn-primary"><%= model.isNew() ? "Create Transaction" : "Save changes" %></a>
   </div>
 </div>
