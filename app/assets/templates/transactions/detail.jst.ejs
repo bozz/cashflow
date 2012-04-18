@@ -25,14 +25,21 @@
           <div class="controls">
             <div class="input-prepend">
               <span class="add-on">EUR</span>
-              <input type="text" class="span2" id="tm-amount" name="amount" value="<%= model.get('amount') %>">
+              <input type="text" class="span2" id="tm-amount" name="amount" value="<%= accounting.formatMoney(model.get('amount'), '') %>">
             </div>
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="tm-description">Description</label>
+          <label class="control-label" for="tm-description">Purpose</label>
           <div class="controls">
             <textarea class="input-xlarge" id="tm-description" name="description"><%= model.get('description') %></textarea>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="tm-notes">Notes</label>
+          <div class="controls">
+            <textarea class="input-xlarge" id="tm-notes" name="notes"><%= model.get('notes') %></textarea>
+            <p class="help-block">Use this field for additional internal notes</p>
           </div>
         </div>
       </fieldset>

@@ -4,6 +4,7 @@
 //= require underscore
 //= require backbone
 //= require bootbox
+//= require accounting
 //
 //= require .//cashflow
 //
