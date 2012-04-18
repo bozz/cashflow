@@ -11,7 +11,7 @@ Cashflow.Views.TransactionsIndex = Backbone.View.extend({
   initialize: function() {
     this.collection.on('reset', this.render, this);
     this.collection.on('add', this.render, this);
-    this.collection.on('sync', this.render, this);
+    this.collection.on('destroy', this.render, this);
   },
 
   render: function() {
@@ -43,13 +43,15 @@ Cashflow.Views.TransactionsIndex = Backbone.View.extend({
     var id = $(event.currentTarget).attr('value');
     var model = this.collection.get(id);
 
-    console.log("deleting...", model.id);
-
-    // TODO: ask for confirmation before deleting...
-    model.destroy();
-
-    // TODO: use events to trigger render()
-    this.render();
+    bootbox.confirm("Do you really want to delete this transaction?", "Cancel", "Confirm Delete", function(result) {
+      if (result) {
+        model.destroy({
+          success: function(model, response) {
+            console.log("successfully destroyed", model);
+          }
+        });
+      }
+    });
   }
 
 });
