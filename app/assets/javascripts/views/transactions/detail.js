@@ -1,4 +1,4 @@
-Cashflow.Views.TransactionsDetail = Backbone.View.extend({
+App.TransactionView = Backbone.View.extend({
 
   template: JST['transactions/detail'],
 
@@ -8,54 +8,61 @@ Cashflow.Views.TransactionsDetail = Backbone.View.extend({
     'hide #transaction-modal': 'closeModal'
   },
 
-  initialize: function() {
-    // this.collection.on('reset', this.render, this);
-  },
-
   render: function() {
     $(this.el).html(this.template({model: this.model}));
     return this;
   },
 
   hideModal: function(event) {
+    event.preventDefault();
     $('#transaction-modal').modal('hide');
   },
 
   closeModal: function(event) {
-    // TODO: check why parent() necessary?
     $('#transaction-modal').parent().remove();
   },
 
   saveTransaction: function(event) {
+    event.preventDefault();
     this.model.set({
       bank_account_id: $('#tm-bank').val(),
       date: $('#tm-date').val(),
       amount: $('#tm-amount').val(),
       description: $('#tm-description').val()
     });
+    var options = {
+      wait: true,
+      success: this.hideModal,
+      error: this.handleError
+    };
     if (this.model.isNew()) {
-      this.collection.create(this.model, {
-        wait: true,
-        success: this.hideModal,
-        error: this.handleError
-      });
+      App.transactions.create(this.model, options);
     } else {
-      this.model.save(null, {
-        wait: true,
-        success: this.hideModal,
-        error: this.handleError
-      });
+      this.model.save(this.model, options);
     }
   },
 
   handleError: function(model, response) {
+    // if validation errors
     if(response.status == 422) {
+      // reset any previous errors
+      $('div.control-group').removeClass('error').find('p.error-msg').remove();
+
+      console.log("model: ", model);
+      // mark all found validation errors
       var errors = $.parseJSON(response.responseText);
       for(var key in errors) {
-        console.log("validation error: ", key, errors[key]);
+        $('[name=' + key + ']')
+          .closest('div.control-group')
+            .addClass('error')
+          .find('div.controls')
+            .append('<p class="help-block error-msg">' + errors[key] + '</p>');
       }
       // reset values in model since already saved locally
       model.fetch();
+    } else {
+      // TODO: handle other errors...
+      console.log("ERROR!", response, model);
     }
   }
 

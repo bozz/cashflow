@@ -1,6 +1,6 @@
-Cashflow.Collections.Transactions = Backbone.Collection.extend({
+App.Transactions = Backbone.Collection.extend({
 
-  model: Cashflow.Models.Transaction,
+  model: App.Transaction,
 
   url: '/api/transactions'
 

@@ -14,17 +14,13 @@ accounting.settings = {
   }
 }
 
-window.Cashflow = {
-  Models: {},
-  Collections: {},
-  Views: {},
-  Routers: {},
+window.App = {
   init: function() {
-    var transactionRouter = new Cashflow.Routers.Transactions();
+    App.router = new App.Router();
     Backbone.history.start();
   }
 };
 
 $(document).ready(function(){
-  Cashflow.init();
+  App.init();
 });
