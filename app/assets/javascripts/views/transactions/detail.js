@@ -14,7 +14,7 @@ App.TransactionView = Backbone.View.extend({
   },
 
   hideModal: function(event) {
-    event.preventDefault();
+    if(event.preventDefault) { event.preventDefault(); }
     $('#transaction-modal').modal('hide');
   },
 
@@ -28,7 +28,8 @@ App.TransactionView = Backbone.View.extend({
       bank_account_id: $('#tm-bank').val(),
       date: $('#tm-date').val(),
       amount: $('#tm-amount').val(),
-      description: $('#tm-description').val()
+      description: $('#tm-description').val(),
+      note: $('#tm-note').val()
     });
     var options = {
       wait: true,

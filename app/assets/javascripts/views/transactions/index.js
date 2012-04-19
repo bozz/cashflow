@@ -13,6 +13,7 @@ App.TransactionsListView = Backbone.View.extend({
     App.transactions.fetch();
     App.transactions.on('reset', this.render, this);
     App.transactions.on('add', this.render, this);
+    App.transactions.on('change', this.render, this);
     App.transactions.on('destroy', this.render, this);
   },
 
