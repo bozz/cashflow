@@ -10,7 +10,9 @@
           <label class="control-label" for="tm-bank">Bank Account</label>
           <div class="controls">
             <select type="text" class="input-xlarge" id="tm-bank" name="bank_account_id">
-              <option value="1">Bank1</option>
+              <% App.bankAccounts.each(function(bankAccount) { %>
+              <option value="<%= bankAccount.get('id') %>" <%= model.get('bank_account_id') == bankAccount.get('id') ? "selected='selected'" : ""  %>><%= bankAccount.get('bank') %></option>
+              <% }); %>
             </select>
           </div>
         </div>

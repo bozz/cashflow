@@ -1,1 +1,6 @@
 <div id="content">Loading...</div>
+
+<script>
+  App.bankAccounts = new App.BankAccounts();
+  App.bankAccounts.reset(<%= @bank_accounts.to_json.html_safe %>);
+</script>

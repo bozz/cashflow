@@ -18,7 +18,7 @@
     <tr>
       <td><%= transaction.get('id') %></td>
       <td><%= transaction.get('date') %></td>
-      <td><%= transaction.get('bank_account') %></td>
+      <td><%= App.bankAccounts.get(transaction.get('bank_account_id')).get('bank') %></td>
       <td><%= transaction.get('description') %></td>
       <td><%= accounting.formatMoney(transaction.get('amount')) %></td>
       <td>
