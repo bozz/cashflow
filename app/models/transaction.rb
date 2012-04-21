@@ -24,4 +24,16 @@ class Transaction < ActiveRecord::Base
     return hash
   end
 
+  def self.import_csv(csv_file, bank_account)
+    require 'csv'
+
+    # csv_text = File.read(csv_file)
+    csv = CSV.parse(csv_file, :headers => true, :col_sep => ';')
+    csv.each do |row|
+      row = row.to_hash.with_indifferent_access
+      row[:bank_account_id] = bank_account.id
+      Transaction.create!(row.to_hash.symbolize_keys)
+    end 
+  end
+
 end

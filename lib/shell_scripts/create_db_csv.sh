@@ -23,7 +23,7 @@ function format_columns {
   awk '
     BEGIN {
       FS=";"
-      print "date;purpose,amount,currency"
+      print "date;purpose;amount;currency"
     }
     {
       # merge "haben" and "soll" into one field
