@@ -5,6 +5,7 @@
 //= require backbone
 //= require bootbox
 //= require accounting
+//= require jquery.upload-1.0.2
 //
 //= require .//cashflow
 //

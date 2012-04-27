@@ -1,0 +1,3 @@
+date;description;amount;currency
+01.01.2012;test transaction 1;100,00;EUR
+02.01.2012;another transaction;-49,99;EUR

@@ -71,4 +71,43 @@ class TransactionApiTest < MiniTest::Unit::TestCase
       Transaction.find(1)
     end
   end
+
+  def test_csv_import
+    bank_account = FactoryGirl.create(:bank_account)
+    upload_path = File.expand_path("../../data/transactions.csv", __FILE__)
+    params = {
+      file: Rack::Test::UploadedFile.new(upload_path, 'application/json'),
+      bank_account_id: bank_account.id
+    }
+    post '/api/transactions/import', params
+    assert_match('application/json', last_response.content_type)
+    assert_equal(2, Transaction.count)
+  end
+
+  def test_csv_import_with_invalid_bank_account
+    upload_path = File.expand_path("../../data/transactions.csv", __FILE__)
+    params = {
+      file: Rack::Test::UploadedFile.new(upload_path, 'application/json'),
+      bank_account_id: 99
+    }
+    post '/api/transactions/import', params
+    assert_match('application/json', last_response.content_type)
+    assert_equal(0, Transaction.count)
+
+    data = ActiveSupport::JSON.decode last_response.body
+    assert_match('Could not find BankAccount', data['errors']['bank_account_id'].first)
+  end
+
+  def test_csv_import_with_missing_file
+    bank_account = FactoryGirl.create(:bank_account)
+    params = {
+      bank_account_id: bank_account.id
+    }
+    post '/api/transactions/import', params
+    assert_match('application/json', last_response.content_type)
+    assert_equal(0, Transaction.count)
+
+    data = ActiveSupport::JSON.decode last_response.body
+    assert_match('No file was uploaded', data['errors']['file'].first)
+  end
 end

@@ -16,6 +16,7 @@ Cashflow::Application.routes.draw do
     get    'transactions/:id' => 'Transaction#show'
     put    'transactions/:id' => 'Transaction#update'
     delete 'transactions/:id' => 'Transaction#delete'
+    post   'transactions/import' => 'Transaction#import'
   end
 
   # Sample of regular route:

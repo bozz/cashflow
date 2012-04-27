@@ -36,6 +36,9 @@ class TransactionTest < MiniTest::Unit::TestCase
     assert_kind_of(BankAccount, transaction.bank_account)
   end
 
+
+  # CSV Import Tests
+
   def test_valid_csv_import
     csv_file = <<-eos
 date;description;amount;currency
@@ -48,7 +51,16 @@ date;description;amount;currency
     assert_equal(2, Transaction.count)
   end
 
-  def test_invalid_csv_import
-    skip
+  def test_csv_invalid_delimiter
+    csv_file = <<-eos
+date,description,amount,currency
+01.01.2012,test transaction 1,100,00,EUR
+02.01.2012;another transaction;-49,99;EUR
+    eos
+
+    bank_account = FactoryGirl.create(:bank_account)
+    assert_raises ActiveRecord::UnknownAttributeError do
+      Transaction.import_csv(csv_file, bank_account)
+    end
   end
 end

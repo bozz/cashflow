@@ -49,7 +49,6 @@ App.TransactionView = Backbone.View.extend({
       // reset any previous errors
       $('div.control-group').removeClass('error').find('p.error-msg').remove();
 
-      console.log("model: ", model);
       // mark all found validation errors
       var errors = $.parseJSON(response.responseText);
       for(var key in errors) {

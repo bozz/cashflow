@@ -3,7 +3,7 @@ App.Router = Backbone.Router.extend({
     '': 'dashboard',
     'dashboard': 'dashboard',
     'journal': 'journal',
-    'settings': 'settings'
+    'import': 'import'
   },
 
   dashboard: function() {
@@ -16,7 +16,8 @@ App.Router = Backbone.Router.extend({
     $('#content').html(view.render().el);
   },
 
-  settings: function() {
-    alert("settings... ");
+  import: function() {
+    var view = new App.ImportView();
+    $('#content').html(view.render().el);
   }
 });

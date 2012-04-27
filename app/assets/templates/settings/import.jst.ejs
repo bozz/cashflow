@@ -1,0 +1,28 @@
+<h1>Import Data</h1>
+
+<form id="it-form" class="form-horizontal" action="/api/transactions/import" method="post">
+  <fieldset>
+    <legend>Transactions</legend>
+    <div class="control-group">
+      <label class="control-label" for="it-bank">Select Bank Account</label>
+      <div class="controls">
+        <select type="text" class="input-xlarge" id="it-bank" name="bank_account_id">
+          <option></option>
+          <% App.bankAccounts.each(function(bankAccount) { %>
+          <option value="<%= bankAccount.get('id') %>"><%= bankAccount.get('bank') %></option>
+          <% }); %>
+        </select>
+        <p class="help-block">Select target bank account for transactions</p>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="it-file">Select CSV File</label>
+      <div class="controls">
+        <input type="file" class="input-xlarge" id="it-file" name="file">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button id="it-submit" type="submit" class="btn btn-primary">Import Transactions</button>
+    </div>
+  </fieldset>
+</form>
