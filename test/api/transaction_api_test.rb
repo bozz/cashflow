@@ -72,6 +72,23 @@ class TransactionApiTest < MiniTest::Unit::TestCase
     end
   end
 
+  def test_valid_pagination
+    FactoryGirl.create(:transaction)
+    FactoryGirl.create(:transaction)
+    FactoryGirl.create(:transaction)
+    FactoryGirl.create(:transaction)
+    FactoryGirl.create(:transaction)
+    FactoryGirl.create(:transaction)
+
+    get '/api/transactions?limit=3&offset=0'
+    response = ActiveSupport::JSON.decode last_response.body
+
+    assert last_response.ok?
+    assert_match('application/json', last_response.content_type)
+    assert_equal(3, response['data'].length)
+    assert_equal(6, response['count'])
+  end
+
   def test_csv_import
     bank_account = FactoryGirl.create(:bank_account)
     upload_path = File.expand_path("../../data/transactions.csv", __FILE__)

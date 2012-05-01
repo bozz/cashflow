@@ -2,8 +2,14 @@ class TransactionController < ApplicationController
   wrap_parameters Transaction
 
   def list
-    list = Transaction.all
-    render :json => list
+    limit = params[:limit] || 20
+    offset = params[:offset] || 0
+    list = Transaction.limit(limit).offset(offset)
+    count = Transaction.count
+    render :json => {
+      data: list,
+      count: count
+    }
   end
 
   def show

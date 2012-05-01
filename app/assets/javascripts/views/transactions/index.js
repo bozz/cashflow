@@ -18,6 +18,9 @@ App.TransactionsListView = Backbone.View.extend({
   },
 
   render: function() {
+    this.paginationView = new App.TransactionsPaginationView({
+      collection: App.transactions
+    });
     $(this.el).html(this.template({transactions: App.transactions}));
     return this;
   },

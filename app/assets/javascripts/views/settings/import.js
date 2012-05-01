@@ -46,6 +46,7 @@ App.ImportView = Backbone.View.extend({
     }
   },
 
+  // TODO: extract to some common utils...
   resetForm: function(form) {
     $(':input', $(form)).each(function(i, item) {
       switch(item.tagName.toLowerCase()) {

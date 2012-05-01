@@ -3,6 +3,7 @@
 //= require twitter/bootstrap
 //= require underscore
 //= require backbone
+//= require backbone.paginator
 //= require bootbox
 //= require accounting
 //= require jquery.upload-1.0.2
