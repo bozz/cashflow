@@ -1,6 +1,10 @@
 <div id="content">Loading...</div>
 
 <script>
+  // initial bootstrap data
   App.bankAccounts = new App.BankAccounts();
   App.bankAccounts.reset(<%= @bank_accounts.to_json.html_safe %>);
+
+  App.transactions = new App.Transactions();
+  App.transactions.reset(<%= @transactions.to_json.html_safe %>);
 </script>

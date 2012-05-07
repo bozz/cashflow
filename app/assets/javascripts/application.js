@@ -6,6 +6,7 @@
 //= require backbone.paginator
 //= require bootbox
 //= require accounting
+//= require d3.v2
 //= require jquery.upload-1.0.2
 //
 //= require .//cashflow

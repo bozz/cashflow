@@ -13,6 +13,8 @@ App.DashboardView = Backbone.View.extend({
 
   render: function() {
     $(this.el).html(this.template());
+    var graphView = new App.TransactionsGraphView({collection: App.transactions, targetEl: 'graph'});
+    $(this.el).append(graphView.render().el);
     return this;
   }
 
