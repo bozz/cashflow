@@ -41,4 +41,17 @@ class BankAccountTest < MiniTest::Unit::TestCase
     assert_kind_of(Array, bank_account.transactions)
   end
 
+  def test_balance_with_no_transactions
+    bank_account = FactoryGirl.create(:bank_account, opening_balance: 500)
+    assert_equal(500.00, bank_account.balance)
+  end
+
+  def test_balance_with_transactions
+    bank_account = FactoryGirl.create(:bank_account)
+    FactoryGirl.create(:transaction, bank_account: bank_account, amount: 125.00)
+    FactoryGirl.create(:transaction, bank_account: bank_account, amount: -55.50)
+    FactoryGirl.create(:transaction, bank_account: bank_account, amount: 250.00)
+
+    assert_equal(319.50, bank_account.balance)
+  end
 end

@@ -3,6 +3,7 @@ FactoryGirl.define do
   factory :bank_account do
     bank "BigBank"
     account_number 111111
+    currency "EUR"
   end
 
   factory :transaction do

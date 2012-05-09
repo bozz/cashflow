@@ -1,4 +1,5 @@
 class Transaction < ActiveRecord::Base
+
   belongs_to :bank_account
 
   validates :bank_account_id, :presence => true

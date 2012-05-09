@@ -58,7 +58,7 @@ App.TransactionsGraphView = Backbone.View.extend({
     return data;
   },
 
-  plot: function(options) {
+  plot_demo: function(options) {
     var data = [4, 8, 15, 16, 23, 42];
 
     var chart = this.div.append("svg")
@@ -114,7 +114,7 @@ App.TransactionsGraphView = Backbone.View.extend({
         .attr("dy", ".35em")
         .attr("text-anchor", "end")
         .text(String);
-  
+
     // line to left of bars
      chart.append("line")
        .attr("y1", 0)
@@ -123,62 +123,112 @@ App.TransactionsGraphView = Backbone.View.extend({
 
   },
 
-  plot2: function(options) {
-    var w = this.w;
-    var h = this.h;
-    var data = this.plotdata();
-    var interpolation = this.config.interpolation || "linear";
-    var x = d3.scale.linear()
-    .domain([0, this.size])
-    .range([10, w -10]);
+  plot: function(options) {
+    var data = [
+      {symbol: 'S&P 500', date: 'Jan 2000', price: '2991'},
+      {symbol: 'S&P 500', date: 'Feb 2000', price: '3315'},
+      {symbol: 'S&P 500', date: 'Mar 2000', price: '902'},
+      {symbol: 'S&P 500', date: 'Apr 2000', price: '1734'},
+      {symbol: 'S&P 500', date: 'May 2000', price: '4281'},
+      {symbol: 'S&P 500', date: 'Jun 2000', price: '3492'},
+      {symbol: 'S&P 500', date: 'Jul 2000', price: '1239'}
+    ];
 
-    var y = d3.scale.linear()
-    .domain([-1, 1])
-    .rangeRound([10, h - 10]);
+    var m = [80, 80, 80, 80],
+    w = 960 - m[1] - m[3],
+    h = 500 - m[0] - m[2],
+    parse = d3.time.format("%b %Y").parse;
 
-    // Draw axes & label
+    // Scales and axes. Note the inverted domain for the y-scale: bigger is up!
+    var x = d3.time.scale().range([0, w]),
+      y = d3.scale.linear().range([h, 0]),
+      xAxis = d3.svg.axis().scale(x).tickSize(-h).tickSubdivide(true),
+      yAxis = d3.svg.axis().scale(y).ticks(4).orient("right");
 
-    // line
-    var chart = null;
+    // An area generator, for the light fill.
+    var area = d3.svg.area()
+      .interpolate("step-after")
+      .x(function(d) { return x(d.date); })
+      .y0(h)
+      .y1(function(d) { return y(d.price); });
+
+    // A line generator, for the dark stroke.
     var line = d3.svg.line()
-    .x(function(d,i) { return x(d.x) })
-    .y(function(d,i) { return y(d.y) })
-    .interpolate(interpolation);
+      .interpolate("step-after")
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return y(d.price); });
 
-    if (options.newPlot) {
-      chart = this.div.append("svg:svg");
-      chart.selectAll("circle")
-      .data(data).enter().append("svg:circle")
-      .attr("cx", function(d, i) { return x(d.x) })
-      .attr("cy", function(d, i) { return y(d.y) })
-      .attr("id", function(d) { return d.x + '-' + d.y })
-      .attr("r", 0)
-      .transition()
-      .duration(this.duration)
-      .attr("r", this.config.pointsize || 3);
+    // Filter to one symbol; the S&P 500.
+    var values = data.filter(function(d) {
+      return d.symbol == "S&P 500";
+    });
 
-      chart.append("svg:path").attr("d", line(_.sortBy(data, function (d) { return d.x;})));
+    // Parse dates and numbers. We assume values are sorted by date.
+    values.forEach(function(d) {
+      d.date = parse(d.date);
+      d.price = +d.price;
+    });
 
-    } else {
-      chart = this.div.selectAll("svg");
-      var circles = chart.selectAll("circle").data(data);
+    // Compute the minimum and maximum date, and the maximum price.
+    x.domain([values[0].date, values[values.length - 1].date]);
+    y.domain([0, d3.max(values, function(d) { return d.price; })]).nice();
 
-      circles.enter().insert("svg:circle", "circle")
-      .attr("cx", function(d, i) { return x(d.x) })
-      .attr("cy", function(d, i) { return y(d.y) })
-      .attr("id", function(d) { return d.x + '-' + d.y })
-      .attr("r", 0)
-      .transition()
-      .duration(this.duration)
-      .attr("r", this.config.pointsize || 3);
+    // Add an SVG element with the desired dimensions and margin.
+    var svg = this.div.append("svg:svg")
+      .attr("width", w + m[1] + m[3])
+      .attr("height", h + m[0] + m[2])
+      .append("svg:g")
+      .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-      // TODO: transition to grown the line between points
-      chart.selectAll("path")
-      // sort is needed to keep the line drawing left to right, other
-      // wise goes a bit etcher sketch
-      .data([_.sortBy(data, function (d) { return d.x;})])
-      .attr("d", line);
-    }
+    // Add the clip path.
+    svg.append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", w)
+      .attr("height", h);
+
+    // Add the area path.
+    svg.append("svg:path")
+      .attr("class", "area")
+      .attr("clip-path", "url(#clip)")
+      .attr("d", area(values));
+
+    // Add the x-axis.
+    svg.append("svg:g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + h + ")")
+      .call(xAxis);
+
+    // Add the y-axis.
+    svg.append("svg:g")
+      .attr("class", "y axis")
+      .attr("transform", "translate(" + w + ",0)")
+      .call(yAxis);
+
+    // Add the line path.
+    svg.append("svg:path")
+      .attr("class", "line")
+      .attr("clip-path", "url(#clip)")
+      .attr("d", line(values));
+
+    // Add a small label for the symbol name.
+    svg.append("svg:text")
+      .attr("x", w - 6)
+      .attr("y", h - 6)
+      .attr("text-anchor", "end")
+      .text(values[0].symbol);
+
+    // On click, update the x-axis.
+    svg.on("click", function() {
+      var n = values.length - 1,
+      i = Math.floor(Math.random() * n / 2),
+      j = i + Math.floor(Math.random() * n / 2) + 1;
+      x.domain([values[i].date, values[j].date]);
+      var t = svg.transition().duration(750);
+      t.select(".x.axis").call(xAxis);
+      t.select(".area").attr("d", area(values));
+      t.select(".line").attr("d", line(values));
+    });
 
   }
 

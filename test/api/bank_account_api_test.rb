@@ -71,4 +71,18 @@ class BankAccountApiTest < MiniTest::Unit::TestCase
       BankAccount.find(1)
     end
   end
+
+  # def test_balance
+  #   FactoryGirl.create(:bank_account)
+  #   FactoryGirl.create(:transaction, amount: 125.00)
+  #   FactoryGirl.create(:transaction, amount: -55.50)
+  #   FactoryGirl.create(:transaction, amount: 250.00)
+
+  #   get 'api/bank-accounts/1/balance'
+  #   data = ActiveSupport::JSON.decode last_response.body
+
+  #   assert last_response.ok?
+  #   assert_match('application/json', last_response.content_type)
+  #   assert_equal('450.50', data.balance)
+  # end
 end
