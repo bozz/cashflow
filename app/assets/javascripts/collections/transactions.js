@@ -60,6 +60,13 @@ App.Transactions = Backbone.Paginator.requestPager.extend({
     var data = response.data;
     this.totalPages = Math.floor(response.count / this.perPage);
     return data;
+  },
+
+  // returns array of models, with transactions from same
+  // day combined into single entry. Entries of returned array
+  // contain date and sum.
+  getDailySums: function (options) {
+    
   }
 
 });

@@ -23,4 +23,10 @@ class BankAccount < ActiveRecord::Base
     end
     Money.new(sum, currency)
   end
+
+  def as_json(*args)
+    hash = super(*args)
+    hash['opening_balance'] = opening_balance.dollars
+    return hash
+  end
 end
