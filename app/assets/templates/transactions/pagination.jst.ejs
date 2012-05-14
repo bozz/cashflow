@@ -1,13 +1,13 @@
-<li <%= (page == 0) ? "class='disabled'" : "" %>>
+<li <%= (page <= 1) ? "class='disabled'" : "" %>>
   <a class="serverprevious" href="#">Prev</a>
 </li>
 
 <% for(p=1;p<=totalPages;p++){ %>
-<li <%= ((page+1)==p) ? "class='active'" : "" %>>
+<li <%= ((page)==p) ? "class='active'" : "" %>>
   <a class="page" href="#"><%= p %></a>
 </li>
 <% } %>
 
-<li <%= ((page+1) == totalPages) ? "class='disabled'" : "" %>>
+<li <%= ((page) >= totalPages) ? "class='disabled'" : "" %>>
   <a class="servernext" href="#">Next</a>
 </li>

@@ -9,8 +9,14 @@ App.TransactionsListView = Backbone.View.extend({
   },
 
   initialize: function() {
-    App.transactions = new App.Transactions();
-    App.transactions.fetch();
+    App.transactions.totalPages = Math.floor(App.transactions.length / this.perPage);
+    App.transactions.pager();
+
+    this.paginationView = new App.TransactionsPaginationView({
+      collection: App.transactions,
+      parentView: this
+    });
+
     App.transactions.on('reset', this.render, this);
     App.transactions.on('add', this.render, this);
     App.transactions.on('change', this.render, this);
@@ -18,13 +24,10 @@ App.TransactionsListView = Backbone.View.extend({
   },
 
   render: function() {
-    this.paginationView = new App.TransactionsPaginationView({
-      collection: App.transactions
-    });
     $(this.el).html(this.template({transactions: App.transactions}));
+    this.paginationView.render();
     return this;
   },
-
 
   newTransaction: function(event) {
     var model = new App.Transaction();

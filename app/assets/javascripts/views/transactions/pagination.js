@@ -15,14 +15,16 @@ App.TransactionsPaginationView = Backbone.View.extend({
     // 'click .serverhowmany a': 'changeCount'
   },
 
-  initialize: function () {
-    this.collection.on('reset', this.render, this);
-    this.collection.on('change', this.render, this);
+  initialize: function (options) {
+    this.parentView = options.parentView;
+    // this.collection.on('reset', this.render, this);
+    // this.collection.on('change', this.render, this);
   },
 
   render: function () {
     var html = this.template(this.collection.info());
-    $('div.pagination').html(this.$el.html(html));
+    $('div.pagination', this.parentView.el).html(this.$el.html(html));
+    this.delegateEvents();
   },
 
   updateSortBy: function (e) {
@@ -33,12 +35,12 @@ App.TransactionsPaginationView = Backbone.View.extend({
 
   nextResultPage: function (e) {
     e.preventDefault();
-    this.collection.requestNextPage();
+    this.collection.nextPage();
   },
 
   previousResultPage: function (e) {
     e.preventDefault();
-    this.collection.requestPreviousPage();
+    this.collection.previousPage();
   },
 
   gotoFirst: function (e) {
@@ -54,7 +56,7 @@ App.TransactionsPaginationView = Backbone.View.extend({
   gotoPage: function (e) {
     e.preventDefault();
     var page = $(e.target).text();
-    this.collection.goTo(page-1);
+    this.collection.goTo(page);
   },
 
   changeCount: function (e) {

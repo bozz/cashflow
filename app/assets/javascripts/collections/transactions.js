@@ -1,4 +1,4 @@
-App.Transactions = Backbone.Paginator.requestPager.extend({
+App.Transactions = Backbone.Paginator.clientPager.extend({
 
   model: App.Transaction,
 
@@ -24,15 +24,16 @@ App.Transactions = Backbone.Paginator.requestPager.extend({
   formatAttribute: 'json',
 
   // default values
-  page: 0,
-  firstPage: 0,
+  page: 1,
+  firstPage: 1,
   perPage: 20,
+  displayPerPage: 20,
   sortField: 'name',
   sortDirection: 'asc',
   query: "",
 
   // overwrite from backbone.paginator
-  sync: function ( method, model, options ) {
+  syncBak: function ( method, model, options ) {
     var queryMap = {}, params;
     queryMap[this.perPageAttribute] =  this.perPage;
     queryMap[this.skipAttribute] = this.page * this.perPage;
@@ -54,19 +55,11 @@ App.Transactions = Backbone.Paginator.requestPager.extend({
     return $.ajax(params);
   },
 
-
   // overwrite parse (backbone) to extract results
   parse: function (response) {
     var data = response.data;
     this.totalPages = Math.floor(response.count / this.perPage);
     return data;
-  },
-
-  // returns array of models, with transactions from same
-  // day combined into single entry. Entries of returned array
-  // contain date and sum.
-  getDailySums: function (options) {
-    
   }
 
 });

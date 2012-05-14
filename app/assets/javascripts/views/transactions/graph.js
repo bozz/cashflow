@@ -8,9 +8,9 @@ App.TransactionsGraphView = Backbone.View.extend({
   initialize: function (config) {
     this.config = config;
 
-    this.collection.on('add', this.render, this);
-    this.collection.on('reset', this.render, this);
-    this.collection.on('change', this.render, this);
+    // this.collection.on('add', this.render, this);
+    // this.collection.on('reset', this.render, this);
+    // this.collection.on('change', this.render, this);
 
     // target html element
     // this.targetEl = config.targetEl;
@@ -43,18 +43,16 @@ App.TransactionsGraphView = Backbone.View.extend({
   plotdata: function() {
     var data = {};
     var i = 1;
-    this.collection.forEach(function(datapoint) {
+
+    var models = App.transactions.origModels || App.transactions.models;
+
+    _.each(models, function(datapoint, index) {
       if(!data[datapoint.get('date')]) {
         data[datapoint.get('date')] = 0;
       }
 
-      data[datapoint.get('date')] += datapoint.get('cents');
-
-      // data.push({
-      //   date: datapoint.get('date'),
-      //   amount: datapoint.get('cents')
-      // });
-      i++;
+      // data[datapoint.get('date')] += datapoint.get('cents');
+      data[datapoint.get('date')] += datapoint.attributes.amount * 100;
     });
 
     data = _.map(data, function(num, key) {
