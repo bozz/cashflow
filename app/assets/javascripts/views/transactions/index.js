@@ -6,6 +6,7 @@ App.TransactionsListView = Backbone.View.extend({
     'click button.btn-new': 'newTransaction',
     'click button.btn-edit': 'editTransaction',
     'click button.btn-delete': 'deleteTransaction',
+    'submit form.form-search': 'filterTransactions'
   },
 
   initialize: function() {
@@ -26,6 +27,12 @@ App.TransactionsListView = Backbone.View.extend({
   render: function() {
     $(this.el).html(this.template({transactions: App.transactions}));
     this.paginationView.render();
+
+    // set any previous filter values
+    // TODO: extract filter form into seperate template
+    $('form.form-search input.search-query').val(App.transactions.filterExpression);
+    $('form.form-search select').val(App.transactions.filterBankAccount);
+
     return this;
   },
 
@@ -61,6 +68,20 @@ App.TransactionsListView = Backbone.View.extend({
         });
       }
     });
+  },
+
+  filterTransactions: function(event) {
+    event.preventDefault();
+
+    var q = $('form.form-search input.search-query').val();
+    var bankAccountId = $('form.form-search select').val();
+
+    // workaround: if bank_account selected but no query specified
+    if(bankAccountId > 0 && q == "") {
+      q = " ";
+    }
+
+    App.transactions.setFilter(['amount', 'description'], q, bankAccountId);
   }
 
 });

@@ -1,5 +1,17 @@
 <h1>Journal of Transactions</h1>
 
+<form class="wwell form-search">
+  <input type="text" class="input-large search-query" name="query">
+  <label class="control-label" for="ts-bank">Bank Account</label>
+  <select type="text" class="input-medium" id="ts-bank" name="bank_account_id">
+    <option value="0">All</option>
+    <% App.bankAccounts.each(function(bankAccount) { %>
+    <option value="<%= bankAccount.get('id') %>"><%= bankAccount.get('bank') %></option>
+    <% }); %>
+  </select>
+  <button type="submit" class="btn">Search</button>
+</form>
+
 <button class="btn-new btn btn-primary" type="button">New Transaction</button>
 
 <table class="table table-striped">
