@@ -21,6 +21,20 @@ window.App = {
   }
 };
 
+
+App.util = {
+  /**
+   * Convert numbers from European to US format.
+   * Example: 5.500,99 ==> 5500.99
+   */
+  convertEurToUsNumber: function(val) {
+    val = val.replace('.', '');
+    val = val.replace(',', '.');
+    return val;
+  }
+};
+
+
 $(document).ready(function(){
   App.init();
 });

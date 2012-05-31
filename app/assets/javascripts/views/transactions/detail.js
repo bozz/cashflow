@@ -1,5 +1,6 @@
 App.TransactionView = Backbone.View.extend({
 
+
   template: JST['transactions/detail'],
 
   events: {
@@ -24,13 +25,17 @@ App.TransactionView = Backbone.View.extend({
 
   saveTransaction: function(event) {
     event.preventDefault();
+
+    var amount = App.util.convertEurToUsNumber( $('#tm-amount').val() );
+
     this.model.set({
       bank_account_id: $('#tm-bank').val(),
       date: $('#tm-date').val(),
-      amount: $('#tm-amount').val(),
+      amount: amount,
       description: $('#tm-description').val(),
       note: $('#tm-note').val()
     });
+
     var options = {
       wait: true,
       success: this.hideModal,
