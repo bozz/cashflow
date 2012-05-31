@@ -11,4 +11,10 @@ FactoryGirl.define do
     date Time.local(2012, 2, 20)
     amount 99.99
   end
+
+  factory :account do
+    name "Test Account"
+    identifier "1200"
+    description "the description"
+  end
 end
