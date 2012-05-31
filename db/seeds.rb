@@ -11,3 +11,8 @@ bank_account = BankAccount.create({bank: "BigBank", account_number: 111111})
 Transaction.create!({bank_account: bank_account, date: Time.local(2012,2,20), amount: 50})
 Transaction.create!({bank_account: bank_account, date: Time.local(2012,2,23), amount: -78})
 Transaction.create!({bank_account: bank_account, date: Time.local(2012,2,27), amount: 150})
+
+Account.create!({name: "Assets", identifier: "0000"})
+Account.create!({name: "Liabilities", identifier: "1000"})
+Account.create!({name: "Equity", identifier: "2000"})
+Account.create!({name: "Revenue", identifier: "3000"})

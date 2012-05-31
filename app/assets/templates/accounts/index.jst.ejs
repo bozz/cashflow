@@ -1,0 +1,31 @@
+<h1>Chart of Accounts</h1>
+
+<button class="btn-new btn btn-primary" type="button">New Account</button>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+<% for(var i=0; i<accounts.length; i++) {
+    var account = accounts.models[i];
+%>
+    <tr>
+      <td><%= account.get('id') %></td>
+      <td><%= account.get('identifier') %></td>
+      <td><%= account.get('name') %></td>
+      <td><%= account.get('description') %></td>
+      <td>
+        <button class="btn-edit btn btn-mini" type="button" value="<%= account.get('id') %>">Edit</button>
+        <button class="btn-delete btn btn-danger btn-mini" type="button" value="<%= account.get('id') %>">Delete</button>
+      </td>
+    </tr>
+<% } %>
+  </tbody>
+</table>

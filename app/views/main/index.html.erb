@@ -7,4 +7,7 @@
 
   App.transactions = new App.Transactions();
   App.transactions.reset(<%= @transactions.to_json.html_safe %>);
+
+  App.accounts = new App.Accounts();
+  App.accounts.reset(<%= @accounts.to_json.html_safe %>);
 </script>
