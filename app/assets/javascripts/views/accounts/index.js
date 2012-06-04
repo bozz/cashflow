@@ -21,37 +21,37 @@ App.AccountsListView = Backbone.View.extend({
   },
 
   newAccount: function(event) {
-    // var model = new App.Transaction();
-    // this.showTransactionsDetail(model);
+    var model = new App.Account();
+    this.showAccountDetail(model);
   },
 
   editAccount: function(event) {
-    // var id = $(event.currentTarget).attr('value');
-    // var model = App.transactions.get(id);
-    // this.showTransactionsDetail(model);
+    var id = $(event.currentTarget).attr('value');
+    var model = App.accounts.get(id);
+    this.showAccountDetail(model);
   },
 
   showAccountDetail: function(model) {
     event.preventDefault();
 
-    // view = new App.TransactionView({model: model});
-    // $('#content').append(view.render().el);
-    // $('#transaction-modal').modal();
+    view = new App.AccountView({model: model});
+    $('#content').append(view.render().el);
+    $('#account-modal').modal();
   },
 
   deleteAccount: function(event) {
-    // var id = $(event.currentTarget).attr('value');
-    // var model = App.transactions.get(id);
+    var id = $(event.currentTarget).attr('value');
+    var model = App.accounts.get(id);
 
-    // bootbox.confirm("Do you really want to delete this transaction?", "Cancel", "Confirm Delete", function(result) {
-    //   if (result) {
-    //     model.destroy({
-    //       success: function(model, response) {
-    //         console.log("successfully destroyed", model);
-    //       }
-    //     });
-    //   }
-    // });
+    bootbox.confirm("Do you really want to delete this account?", "Cancel", "Confirm Delete", function(result) {
+      if (result) {
+        model.destroy({
+          success: function(model, response) {
+            console.log("successfully destroyed", model);
+          }
+        });
+      }
+    });
   }
 
 });

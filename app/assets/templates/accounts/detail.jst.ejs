@@ -1,0 +1,45 @@
+<div class="modal" id="account-modal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3><%= model.isNew() ? "New" : "Edit" %> Account</h3>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal">
+      <fieldset>
+        <div class="control-group">
+          <label class="control-label" for="tm-identifier">Number</label>
+          <div class="controls">
+            <input type="text" class="span2" id="tm-identifier" name="identifier" value="<%= model.get('identifier') %>">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="tm-name">Name</label>
+          <div class="controls">
+            <input type="text" class="span2" id="tm-name" name="name" value="<%= model.get('name') %>">
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="tm-type">Type</label>
+          <div class="controls">
+            <select type="text" class="input-xlarge" id="tm-type" name="account_type">
+              <option value="asset" <%= model.get('account_type') == 'asset' ? "selected='selected'" : "" %>>asset account (Aktivkonto)</option>
+              <option value="liability" <%= model.get('account_type') == 'liability' ? "selected='selected'" : "" %>>liability account (Passivkonto)</option>
+              <option value="revenue" <%= model.get('account_type') == 'revenue' ? "selected='selected'" : "" %>>revenue account (Ertragskonto)</option>
+              <option value="expense" <%= model.get('account_type') == 'expense' ? "selected='selected'" : "" %>>expense account (Aufwandskonto)</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="tm-description">Description</label>
+          <div class="controls">
+            <textarea class="input-xlarge" id="tm-description" name="description"><%= model.get('description') %></textarea>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn-close btn">Close</a>
+    <a href="#" class="btn-submit btn btn-primary"><%= model.isNew() ? "Create Transaction" : "Save changes" %></a>
+  </div>
+</div>

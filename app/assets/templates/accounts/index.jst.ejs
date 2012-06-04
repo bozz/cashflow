@@ -5,10 +5,9 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Code</th>
+      <th>Number</th>
       <th>Name</th>
-      <th>Description</th>
+      <th>Type</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -17,10 +16,9 @@
     var account = accounts.models[i];
 %>
     <tr>
-      <td><%= account.get('id') %></td>
       <td><%= account.get('identifier') %></td>
       <td><%= account.get('name') %></td>
-      <td><%= account.get('description') %></td>
+      <td><%= account.get('account_type') %> account</td>
       <td>
         <button class="btn-edit btn btn-mini" type="button" value="<%= account.get('id') %>">Edit</button>
         <button class="btn-delete btn btn-danger btn-mini" type="button" value="<%= account.get('id') %>">Delete</button>
