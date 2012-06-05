@@ -2,7 +2,7 @@ App.Transactions = Backbone.Paginator.clientPager.extend({
 
   model: App.Transaction,
 
-  url: '/api/transactions',
+  url: '/api/banks/:bank_id/transactions',
 
   // @param-name for the query field in the 
   // request (e.g query/keywords/search)

@@ -1,6 +1,6 @@
 require 'api_test_helper'
 
-class TransactionApiTest < MiniTest::Unit::TestCase
+class BankTransactionApiTest < MiniTest::Unit::TestCase
   include Rack::Test::Methods
 
   def app
@@ -8,10 +8,10 @@ class TransactionApiTest < MiniTest::Unit::TestCase
   end
 
   def test_list_transactions
-    FactoryGirl.create(:transaction)
-    FactoryGirl.create(:transaction, amount: 250.00)
+    FactoryGirl.create(:bank_transaction)
+    FactoryGirl.create(:bank_transaction, amount: 250.00)
 
-    get '/api/transactions'
+    get '/api/banks/1/transactions'
     data = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.ok?
@@ -20,9 +20,9 @@ class TransactionApiTest < MiniTest::Unit::TestCase
   end
 
   def test_show_transaction
-    FactoryGirl.create(:transaction)
+    FactoryGirl.create(:bank_transaction)
 
-    get '/api/transactions/1'
+    get '/api/banks/1/transactions/1'
     data = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.ok?
@@ -30,57 +30,67 @@ class TransactionApiTest < MiniTest::Unit::TestCase
     assert_equal(99.99, data['amount'])
   end
 
+  def test_show_transaction_invalid_bank_account
+    FactoryGirl.create(:bank_transaction)
+
+    get '/api/banks/2/transactions/1'
+    data = ActiveSupport::JSON.decode last_response.body
+
+    assert_equal(false, last_response.successful?)
+    assert_match('application/json', last_response.content_type)
+  end
+
   def test_create_transaction
     params = {
-      transaction: {
+      bank_transaction: {
         bank_account_id: 1,
         date: Time.local(2012, 4, 16),
         amount: 55
       }
     }
 
-    post '/api/transactions', params
+    post '/api/banks/1/transactions', params
     data = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.successful?
     assert_match('application/json', last_response.content_type)
-    assert Transaction.find(data['id'])
+    assert BankTransaction.find(data['id'])
   end
 
   def test_update_transaction
-    FactoryGirl.create(:transaction)
+    FactoryGirl.create(:bank_transaction)
     params = {
-      transaction: {
+      bank_transaction: {
         amount: 150.00
       }
     }
 
-    put '/api/transactions/1', params
+    put '/api/banks/1/transactions/1', params
     assert last_response.ok?
     assert_match('application/json', last_response.content_type)
-    assert_equal(150.00, Transaction.find(1).amount)
+    assert_equal(150.00, BankTransaction.find(1).amount)
   end
 
   def test_delete_transaction
-    FactoryGirl.create(:transaction)
-    delete '/api/transactions/1'
+    FactoryGirl.create(:bank_transaction)
+    delete '/api/banks/1/transactions/1'
 
     assert last_response.ok?
     assert_match('application/json', last_response.content_type)
     assert_raises ActiveRecord::RecordNotFound do
-      Transaction.find(1)
+      BankTransaction.find(1)
     end
   end
 
   def test_valid_pagination
-    FactoryGirl.create(:transaction)
-    FactoryGirl.create(:transaction)
-    FactoryGirl.create(:transaction)
-    FactoryGirl.create(:transaction)
-    FactoryGirl.create(:transaction)
-    FactoryGirl.create(:transaction)
+    FactoryGirl.create(:bank_transaction)
+    FactoryGirl.create(:bank_transaction)
+    FactoryGirl.create(:bank_transaction)
+    FactoryGirl.create(:bank_transaction)
+    FactoryGirl.create(:bank_transaction)
+    FactoryGirl.create(:bank_transaction)
 
-    get '/api/transactions?limit=3&offset=0'
+    get '/api/banks/1/transactions?limit=3&offset=0'
     response = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.ok?
@@ -96,9 +106,9 @@ class TransactionApiTest < MiniTest::Unit::TestCase
       file: Rack::Test::UploadedFile.new(upload_path, 'application/json'),
       bank_account_id: bank_account.id
     }
-    post '/api/transactions/import', params
+    post '/api/banks/1/transactions/import', params
     assert_match('application/json', last_response.content_type)
-    assert_equal(2, Transaction.count)
+    assert_equal(2, BankTransaction.count)
   end
 
   def test_csv_import_with_invalid_bank_account
@@ -107,9 +117,9 @@ class TransactionApiTest < MiniTest::Unit::TestCase
       file: Rack::Test::UploadedFile.new(upload_path, 'application/json'),
       bank_account_id: 99
     }
-    post '/api/transactions/import', params
+    post '/api/banks/1/transactions/import', params
     assert_match('application/json', last_response.content_type)
-    assert_equal(0, Transaction.count)
+    assert_equal(0, BankTransaction.count)
 
     data = ActiveSupport::JSON.decode last_response.body
     assert_match('Could not find BankAccount', data['errors']['bank_account_id'].first)
@@ -120,9 +130,9 @@ class TransactionApiTest < MiniTest::Unit::TestCase
     params = {
       bank_account_id: bank_account.id
     }
-    post '/api/transactions/import', params
+    post '/api/banks/1/transactions/import', params
     assert_match('application/json', last_response.content_type)
-    assert_equal(0, Transaction.count)
+    assert_equal(0, BankTransaction.count)
 
     data = ActiveSupport::JSON.decode last_response.body
     assert_match('No file was uploaded', data['errors']['file'].first)

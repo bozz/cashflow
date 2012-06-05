@@ -11,18 +11,31 @@ Cashflow::Application.routes.draw do
     put    'accounts/:id' => 'Account#update'
     delete 'accounts/:id' => 'Account#delete'
 
-    get    'bank-accounts'     => 'BankAccount#list'
-    post   'bank-accounts'     => 'BankAccount#create'
-    get    'bank-accounts/:id' => 'BankAccount#show'
-    put    'bank-accounts/:id' => 'BankAccount#update'
-    delete 'bank-accounts/:id' => 'BankAccount#delete'
+    # get    'bank-accounts'     => 'BankAccount#list'
+    # post   'bank-accounts'     => 'BankAccount#create'
+    # get    'bank-accounts/:id' => 'BankAccount#show'
+    # put    'bank-accounts/:id' => 'BankAccount#update'
+    # delete 'bank-accounts/:id' => 'BankAccount#delete'
 
-    get    'transactions'     => 'Transaction#list'
-    post   'transactions'     => 'Transaction#create'
-    get    'transactions/:id' => 'Transaction#show'
-    put    'transactions/:id' => 'Transaction#update'
-    delete 'transactions/:id' => 'Transaction#delete'
-    post   'transactions/import' => 'Transaction#import'
+    get    'banks'     => 'BankAccount#list'
+    post   'banks'     => 'BankAccount#create'
+    get    'banks/:id' => 'BankAccount#show'
+    put    'banks/:id' => 'BankAccount#update'
+    delete 'banks/:id' => 'BankAccount#delete'
+
+    get    'banks/:bank_id/transactions'     => 'BankTransaction#list'
+    post   'banks/:bank_id/transactions'     => 'BankTransaction#create'
+    get    'banks/:bank_id/transactions/:id' => 'BankTransaction#show'
+    put    'banks/:bank_id/transactions/:id' => 'BankTransaction#update'
+    delete 'banks/:bank_id/transactions/:id' => 'BankTransaction#delete'
+    post   'banks/:bank_id/transactions/import' => 'BankTransaction#import'
+
+    # get    'bank-transactions'     => 'BankTransaction#list'
+    # post   'bank-transactions'     => 'BankTransaction#create'
+    # get    'bank-transactions/:id' => 'BankTransaction#show'
+    # put    'bank-transactions/:id' => 'BankTransaction#update'
+    # delete 'bank-transactions/:id' => 'BankTransaction#delete'
+    # post   'bank-transactions/import' => 'BankTransaction#import'
   end
 
   # Sample of regular route:

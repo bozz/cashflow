@@ -3,6 +3,6 @@ class MainController < ApplicationController
     # bootstrap app with the following data
     @accounts = Account.order('identifier')
     @bank_accounts = BankAccount.all
-    @transactions = Transaction.order('date')
+    @transactions = BankTransaction.order('date')
   end
 end

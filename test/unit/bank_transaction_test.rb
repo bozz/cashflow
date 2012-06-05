@@ -1,9 +1,9 @@
 require 'unit_test_helper'
 
-class TransactionTest < MiniTest::Unit::TestCase
+class BankTransactionTest < MiniTest::Unit::TestCase
 
   def test_create_empty_transaction
-    transaction = Transaction.new
+    transaction = BankTransaction.new
     assert_equal(false, transaction.valid?)
     assert_raises ActiveRecord::RecordInvalid do
        transaction.save!
@@ -11,27 +11,27 @@ class TransactionTest < MiniTest::Unit::TestCase
   end
 
   def test_create_valid_transaction
-    transaction = FactoryGirl.build(:transaction)
+    transaction = FactoryGirl.build(:bank_transaction)
     assert transaction.save!
   end
 
   def test_bank_account_required
-    transaction = FactoryGirl.build(:transaction, bank_account_id: "")
+    transaction = FactoryGirl.build(:bank_transaction, bank_account_id: "")
     assert_equal(false, transaction.valid?)
   end
 
   def test_date_required
-    transaction = FactoryGirl.build(:transaction, date: "")
+    transaction = FactoryGirl.build(:bank_transaction, date: "")
     assert_equal(false, transaction.valid?)
   end
 
   def test_amount_required
-    transaction = FactoryGirl.build(:transaction, amount: "")
+    transaction = FactoryGirl.build(:bank_transaction, amount: "")
     assert_equal(false, transaction.valid?)
   end
 
   def test_bank_account_association
-    transaction = FactoryGirl.build(:transaction)
+    transaction = FactoryGirl.build(:bank_transaction)
     assert_respond_to(transaction, :bank_account)
     assert_kind_of(BankAccount, transaction.bank_account)
   end
@@ -47,8 +47,8 @@ date;description;amount;currency
     eos
 
     bank_account = FactoryGirl.create(:bank_account)
-    Transaction.import_csv(csv_file, bank_account)
-    assert_equal(2, Transaction.count)
+    BankTransaction.import_csv(csv_file, bank_account)
+    assert_equal(2, BankTransaction.count)
   end
 
   def test_csv_invalid_delimiter
@@ -60,7 +60,7 @@ date,description,amount,currency
 
     bank_account = FactoryGirl.create(:bank_account)
     assert_raises ActiveRecord::UnknownAttributeError do
-      Transaction.import_csv(csv_file, bank_account)
+      BankTransaction.import_csv(csv_file, bank_account)
     end
   end
 end

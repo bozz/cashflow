@@ -6,7 +6,7 @@ FactoryGirl.define do
     currency "EUR"
   end
 
-  factory :transaction do
+  factory :bank_transaction do
     bank_account
     date Time.local(2012, 2, 20)
     amount 99.99

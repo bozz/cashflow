@@ -1,4 +1,4 @@
-class Transaction < ActiveRecord::Base
+class BankTransaction < ActiveRecord::Base
 
   belongs_to :bank_account
 
@@ -7,6 +7,8 @@ class Transaction < ActiveRecord::Base
   validates :cents,           :presence => true
 
   validate :amount_must_be_nonzero
+
+  scope :withIdAndBankAccount, lambda { |id, bank_id| where("id = ? AND bank_account_id = ?", id, bank_id) }
 
   # use Money gem to handle amount (composed of cents and currency fields)
   composed_of :amount,
@@ -36,7 +38,7 @@ class Transaction < ActiveRecord::Base
     csv.each do |row|
       row = row.to_hash.with_indifferent_access
       row[:bank_account_id] = bank_account.id
-      Transaction.create!(row.to_hash.symbolize_keys)
+      BankTransaction.create!(row.to_hash.symbolize_keys)
       import_counter += 1
     end
 

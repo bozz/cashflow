@@ -1,11 +1,11 @@
-class TransactionController < ApplicationController
-  wrap_parameters Transaction
+class BankTransactionController < ApplicationController
+  wrap_parameters BankTransaction
 
   def list
     limit = params[:limit] || 20
     offset = params[:offset] || 0
-    list = Transaction.limit(limit).offset(offset)
-    count = Transaction.count
+    list = BankTransaction.limit(limit).offset(offset)
+    count = BankTransaction.count
     render :json => {
       data: list,
       count: count
@@ -13,24 +13,28 @@ class TransactionController < ApplicationController
   end
 
   def show
-    item = Transaction.find_by_id(params[:id])
-    render :json => item
+    item = BankTransaction.withIdAndBankAccount(params[:id], params[:bank_id]).first
+    if item
+      render json: item
+    else
+      render json: {}, status: :unprocessable_entity
+    end
   end
 
   def create
-    item = Transaction.new(params[:transaction])
+    item = BankTransaction.new(params[:bank_transaction])
 
     if item.save
-      render json: item, status: :created, location: "transactions/#{item.id}"
+      render json: item, status: :created, location: "bank-transactions/#{item.id}"
     else
       render json: item.errors, status: :unprocessable_entity
     end
   end
 
   def update
-    item = Transaction.find_by_id(params[:id])
+    item = BankTransaction.withIdAndBankAccount(params[:id], params[:bank_id]).first
 
-    if item.update_attributes(params[:transaction])
+    if item.update_attributes(params[:bank_transaction])
       render json: item
     else
       render json: item.errors, status: :unprocessable_entity
@@ -38,7 +42,7 @@ class TransactionController < ApplicationController
   end
 
   def delete
-    item = Transaction.find_by_id(params[:id])
+    item = BankTransaction.withIdAndBankAccount(params[:id], params[:bank_id]).first
     if item
       item.destroy
       render json: {}
@@ -60,7 +64,7 @@ class TransactionController < ApplicationController
     if bank_account
       unless errors.has_key?('file')
         begin
-          imported = Transaction.import_csv(params[:file].read, bank_account)
+          imported = BankTransaction.import_csv(params[:file].read, bank_account)
         rescue Exception => e
           errors['file'] = [] unless errors.has_key?('file')
           errors['file'] << "#{e.message} (#{e.class.to_s})"

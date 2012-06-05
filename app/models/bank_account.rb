@@ -1,6 +1,6 @@
 class BankAccount < ActiveRecord::Base
 
-  has_many :transactions
+  has_many :bank_transactions
 
   validates :bank,           :presence => true
   validates :initial_cents,  :presence => true
@@ -18,7 +18,7 @@ class BankAccount < ActiveRecord::Base
 
   def balance
     sum = initial_cents
-    transactions.each do |t|
+    bank_transactions.each do |t|
       sum += t.cents
     end
     Money.new(sum, currency)

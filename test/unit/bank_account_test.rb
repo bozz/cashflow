@@ -37,8 +37,8 @@ class BankAccountTest < MiniTest::Unit::TestCase
 
   def test_transactions_association
     bank_account = FactoryGirl.build(:bank_account)
-    assert_respond_to(bank_account, :transactions)
-    assert_kind_of(Array, bank_account.transactions)
+    assert_respond_to(bank_account, :bank_transactions)
+    assert_kind_of(Array, bank_account.bank_transactions)
   end
 
   def test_balance_with_no_transactions
@@ -48,9 +48,9 @@ class BankAccountTest < MiniTest::Unit::TestCase
 
   def test_balance_with_transactions
     bank_account = FactoryGirl.create(:bank_account)
-    FactoryGirl.create(:transaction, bank_account: bank_account, amount: 125.00)
-    FactoryGirl.create(:transaction, bank_account: bank_account, amount: -55.50)
-    FactoryGirl.create(:transaction, bank_account: bank_account, amount: 250.00)
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, amount: 125.00)
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, amount: -55.50)
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, amount: 250.00)
 
     assert_equal(319.50, bank_account.balance)
   end
