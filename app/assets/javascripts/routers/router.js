@@ -3,7 +3,7 @@ App.Router = Backbone.Router.extend({
     '': 'dashboard',
     'dashboard': 'dashboard',
     'banking': 'banking',
-    'banking/:id': 'banking',
+    'banking/:id': 'bankDetail',
     'accounting': 'accounting',
     'accounts': 'accounts',
     'import': 'import'
@@ -14,8 +14,13 @@ App.Router = Backbone.Router.extend({
     $('#content').html(view.render().el);
   },
 
-  banking: function(id) {
+  banking: function() {
     var view = new App.BankAccountListView();
+    $('#content').html(view.render().el);
+  },
+
+  bankDetail: function(id) {
+    var view = new App.BankTransactionListView();
     $('#content').html(view.render().el);
   },
 

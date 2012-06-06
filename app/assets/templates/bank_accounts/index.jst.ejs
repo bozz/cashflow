@@ -6,8 +6,8 @@
   <thead>
     <tr>
       <th>id</th>
+      <th>Account Name</th>
       <th>Bank</th>
-      <th>Name</th>
       <th>Account Number</th>
       <th>Actions</th>
     </tr>
@@ -18,11 +18,11 @@
 %>
     <tr>
       <td><%= account.get('id') %></td>
+      <td><a href="/#banking/<%= account.get('id') %>"><%= account.get('name') %></a></td>
       <td><%= account.get('bank') %></td>
-      <td><%= account.get('name') %></td>
       <td><%= account.get('account_number') %></td>
       <td>
-        <button class="btn-edit btn btn-mini" type="button" value="<%= account.get('id') %>">Edit</button>
+        <!-- <button class="btn-edit btn btn-mini" type="button" value="<%= account.get('id') %>">Edit</button> -->
         <button class="btn-delete btn btn-danger btn-mini" type="button" value="<%= account.get('id') %>">Delete</button>
       </td>
     </tr>

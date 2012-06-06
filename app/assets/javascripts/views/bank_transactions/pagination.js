@@ -1,6 +1,6 @@
 App.TransactionsPaginationView = Backbone.View.extend({
 
-  template: JST['transactions/pagination'],
+  template: JST['bank_transactions/pagination'],
 
   tagName: 'ul',
 

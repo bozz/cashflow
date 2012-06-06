@@ -1,6 +1,6 @@
-App.TransactionsListView = Backbone.View.extend({
+App.BankTransactionListView = Backbone.View.extend({
 
-  template: JST['transactions/index'],
+  template: JST['bank_transactions/index'],
 
   events: {
     'click button.btn-new': 'newTransaction',
