@@ -1,5 +1,8 @@
 App.BankTransactionListView = Backbone.View.extend({
 
+  // ID of current bank_account
+  bankId: false,
+
   template: JST['bank_transactions/index'],
 
   events: {
@@ -9,9 +12,18 @@ App.BankTransactionListView = Backbone.View.extend({
     'submit form.form-search': 'filterTransactions'
   },
 
-  initialize: function() {
+  initialize: function(config) {
+    this.bankId = config.bankId;
+    App.transactions.setFilter(['bank_account_id'], this.bankId);
+    App.transactions.url = '/api/banks/' + this.bankId + '/transactions';
+
     App.transactions.totalPages = Math.floor(App.transactions.length / this.perPage);
     App.transactions.pager();
+
+    this.importView = new App.ImportView({
+      bankId: this.bankId,
+      parentView: this
+    });
 
     this.paginationView = new App.TransactionsPaginationView({
       collection: App.transactions,
@@ -22,16 +34,19 @@ App.BankTransactionListView = Backbone.View.extend({
     App.transactions.on('add', this.render, this);
     App.transactions.on('change', this.render, this);
     App.transactions.on('destroy', this.render, this);
+
+    // reset filterExpression, otherwise bank_account_id will set in render
+    App.transactions.filterExpression = "";
   },
 
   render: function() {
-    $(this.el).html(this.template({transactions: App.transactions}));
+    $(this.el).html(this.template({bankId: this.bankId, transactions: App.transactions}));
+    this.importView.render();
     this.paginationView.render();
 
     // set any previous filter values
     // TODO: extract filter form into seperate template
     $('form.form-search input.search-query').val(App.transactions.filterExpression);
-    $('form.form-search select').val(App.transactions.filterBankAccount);
 
     return this;
   },
@@ -50,7 +65,7 @@ App.BankTransactionListView = Backbone.View.extend({
   showTransactionsDetail: function(model) {
     event.preventDefault();
 
-    view = new App.TransactionView({model: model});
+    view = new App.TransactionView({bankId: this.bankId, model: model});
     $('#content').append(view.render().el);
     $('#transaction-modal').modal();
   },
@@ -74,14 +89,9 @@ App.BankTransactionListView = Backbone.View.extend({
     event.preventDefault();
 
     var q = $('form.form-search input.search-query').val();
-    var bankAccountId = $('form.form-search select').val();
+    q = q=="" ? " " : q;
 
-    // workaround: if bank_account selected but no query specified
-    if(bankAccountId > 0 && q == "") {
-      q = " ";
-    }
-
-    App.transactions.setFilter(['amount', 'description'], q, bankAccountId);
+    App.transactions.setFilter(['amount', 'description'], q, this.bankId);
   }
 
 });

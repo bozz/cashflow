@@ -23,6 +23,7 @@ class BankTransactionController < ApplicationController
 
   def create
     item = BankTransaction.new(params[:bank_transaction])
+    item['bank_account_id'] = params[:bank_id];
 
     if item.save
       render json: item, status: :created, location: "bank-transactions/#{item.id}"
@@ -60,7 +61,7 @@ class BankTransactionController < ApplicationController
       errors['file'] << 'No file was uploaded'
     end
 
-    bank_account = BankAccount.find_by_id(params[:bank_account_id])
+    bank_account = BankAccount.find_by_id(params[:bank_id])
     if bank_account
       unless errors.has_key?('file')
         begin

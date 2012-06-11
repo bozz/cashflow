@@ -1,7 +1,7 @@
 App.Transaction = Backbone.Model.extend({
 
   toJSON: function() {
-    return { transaction: _.clone( this.attributes ) }
+    return { bank_transaction: _.clone( this.attributes ) }
   }
 
 });

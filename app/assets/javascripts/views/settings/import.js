@@ -6,8 +6,17 @@ App.ImportView = Backbone.View.extend({
     'click #it-submit': 'submitTransactions'
   },
 
+  initialize: function (options) {
+    this.bankId = options.bankId;
+    this.parentView = options.parentView;
+  },
+
   render: function() {
-    $(this.el).html(this.template());
+    var html = this.template({bankId: this.bankId});
+    $('#tab-import', this.parentView.el).html(this.$el.html(html));
+    this.delegateEvents();
+
+    // $(this.el).html(this.template());
     return this;
   },
 

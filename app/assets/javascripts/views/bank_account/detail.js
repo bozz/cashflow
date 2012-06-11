@@ -62,7 +62,9 @@ App.BankAccountView = Backbone.View.extend({
             .append('<p class="help-block error-msg">' + errors[key] + '</p>');
       }
       // reset values in model since already saved locally
-      model.fetch();
+      if(!model.isNew()){
+        model.fetch();
+      }
     } else {
       // TODO: handle other errors...
       console.log("ERROR!", response, model);

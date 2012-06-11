@@ -1,7 +1,7 @@
 App.TransactionView = Backbone.View.extend({
 
 
-  template: JST['transactions/detail'],
+  template: JST['bank_transactions/detail'],
 
   events: {
     'click a.btn-close': 'hideModal',
@@ -9,8 +9,12 @@ App.TransactionView = Backbone.View.extend({
     'hide #transaction-modal': 'closeModal'
   },
 
+  initialize: function(config) {
+    this.bankId = config.bankId;
+  },
+
   render: function() {
-    $(this.el).html(this.template({model: this.model}));
+    $(this.el).html(this.template({bankId: this.bankId, model: this.model}));
     return this;
   },
 
@@ -41,6 +45,7 @@ App.TransactionView = Backbone.View.extend({
       success: this.hideModal,
       error: this.handleError
     };
+
     if (this.model.isNew()) {
       App.transactions.create(this.model, options);
     } else {
@@ -64,7 +69,9 @@ App.TransactionView = Backbone.View.extend({
             .append('<p class="help-block error-msg">' + errors[key] + '</p>');
       }
       // reset values in model since already saved locally
-      model.fetch();
+      if(!model.isNew()){
+        model.fetch();
+      }
     } else {
       // TODO: handle other errors...
       console.log("ERROR!", response, model);

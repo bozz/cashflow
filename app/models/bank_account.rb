@@ -3,6 +3,7 @@ class BankAccount < ActiveRecord::Base
   has_many :bank_transactions
 
   validates :bank,           :presence => true
+  validates :name,           :presence => true
   validates :initial_cents,  :presence => true
   validates :account_number, :presence => true,
                              :numericality => true,

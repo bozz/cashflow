@@ -9,11 +9,7 @@
         <div class="control-group">
           <label class="control-label" for="tm-bank">Bank Account</label>
           <div class="controls">
-            <select type="text" class="input-xlarge" id="tm-bank" name="bank_account_id">
-              <% App.bankAccounts.each(function(bankAccount) { %>
-              <option value="<%= bankAccount.get('id') %>" <%= model.get('bank_account_id') == bankAccount.get('id') ? "selected='selected'" : ""  %>><%= bankAccount.get('bank') %></option>
-              <% }); %>
-            </select>
+            <span class="input-xlarge uneditable-input"><%= App.bankAccounts.get(bankId).get('name') %></span>
           </div>
         </div>
         <div class="control-group">
