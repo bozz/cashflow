@@ -14,7 +14,7 @@ App.BankTransactionListView = Backbone.View.extend({
 
   initialize: function(config) {
     this.bankId = config.bankId;
-    App.transactions.setFilter(['bank_account_id'], this.bankId);
+    App.transactions.setFilter(['description'], " ", this.bankId);
     App.transactions.url = '/api/banks/' + this.bankId + '/transactions';
 
     App.transactions.totalPages = Math.floor(App.transactions.length / this.perPage);
@@ -34,9 +34,6 @@ App.BankTransactionListView = Backbone.View.extend({
     App.transactions.on('add', this.render, this);
     App.transactions.on('change', this.render, this);
     App.transactions.on('destroy', this.render, this);
-
-    // reset filterExpression, otherwise bank_account_id will set in render
-    App.transactions.filterExpression = "";
   },
 
   render: function() {

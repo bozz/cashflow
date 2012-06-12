@@ -22,6 +22,7 @@ App.TransactionsPaginationView = Backbone.View.extend({
   },
 
   render: function () {
+    console.log("info:", this.collection.info());
     var html = this.template(this.collection.info());
     $('div.pagination', this.parentView.el).html(this.$el.html(html));
     this.delegateEvents();
