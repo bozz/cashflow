@@ -1,6 +1,6 @@
 App.ImportView = Backbone.View.extend({
 
-  template: JST['settings/import'],
+  template: JST['bank_transactions/import'],
 
   events: {
     'click #it-submit': 'submitTransactions'

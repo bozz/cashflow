@@ -1,0 +1,45 @@
+<form class="form-horizontal">
+  <fieldset>
+    <div class="control-group">
+      <label class="control-label" for="tm-bank">Bank</label>
+      <div class="controls">
+        <input type="text" class="span2" id="tm-bank" name="bank" value="<%= model.get('bank') %>">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="tm-name">Name</label>
+      <div class="controls">
+        <input type="text" class="span2" id="tm-name" name="name" value="<%= model.get('name') %>">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="tm-number">Account Number</label>
+      <div class="controls">
+        <input type="text" class="span2" id="tm-number" name="account_number" value="<%= model.get('account_number') %>">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="tm-currency">Currency</label>
+      <div class="controls">
+        <input type="text" class="span2" id="tm-currency" name="currency" value="<%= model.get('currency') %>">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="tm-initial">Initial Balance</label>
+      <div class="controls">
+        <input type="text" class="span2" id="tm-initial" name="initial_cents" value="<%= model.get('initial_cents') %>">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="tm-description">Description</label>
+      <div class="controls">
+        <textarea class="input-xlarge" id="tm-description" name="description"><%= model.get('description') %></textarea>
+      </div>
+    </div>
+    <% if (showFormActions) { %>
+    <div class="form-actions">
+      <button id="bank-account-submit" type="submit" class="btn btn-primary">Save Changes</button>
+    </div>
+    <% } %>
+  </fieldset>
+</form>

@@ -1,25 +1,34 @@
 App.BankAccountView = Backbone.View.extend({
 
-  template: JST['bank_accounts/detail'],
+  template: JST['bank_accounts/form'],
 
   events: {
-    'click a.btn-close': 'hideModal',
+    'click #bank-account-submit': 'saveAccount',
+
     'click a.btn-submit': 'saveAccount',
-    'hide #account-modal': 'closeModal'
+    'click a.btn-close': 'hideModal',
+    'hide div.modal': 'closeModal'
+  },
+
+  initialize: function (options) {
+    this.parentView = options.parentView;
+    if(options.bankId) {
+      this.bankId = options.bankId;
+      this.model = App.bankAccounts.get(this.bankId);
+    } else {
+      this.model = options.model;
+    }
   },
 
   render: function() {
-    $(this.el).html(this.template({model: this.model}));
+    if(this.model.isNew()) {
+      var html = this.template({model: this.model, showFormActions: false});
+      App.util.renderModalView(this.$el, html, "Create Transaction", "Create Transaction");
+    } else {
+      var html = this.template({model: this.model, showFormActions: true});
+      $('#tab-bank-account', this.parentView.el).html(this.$el.html(html));
+    }
     return this;
-  },
-
-  hideModal: function(event) {
-    if(event.preventDefault) { event.preventDefault(); }
-    $('#account-modal').modal('hide');
-  },
-
-  closeModal: function(event) {
-    $('#account-modal').parent().remove();
   },
 
   saveAccount: function(event) {
@@ -44,6 +53,17 @@ App.BankAccountView = Backbone.View.extend({
     } else {
       this.model.save(this.model, options);
     }
+  },
+
+  hideModal: function(event) {
+    if(event.preventDefault) { event.preventDefault(); }
+    $('div.modal', this.$el).modal('hide');
+  },
+
+  closeModal: function(event) {
+    if(event.preventDefault) { event.preventDefault(); }
+    this.hideModal(event);
+    this.$el.remove();
   },
 
   handleError: function(model, response) {

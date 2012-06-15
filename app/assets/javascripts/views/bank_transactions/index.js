@@ -20,6 +20,11 @@ App.BankTransactionListView = Backbone.View.extend({
     App.transactions.totalPages = Math.floor(App.transactions.length / this.perPage);
     App.transactions.pager();
 
+    this.bankAccountView = new App.BankAccountView({
+      bankId: this.bankId,
+      parentView: this
+    });
+
     this.importView = new App.ImportView({
       bankId: this.bankId,
       parentView: this
@@ -38,6 +43,8 @@ App.BankTransactionListView = Backbone.View.extend({
 
   render: function() {
     $(this.el).html(this.template({bankId: this.bankId, transactions: App.transactions}));
+
+    this.bankAccountView.render();
     this.importView.render();
     this.paginationView.render();
 

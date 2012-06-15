@@ -26,9 +26,9 @@ App.BankAccountListView = Backbone.View.extend({
   },
 
   editAccount: function(event) {
-    var id = $(event.currentTarget).attr('value');
-    var model = App.bankAccounts.get(id);
-    this.showAccountDetail(model);
+    // var id = $(event.currentTarget).attr('value');
+    // var model = App.bankAccounts.get(id);
+    // this.showAccountDetail(model);
   },
 
   showAccountDetail: function(model) {
