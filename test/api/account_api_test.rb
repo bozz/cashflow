@@ -30,7 +30,6 @@ class AccountApiTest < MiniTest::Unit::TestCase
 
     assert_equal(false, last_response.successful?)
     assert_match('application/json', last_response.content_type)
-    assert_equal(0, data.length)
   end
 
   def test_show_account

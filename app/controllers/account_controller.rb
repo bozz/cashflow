@@ -1,21 +1,15 @@
 class AccountController < ApplicationController
 
   def list
-    if params.has_key?(:ledger_id)
-      list = Account.where("ledger_id=?", params[:ledger_id])
-      render :json => list
-    else
-      render json: {}, status: :unprocessable_entity
-    end
+    ledger_id = params.fetch(:ledger_id) { raise ApplicationController::MissingParameterError.new('ledger_id')  }
+
+    list = Account.find_all_by_ledger(ledger_id)
+    render :json => list
   end
 
   def show
-    item = Account.find_by_id(params[:id])
-    if item
-      render :json => item
-    else
-      render json: {}, status: :unprocessable_entity
-    end
+    item = Account.find(params[:id])
+    render :json => item
   end
 
   def create
@@ -30,7 +24,7 @@ class AccountController < ApplicationController
   end
 
   def update
-    item = Account.find_by_id(params[:id])
+    item = Account.find(params[:id])
 
     if item.update_attributes(params[:account])
       render json: item
@@ -40,12 +34,8 @@ class AccountController < ApplicationController
   end
 
   def delete
-    item = Account.find_by_id(params[:id])
-    if item
-      item.destroy
-      render json: {}
-    else
-      render json: {}, status: :unprocessable_entity
-    end
+    item = Account.find(params[:id])
+    item.destroy
+    render json: {}
   end
 end

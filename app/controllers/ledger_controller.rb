@@ -6,7 +6,7 @@ class LedgerController < ApplicationController
   end
 
   def show
-    item = Ledger.find_by_id(params[:id])
+    item = Ledger.find(params[:id])
     render :json => item
   end
 
@@ -21,7 +21,7 @@ class LedgerController < ApplicationController
   end
 
   def update
-    item = Ledger.find_by_id(params[:id])
+    item = Ledger.find(params[:id])
 
     if item.update_attributes(params[:ledger])
       render json: item
@@ -31,12 +31,8 @@ class LedgerController < ApplicationController
   end
 
   def delete
-    item = Ledger.find_by_id(params[:id])
-    if item
-      item.destroy
-      render json: {}
-    else
-      render json: {}, status: :unprocessable_entity
-    end
+    item = Ledger.find(params[:id])
+    item.destroy
+    render json: {}
   end
 end

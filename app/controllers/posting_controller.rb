@@ -1,21 +1,15 @@
 class PostingController < ApplicationController
 
   def list
-    if params.has_key?(:account_id)
-      list = Posting.where("account_id=?", params['account_id'])
-      render :json => list
-    else
-      render json: {}, status: :unprocessable_entity
-    end
+    account_id = params.fetch(:account_id) { raise ApplicationController::MissingParameterError.new('account_id')  }
+
+    list = Posting.find_all_by_account(account_id)
+    render json: list
   end
 
   def show
-    item = Posting.find_by_id(params[:id])
-    if item
-      render :json => item
-    else
-      render json: item.errors, status: :unprocessable_entity
-    end
+    item = Posting.find(params[:id])
+    render :json => item
   end
 
   def create
@@ -29,7 +23,7 @@ class PostingController < ApplicationController
   end
 
   def update
-    item = Posting.find_by_id(params[:id])
+    item = Posting.find(params[:id])
 
     if item.update_attributes(params[:posting])
       render json: item
@@ -39,12 +33,8 @@ class PostingController < ApplicationController
   end
 
   def delete
-    item = Posting.find_by_id(params[:id])
-    if item
-      item.destroy
-      render json: {}
-    else
-      render json: {}, status: :unprocessable_entity
-    end
+    item = Posting.find(params[:id])
+    item.destroy
+    render json: {}
   end
 end

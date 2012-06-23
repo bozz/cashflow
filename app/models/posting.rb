@@ -19,6 +19,8 @@ class Posting < ActiveRecord::Base
     errors.add(:amount, "must be nonzero") if amount.cents.zero?
   end
 
+  scope :find_all_by_account, lambda { |account_id| where("account_id = ?", account_id) }
+
   def as_json(*args)
     hash = super(*args)
     hash['amount'] = amount.dollars
