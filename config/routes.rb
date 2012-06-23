@@ -5,11 +5,23 @@ Cashflow::Application.routes.draw do
   # first created -> highest priority.
 
   scope 'api' do
+    get    'ledgers'     => 'Ledger#list'
+    post   'ledgers'     => 'Ledger#create'
+    get    'ledgers/:id' => 'Ledger#show'
+    put    'ledgers/:id' => 'Ledger#update'
+    delete 'ledgers/:id' => 'Ledger#delete'
+
     get    'accounts'     => 'Account#list'
     post   'accounts'     => 'Account#create'
     get    'accounts/:id' => 'Account#show'
     put    'accounts/:id' => 'Account#update'
     delete 'accounts/:id' => 'Account#delete'
+
+    get    'postings'     => 'Posting#list'
+    post   'postings'     => 'Posting#create'
+    get    'postings/:id' => 'Posting#show'
+    put    'postings/:id' => 'Posting#update'
+    delete 'postings/:id' => 'Posting#delete'
 
     # get    'bank-accounts'     => 'BankAccount#list'
     # post   'bank-accounts'     => 'BankAccount#create'

@@ -6,6 +6,7 @@ FactoryGirl.define do
   end
 
   factory :account do
+    ledger
     name "Test Account"
     identifier "1200"
     description "the description"

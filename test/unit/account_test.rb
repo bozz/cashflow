@@ -39,4 +39,10 @@ class AccountTest < MiniTest::Unit::TestCase
     account = FactoryGirl.build(:account, identifier: 1800)
     assert_equal(true, account.valid?)
   end
+
+  def test_ledger_association
+    account = FactoryGirl.build(:account)
+    assert_respond_to(account, :ledger)
+    assert_kind_of(Ledger, account.ledger)
+  end
 end

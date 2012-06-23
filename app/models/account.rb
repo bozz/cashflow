@@ -9,4 +9,6 @@ class Account < ActiveRecord::Base
                           :numericality => { :only_integer => true },
                           :length => { is: 4 }
 
+  scope :withIdAndLedger, lambda { |id, ledger_id| where("id = ? AND ledger_id = ?", id, ledger_id) }
+
 end
