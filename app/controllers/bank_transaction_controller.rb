@@ -2,9 +2,8 @@ class BankTransactionController < ApplicationController
   wrap_parameters BankTransaction
 
   def list
-    limit = params[:limit] || 20
-    offset = params[:offset] || 0
-    list = BankTransaction.limit(limit).offset(offset)
+    bank_id = params.fetch(:bank_id) { raise ApplicationController::MissingParameterError.new('ledger_id')  }
+    list = BankTransaction.find_all_by_bank(bank_id).order(params[:order]).page(params[:page]).per(params[:per])
     count = BankTransaction.count
     render :json => {
       data: list,

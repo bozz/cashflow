@@ -1,0 +1,17 @@
+<% if(totalPages > 1) { %>
+
+<li <%= (currentPage <= 1) ? "class='disabled'" : "" %>>
+  <a class="serverprevious" href="#">Prev</a>
+</li>
+
+<% for(p=1;p<=totalPages;p++){ %>
+<li <%= ((currentPage)==p) ? "class='active'" : "" %>>
+  <a class="page" href="#"><%= p %></a>
+</li>
+<% } %>
+
+<li <%= ((currentPage) >= totalPages) ? "class='disabled'" : "" %>>
+  <a class="servernext" href="#">Next</a>
+</li>
+
+<% } %>

@@ -21,8 +21,10 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'backbone-on-rails'
-gem 'money'
+# gem 'backbone-on-rails'
+gem 'ejs'
+gem 'money', '>= 4.0.0'
+gem 'kaminari', '~> 0.13'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

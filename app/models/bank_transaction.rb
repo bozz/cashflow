@@ -8,6 +8,7 @@ class BankTransaction < ActiveRecord::Base
 
   validate :amount_must_be_nonzero
 
+  scope :find_all_by_bank, lambda { |bank_id| where("bank_account_id = ?", bank_id) }
   scope :withIdAndBankAccount, lambda { |id, bank_id| where("id = ? AND bank_account_id = ?", id, bank_id) }
 
   # use Money gem to handle amount (composed of cents and currency fields)

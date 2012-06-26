@@ -14,26 +14,9 @@ App.BankTransactionListView = Backbone.View.extend({
 
   initialize: function(config) {
     this.bankId = config.bankId;
-    App.transactions.setFilter(['description'], " ", this.bankId);
-    App.transactions.url = '/api/banks/' + this.bankId + '/transactions';
 
-    App.transactions.totalPages = Math.floor(App.transactions.length / this.perPage);
+    App.transactions = new App.BankTransactions({bankId: this.bankId});
     App.transactions.pager();
-
-    this.bankAccountView = new App.BankAccountView({
-      bankId: this.bankId,
-      parentView: this
-    });
-
-    this.importView = new App.ImportView({
-      bankId: this.bankId,
-      parentView: this
-    });
-
-    this.paginationView = new App.TransactionsPaginationView({
-      collection: App.transactions,
-      parentView: this
-    });
 
     App.transactions.on('reset', this.render, this);
     App.transactions.on('add', this.render, this);
@@ -44,15 +27,33 @@ App.BankTransactionListView = Backbone.View.extend({
   render: function() {
     $(this.el).html(this.template({bankId: this.bankId, transactions: App.transactions}));
 
-    this.bankAccountView.render();
-    this.importView.render();
-    this.paginationView.render();
+    this.renderSubviews();
 
     // set any previous filter values
     // TODO: extract filter form into seperate template
     $('form.form-search input.search-query').val(App.transactions.filterExpression);
 
     return this;
+  },
+
+  renderSubviews: function() {
+    this.bankAccountView = new App.BankAccountView({
+      bankId: this.bankId,
+      parentView: this
+    });
+    this.bankAccountView.render();
+
+    this.importView = new App.ImportView({
+      bankId: this.bankId,
+      parentView: this
+    });
+    this.importView.render();
+
+    this.paginationView = new App.PaginationView({
+      collection: App.transactions,
+      parentView: this
+    });
+    this.paginationView.render();
   },
 
   newTransaction: function(event) {
