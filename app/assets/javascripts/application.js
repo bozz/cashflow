@@ -8,6 +8,7 @@
 //= require accounting
 //= require d3.v2
 //= require jquery.upload-1.0.2
+//= require jquery.loadmask
 //
 //= require .//cashflow
 //

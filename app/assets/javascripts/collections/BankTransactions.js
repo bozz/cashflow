@@ -1,9 +1,18 @@
 App.BankTransactions = Backbone.Paginator.requestPager.extend({
 
-  model: App.Transaction,
+  model: App.BankTransaction,
 
   initialize: function(config) {
     this.bankId = config.bankId;
+  },
+
+  applyFilter: function(query) {
+    this.server_api.q = query;
+    this.pager();
+  },
+
+  url: function() {
+    return '/api/banks/' + this.bankId + '/transactions';
   },
 
   paginator_core: {
@@ -50,6 +59,24 @@ App.BankTransactions = Backbone.Paginator.requestPager.extend({
     this.totalPages = Math.ceil(response.count / this.perPage);
     return data;
   },
+
+  // override in order to add loading mask
+  pager: function() {
+    $("body").mask("Loading...");
+    this.fetch({
+      success: function(collection, response) {
+        $("body").unmask();
+      },
+      error: function(collection, response) {
+        $("body").unmask();
+      }
+    });
+  },
+
+
+
+
+
 
   // override from backbone.paginator.js to add bankAccountId param
   xxsetFilter: function ( fields, filter, bankAccountId ) {

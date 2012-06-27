@@ -19,6 +19,7 @@ App.TransactionView = Backbone.View.extend({
   },
 
   hideModal: function(event) {
+    $(this.el).unmask();
     if(event.preventDefault) { event.preventDefault(); }
     $('#transaction-modal').modal('hide');
   },
@@ -33,7 +34,7 @@ App.TransactionView = Backbone.View.extend({
     var amount = App.util.convertEurToUsNumber( $('#tm-amount').val() );
 
     this.model.set({
-      bank_account_id: $('#tm-bank').val(),
+      bank_account_id: this.bankId,
       date: $('#tm-date').val(),
       amount: amount,
       description: $('#tm-description').val(),
@@ -46,8 +47,10 @@ App.TransactionView = Backbone.View.extend({
       error: this.handleError
     };
 
+    $(this.el).mask("Saving...");
     if (this.model.isNew()) {
       App.transactions.create(this.model, options);
+      App.transactions.pager();
     } else {
       this.model.save(this.model, options);
     }

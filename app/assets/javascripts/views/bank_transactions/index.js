@@ -31,7 +31,7 @@ App.BankTransactionListView = Backbone.View.extend({
 
     // set any previous filter values
     // TODO: extract filter form into seperate template
-    $('form.form-search input.search-query').val(App.transactions.filterExpression);
+    $('form.form-search input.search-query').val(App.transactions.server_api.q);
 
     return this;
   },
@@ -57,7 +57,7 @@ App.BankTransactionListView = Backbone.View.extend({
   },
 
   newTransaction: function(event) {
-    var model = new App.Transaction();
+    var model = new App.BankTransaction();
     this.showTransactionsDetail(model);
   },
 
@@ -94,9 +94,7 @@ App.BankTransactionListView = Backbone.View.extend({
     event.preventDefault();
 
     var q = $('form.form-search input.search-query').val();
-    q = q=="" ? " " : q;
-
-    App.transactions.setFilter(['amount', 'description'], q, this.bankId);
+    App.transactions.applyFilter(q);
   }
 
 });

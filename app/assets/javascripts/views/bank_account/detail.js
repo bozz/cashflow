@@ -2,12 +2,13 @@ App.BankAccountView = Backbone.View.extend({
 
   template: JST['bank_accounts/form'],
 
+  isModal: false,  // for new items, modal view is used
+
   events: {
     'click #bank-account-submit': 'saveAccount',
 
     'click a.btn-submit': 'saveAccount',
-    'click a.btn-close': 'hideModal',
-    'hide div.modal': 'closeModal'
+    'click a.btn-close': 'hideModal'
   },
 
   initialize: function (options) {
@@ -16,12 +17,13 @@ App.BankAccountView = Backbone.View.extend({
       this.bankId = options.bankId;
       this.model = App.bankAccounts.get(this.bankId);
     } else {
+      this.isModal = true;
       this.model = options.model;
     }
   },
 
   render: function() {
-    if(this.model.isNew()) {
+    if(this.isModal) {
       var html = this.template({model: this.model, showFormActions: false});
       App.util.renderModalView(this.$el, html, "Create Transaction", "Create Transaction");
     } else {
@@ -35,23 +37,39 @@ App.BankAccountView = Backbone.View.extend({
     event.preventDefault();
 
     this.model.set({
-      bank: $('#tm-bank').val(),
-      name: $('#tm-name').val(),
-      account_number: $('#tm-number').val(),
-      // currency: $('#tm-currency').val(),
-      // initial_cents: $('#tm-initial').val(),
-      description: $('#tm-description').val()
+      bank: $('#ba-bank').val(),
+      name: $('#ba-name').val(),
+      account_number: $('#ba-number').val(),
+      // currency: $('#ba-currency').val(),
+      // initial_cents: $('#ba-initial').val(),
+      description: $('#ba-description').val()
     });
 
     var options = {
       wait: true,
-      success: this.hideModal,
-      error: this.handleError
+      success: $.proxy(this.handleSuccess, this),
+      error: $.proxy(this.handleError, this)
     };
+
+    this.$el.mask("Saving...");
     if (this.model.isNew()) {
       App.bankAccounts.create(this.model, options);
     } else {
       this.model.save(this.model, options);
+    }
+  },
+
+  handleSuccess: function(event) {
+    if(event.preventDefault) { event.preventDefault(); }
+
+    this.$el.unmask();
+
+    if(this.isModal) {
+      App.util.alertSuccess("Bank account created successfully");
+      this.closeModal(event);
+    } else {
+      App.util.alertSuccess("Settings saved successfully");
+      App.transactions.pager();
     }
   },
 
@@ -67,6 +85,7 @@ App.BankAccountView = Backbone.View.extend({
   },
 
   handleError: function(model, response) {
+    $(this.el).unmask();
     // if validation errors
     if(response.status == 422) {
       // reset any previous errors
@@ -86,8 +105,7 @@ App.BankAccountView = Backbone.View.extend({
         model.fetch();
       }
     } else {
-      // TODO: handle other errors...
-      console.log("ERROR!", response, model);
+      App.util.alertError(response);
     }
   }
 

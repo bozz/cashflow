@@ -47,7 +47,7 @@ App.BankAccountListView = Backbone.View.extend({
       if (result) {
         model.destroy({
           success: function(model, response) {
-            console.log("successfully destroyed", model);
+            App.util.alertSuccess("Bank account deleted");
           }
         });
       }

@@ -3,11 +3,10 @@ class BankTransactionController < ApplicationController
 
   def list
     bank_id = params.fetch(:bank_id) { raise ApplicationController::MissingParameterError.new('ledger_id')  }
-    list = BankTransaction.find_all_by_bank(bank_id).order(params[:order]).page(params[:page]).per(params[:per])
-    count = BankTransaction.count
+    list = BankTransaction.find_all_by_bank(bank_id).filter_by_query(params[:q])
     render :json => {
-      data: list,
-      count: count
+      count: list.count,
+      data: list.order(params[:order]).page(params[:page]).per(params[:per])
     }
   end
 

@@ -28,6 +28,13 @@ class BankTransaction < ActiveRecord::Base
     return hash
   end
 
+  def self.filter_by_query(query)
+    if query.empty?
+      where("1=1")
+    else
+      where("description like ?", "%#{query}%")
+    end
+  end
 
   def self.import_csv(csv_file, bank_account)
     require 'csv'
