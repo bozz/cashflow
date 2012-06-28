@@ -1,11 +1,14 @@
 App.TransactionsGraphView = Backbone.View.extend({
 
+  template: JST['bank_transactions/graph'],
+
   events: {
     // 'click a.servernext': 'nextResultPage',
     // 'click a.serverprevious': 'previousResultPage',
   },
 
   initialize: function (config) {
+    this.parentView = config.parentView;
     this.config = config;
 
     // this.collection.on('add', this.render, this);
@@ -15,7 +18,7 @@ App.TransactionsGraphView = Backbone.View.extend({
     // target html element
     // this.targetEl = config.targetEl;
     // console.log("targetEl: ", this.targetEl, $('#'+this.targetEl));
-    this.div = d3.select(this.el)
+    this.div = d3.select( $('div.graph', this.$el).get(0) );
     this.w = config.w || 200;
     this.h = config.h || 200;
     this.size = 200;
@@ -25,11 +28,15 @@ App.TransactionsGraphView = Backbone.View.extend({
   render: function () {
     // Draw the plot
     // if (this.plotdata().length > 0) {
-    if(this.collection.length > 0) {
-      this.plot({
-        newPlot: true
-      });
-    }
+    // if(this.collection.length > 0) {
+    //   this.plot({
+    //     newPlot: true
+    //   });
+    // }
+    var html = this.template({bankId: this.bankId});
+    $('#tab-overview', this.parentView.el).html(this.$el.html(html));
+
+    // console.log("-->", $('div.graph', this.$el) );
     return this;
   },
 

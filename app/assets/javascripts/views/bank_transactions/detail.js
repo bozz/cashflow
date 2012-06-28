@@ -19,9 +19,12 @@ App.TransactionView = Backbone.View.extend({
   },
 
   hideModal: function(event) {
-    $(this.el).unmask();
     if(event.preventDefault) { event.preventDefault(); }
+
+    $(this.el).unmask();
+
     $('#transaction-modal').modal('hide');
+    App.util.alertSuccess("Saved successfully");
   },
 
   closeModal: function(event) {
@@ -76,8 +79,7 @@ App.TransactionView = Backbone.View.extend({
         model.fetch();
       }
     } else {
-      // TODO: handle other errors...
-      console.log("ERROR!", response, model);
+      App.util.alertError(response.errorMsg);
     }
   }
 

@@ -3,15 +3,16 @@ class BankTransactionController < ApplicationController
 
   def list
     bank_id = params.fetch(:bank_id) { raise ApplicationController::MissingParameterError.new('ledger_id')  }
-    list = BankTransaction.find_all_by_bank(bank_id).filter_by_query(params[:q])
+    query = BankTransaction.find_all_by_bank(bank_id)
+    query = query.filter_by_params(query, params)
     render :json => {
-      count: list.count,
-      data: list.order(params[:order]).page(params[:page]).per(params[:per])
+      count: query.count,
+      data: query.order(params[:order]).page(params[:page]).per(params[:per])
     }
   end
 
   def show
-    item = BankTransaction.withIdAndBankAccount(params[:id], params[:bank_id]).first
+    item = BankTransaction.find(params[:id])
     if item
       render json: item
     else
@@ -31,7 +32,7 @@ class BankTransactionController < ApplicationController
   end
 
   def update
-    item = BankTransaction.withIdAndBankAccount(params[:id], params[:bank_id]).first
+    item = BankTransaction.find(params[:id])
 
     if item.update_attributes(params[:bank_transaction])
       render json: item
@@ -41,7 +42,7 @@ class BankTransactionController < ApplicationController
   end
 
   def delete
-    item = BankTransaction.withIdAndBankAccount(params[:id], params[:bank_id]).first
+    item = BankTransaction.find(params[:id])
     if item
       item.destroy
       render json: {}
@@ -59,19 +60,14 @@ class BankTransactionController < ApplicationController
       errors['file'] << 'No file was uploaded'
     end
 
-    bank_account = BankAccount.find_by_id(params[:bank_id])
-    if bank_account
-      unless errors.has_key?('file')
-        begin
-          imported = BankTransaction.import_csv(params[:file].read, bank_account)
-        rescue Exception => e
-          errors['file'] = [] unless errors.has_key?('file')
-          errors['file'] << "#{e.message} (#{e.class.to_s})"
-        end
+    bank_account = BankAccount.find(params[:bank_id])
+    unless errors.has_key?('file')
+      begin
+        imported = BankTransaction.import_csv(params[:file].read, bank_account)
+      rescue Exception => e
+        errors['file'] = [] unless errors.has_key?('file')
+        errors['file'] << "#{e.message} (#{e.class.to_s})"
       end
-    else
-      errors['bank_account_id'] = [] unless errors.has_key?('bank_account_id')
-      errors['bank_account_id'] << "Could not find BankAccount with id=#{params[:bank_account]}"
     end
 
     if errors.length > 0

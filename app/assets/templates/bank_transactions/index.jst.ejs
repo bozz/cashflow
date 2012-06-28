@@ -6,12 +6,15 @@
 <h1><%= App.bankAccounts.get(bankId).get('name') %></h1>
 
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#tab1" data-toggle="tab">Transactions</a></li>
+  <li class="active"><a href="#tab-overview" data-toggle="tab">Overview</a></li>
+  <li><a href="#tab-transactions" data-toggle="tab">Transactions</a></li>
   <li><a href="#tab-bank-account" data-toggle="tab">Settings</a></li>
   <li><a href="#tab-import" data-toggle="tab">Import</a></li>
 </ul>
 <div class="tab-content">
-  <div class="tab-pane active" id="tab1">
+  <div class="tab-pane active" id="tab-overview">
+  </div>
+  <div class="tab-pane" id="tab-transactions">
     <form class="well form-search">
       <input type="text" class="input-large search-query" name="query">
       <button type="submit" class="btn">Search</button>

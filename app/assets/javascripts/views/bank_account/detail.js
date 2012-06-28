@@ -105,7 +105,7 @@ App.BankAccountView = Backbone.View.extend({
         model.fetch();
       }
     } else {
-      App.util.alertError(response);
+      App.util.alertError(response.errorMsg);
     }
   }
 

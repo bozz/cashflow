@@ -37,6 +37,13 @@ App.BankTransactionListView = Backbone.View.extend({
   },
 
   renderSubviews: function() {
+    this.graphView = new App.TransactionsGraphView({
+      collection: App.transactions,
+      bankId: this.bankId,
+      parentView: this
+    });
+    this.graphView.render();
+
     this.bankAccountView = new App.BankAccountView({
       bankId: this.bankId,
       parentView: this
@@ -83,7 +90,7 @@ App.BankTransactionListView = Backbone.View.extend({
       if (result) {
         model.destroy({
           success: function(model, response) {
-            console.log("successfully destroyed", model);
+            App.util.alertSuccess('Item deleted successfully');
           }
         });
       }

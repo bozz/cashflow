@@ -9,7 +9,6 @@ class BankTransaction < ActiveRecord::Base
   validate :amount_must_be_nonzero
 
   scope :find_all_by_bank, lambda { |bank_id| where("bank_account_id = ?", bank_id) }
-  scope :withIdAndBankAccount, lambda { |id, bank_id| where("id = ? AND bank_account_id = ?", id, bank_id) }
 
   # use Money gem to handle amount (composed of cents and currency fields)
   composed_of :amount,
@@ -28,12 +27,21 @@ class BankTransaction < ActiveRecord::Base
     return hash
   end
 
-  def self.filter_by_query(query)
-    if query.empty?
-      where("1=1")
-    else
-      where("description like ?", "%#{query}%")
+  # filter by various search parameters
+  def self.filter_by_params(query, params)
+    if !params[:q].nil? && !params[:q].empty?
+      query = query.where("description like ?", "%#{params[:q]}%")
     end
+
+    if !params[:from_date].nil? && !params[:from_date].empty?
+      query = query.where("date >= ?", params[:from_date])
+    end
+
+    if !params[:to_date].nil? && !params[:to_date].empty?
+      query = query.where("date <= ?", params[:to_date])
+    end
+
+    return query
   end
 
   def self.import_csv(csv_file, bank_account)
