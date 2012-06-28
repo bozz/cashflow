@@ -14,6 +14,7 @@
 //
 //= require_tree ../templates/
 //= require_tree .//models
+//= require ./collections/BaseCollection
 //= require_tree .//collections
 //= require_tree .//views
 //= require_tree .//routers
