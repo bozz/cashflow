@@ -37,8 +37,7 @@ App.BankTransactionListView = Backbone.View.extend({
   },
 
   renderSubviews: function() {
-    this.graphView = new App.TransactionsGraphView({
-      collection: App.transactions,
+    this.graphView = new App.BankAccountGraphView({
       bankId: this.bankId,
       parentView: this
     });
