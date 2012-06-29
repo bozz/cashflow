@@ -17,12 +17,40 @@ class BankAccount < ActiveRecord::Base
     :converter => Proc.new { |value| value.respond_to?(:to_money) ? value.to_money : raise(ArgumentError, "Can't convert #{value.class} to Money") }
 
 
-  def balance
-    sum = initial_cents
-    bank_transactions.each do |t|
-      sum += t.cents
+  # calculates and returns account balance. There are two modes for this
+  # method, if only one parameter is provided, then the balance on the
+  # specified date will be returned.
+  # If a second parameter (from_date) is
+  # specified then the balance in this range will be calculated for each
+  # day where there is at least one transaction - including an additional
+  # starting balance on the 'from_date' if no transactions on that day.
+  def balance(date, from_date)
+    date ||= Time.now.strftime("%Y-%m-%d")
+
+    balance = []
+    if from_date.nil?
+      transaction_sum = BankTransaction.where("bank_account_id = ? AND date <= ?", id, date).sum('cents')
+      sum = initial_cents + transaction_sum
+      balance << get_formatted_balance(date, sum, currency)
+    else
+      transactions = BankTransaction.select("date(date) as date, currency, sum(cents) as cents").group("date(date)").having("bank_account_id = ? AND date >= ? AND date <= ?", id, from_date, date)
+      sum = initial_cents
+      transactions.each do |t|
+        sum += t.cents
+        balance << get_formatted_balance(t.date, sum, t.currency)
+      end
     end
-    Money.new(sum, currency)
+    balance
+  end
+
+  def get_formatted_balance(date, sum, currency)
+    amount = Money.new(sum, currency)
+    {
+      date: date,
+      amount: amount.dollars,
+      cents:  amount.cents,
+      currency: amount.currency.iso_code
+    }
   end
 
   def as_json(*args)

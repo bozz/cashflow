@@ -6,12 +6,8 @@ class BankAccountController < ApplicationController
   end
 
   def balance
-    balance = BankAccount.find(params[:id]).balance
-    render :json => {
-      amount: balance.dollars,
-      cents:  balance.cents,
-      currency: balance.currency.iso_code
-    }
+    balance = BankAccount.find(params[:id]).balance(params[:date], params[:from_date])
+    render :json => balance
   end
 
   def show

@@ -28,14 +28,55 @@ class BankAccountApiTest < MiniTest::Unit::TestCase
     FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-05-01')
     FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-06-01')
 
-    get '/api/banks/1/balance' #?from_date=2012-01-01&to_date=2012-03-10'
+    get '/api/banks/1/balance'
     response = ActiveSupport::JSON.decode last_response.body
 
     assert last_response.ok?
     assert_match('application/json', last_response.content_type)
-    assert_equal(599.94, response['amount'])
-    assert_equal(59994, response['cents'])
-    assert_equal("EUR", response['currency'])
+    assert_equal(1, response.length)
+    assert_equal(Time.now.strftime("%Y-%m-%d"), response.first['date'])
+    assert_equal(599.94, response.first['amount'])
+    assert_equal(59994, response.first['cents'])
+    assert_equal("EUR", response.first['currency'])
+  end
+
+  def test_get_account_balance_on_date
+    bank_account = FactoryGirl.create(:bank_account)
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-01-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-02-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-03-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-04-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-05-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-06-01')
+
+    get '/api/banks/1/balance?date=2012-03-15'
+    response = ActiveSupport::JSON.decode last_response.body
+
+    assert last_response.ok?
+    assert_match('application/json', last_response.content_type)
+    assert_equal(1, response.length)
+    assert_equal('2012-03-15', response.first['date'])
+    assert_equal(299.97, response.first['amount'])
+    assert_equal(29997, response.first['cents'])
+    assert_equal("EUR", response.first['currency'])
+  end
+
+  def test_get_account_balance_within_date_range
+    bank_account = FactoryGirl.create(:bank_account)
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-01-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-02-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-03-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-04-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-05-01')
+    FactoryGirl.create(:bank_transaction, bank_account: bank_account, date: '2012-06-01')
+
+    get '/api/banks/1/balance?from_date=2012-01-01&date=2012-03-10'
+    response = ActiveSupport::JSON.decode last_response.body
+
+    assert last_response.ok?
+    assert_match('application/json', last_response.content_type)
+    assert_equal(3, response.length)
+    assert_equal(99.99, response.first['amount'])
   end
 
   def test_show_bank_account
