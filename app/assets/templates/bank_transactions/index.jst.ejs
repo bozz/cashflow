@@ -1,60 +1,36 @@
-<ul class="breadcrumb">
-  <li><a href="/#banking">Banking</a> <span class="divider">/</span></li>
-  <li class="active"><%= App.bankAccounts.get(bankId).get('name') %></li>
-</ul>
+<form class="well form-search">
+  <input type="text" class="input-large search-query" name="query">
+  <button type="submit" class="btn">Search</button>
+</form>
 
-<h1><%= App.bankAccounts.get(bankId).get('name') %></h1>
+<button class="btn-new btn btn-primary" type="button">New Transaction</button>
 
-<ul class="nav nav-tabs">
-  <li class="active"><a href="#tab-overview" data-toggle="tab">Overview</a></li>
-  <li><a href="#tab-transactions" data-toggle="tab">Transactions</a></li>
-  <li><a href="#tab-bank-account" data-toggle="tab">Settings</a></li>
-  <li><a href="#tab-import" data-toggle="tab">Import</a></li>
-</ul>
-<div class="tab-content">
-  <div class="tab-pane active" id="tab-overview">
-  </div>
-  <div class="tab-pane" id="tab-transactions">
-    <form class="well form-search">
-      <input type="text" class="input-large search-query" name="query">
-      <button type="submit" class="btn">Search</button>
-    </form>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for(var i=0; i<transactions.length; i++) {
+    var transaction = transactions.models[i];
+    %>
+    <tr>
+      <td><%= transaction.get('id') %></td>
+      <td><%= transaction.get('date') %></td>
+      <td><%= transaction.get('description') %></td>
+      <td><%= accounting.formatMoney(transaction.get('amount')) %></td>
+      <td>
+        <button class="btn-edit btn btn-mini" type="button" value="<%= transaction.get('id') %>">Edit</button>
+        <button class="btn-delete btn btn-danger btn-mini" type="button" value="<%= transaction.get('id') %>">Delete</button>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>
 
-    <button class="btn-new btn btn-primary" type="button">New Transaction</button>
-
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Date</th>
-          <th>Description</th>
-          <th>Amount</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% for(var i=0; i<transactions.length; i++) {
-        var transaction = transactions.models[i];
-        %>
-        <tr>
-          <td><%= transaction.get('id') %></td>
-          <td><%= transaction.get('date') %></td>
-          <td><%= transaction.get('description') %></td>
-          <td><%= accounting.formatMoney(transaction.get('amount')) %></td>
-          <td>
-            <button class="btn-edit btn btn-mini" type="button" value="<%= transaction.get('id') %>">Edit</button>
-            <button class="btn-delete btn btn-danger btn-mini" type="button" value="<%= transaction.get('id') %>">Delete</button>
-          </td>
-        </tr>
-        <% } %>
-      </tbody>
-    </table>
-
-    <div class="pagination"></div>
-  </div>
-  <div class="tab-pane" id="tab-bank-account">
-  </div>
-  <div class="tab-pane" id="tab-import">
-  </div>
-</div>
-
+<div class="pagination"></div>

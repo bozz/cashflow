@@ -19,7 +19,8 @@ App.Router = Backbone.Router.extend({
   },
 
   bankDetail: function(id) {
-    var view = new App.BankTransactionListView({bankId: id});
+    var model = App.bankAccounts.get(id);
+    var view = new App.BankAccountView({model: model});
     $('#content').html(view.render().el);
   },
 

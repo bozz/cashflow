@@ -7,6 +7,7 @@
 //= require bootbox
 //= require bootstrap-datepicker
 //= require accounting
+//= require moment
 //= require d3.v2
 //= require jquery.upload-1.0.2
 //= require jquery.loadmask

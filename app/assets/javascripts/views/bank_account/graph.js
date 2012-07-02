@@ -4,24 +4,16 @@ App.BankAccountGraphView = Backbone.View.extend({
 
   events: {
     'submit form.form-search': 'filterGraph'
-    // 'click a.servernext': 'nextResultPage',
-    // 'click a.serverprevious': 'previousResultPage',
   },
 
   initialize: function (config) {
     this.parentView = config.parentView;
     this.bankId = config.bankId;
 
-    // this.collection.on('add', this.render, this);
-    // this.collection.on('reset', this.render, this);
-    // this.collection.on('change', this.render, this);
-
     this.w = config.w || 200;
-    this.h = config.h || 200;
+    this.h = config.h || 100;
     this.size = 200;
     this.duration = 500;
-
-    self = this;
 
     this.fetchData();
   },
@@ -29,10 +21,16 @@ App.BankAccountGraphView = Backbone.View.extend({
 
   // load graph data
   fetchData: function(fromDate, toDate) {
+    if(!fromDate || !toDate) {
+      toDate = moment().format('YYYY-MM-DD');
+      fromDate = moment().subtract('months', 2).format('YYYY-MM-DD');
+    }
+
+    var self = this;
     $.ajax({
       url: "/api/banks/" + this.bankId + "/balance",
       dataType: 'json',
-      data: { date: '2012-08-01', from_date: '2010-01-01' },
+      data: { date: toDate, from_date: fromDate },
       success: function(data, textStatus, xhr) {
         self.renderPlot(data);
       }
@@ -40,13 +38,14 @@ App.BankAccountGraphView = Backbone.View.extend({
   },
 
   render: function () {
-    var html = this.template({bankId: this.bankId});
-    $('#tab-overview', this.parentView.el).html(this.$el.html(html));
+    this.$el.html(this.template({bankId: this.bankId}));
+    $('#tab-overview', this.parentView.el).html(this.el);
 
     this.$el.find('div.date').datepicker({
       weekStart: 1
       // format: 'dd.mm.YYYY'
     });
+    this.delegateEvents();
     return this;
   },
 
@@ -70,7 +69,14 @@ App.BankAccountGraphView = Backbone.View.extend({
 
   filterGraph: function(event) {
     event.preventDefault();
-    console.log("filter graph", event);
+
+    var toDate   = this.$el.find('#dp3 input').val();
+    var fromDate = this.$el.find('#dp4 input').val();
+
+    toDate   = moment(toDate).format('YYYY-MM-DD');
+    fromDate = moment(fromDate).format('YYYY-MM-DD');
+
+    this.fetchData(toDate, fromDate);
   },
 
   plot: function(options) {

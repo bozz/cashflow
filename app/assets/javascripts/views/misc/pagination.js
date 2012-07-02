@@ -7,12 +7,10 @@ App.PaginationView = Backbone.View.extend({
   events: {
     'click a.servernext': 'nextResultPage',
     'click a.serverprevious': 'previousResultPage',
+    'click a.page': 'gotoPage'
     // 'click a.orderUpdate': 'updateSortBy',
     // 'click a.serverlast': 'gotoLast',
-    'click a.page': 'gotoPage'
     // 'click a.serverfirst': 'gotoFirst',
-    // 'click a.serverpage': 'gotoPage',
-    // 'click .serverhowmany a': 'changeCount'
   },
 
   initialize: function (options) {
@@ -24,6 +22,7 @@ App.PaginationView = Backbone.View.extend({
   render: function () {
     var html = this.template(this.collection.info());
     $('div.pagination', this.parentView.el).html(this.$el.html(html));
+    this.delegateEvents();
     return this;
   },
 

@@ -24,7 +24,6 @@ App.TransactionView = Backbone.View.extend({
     $(this.el).unmask();
 
     $('#transaction-modal').modal('hide');
-    App.util.alertSuccess("Saved successfully");
   },
 
   closeModal: function(event) {
@@ -33,6 +32,7 @@ App.TransactionView = Backbone.View.extend({
 
   saveTransaction: function(event) {
     event.preventDefault();
+    self = this;
 
     var amount = App.util.convertEurToUsNumber( $('#tm-amount').val() );
 
@@ -46,7 +46,10 @@ App.TransactionView = Backbone.View.extend({
 
     var options = {
       wait: true,
-      success: this.hideModal,
+      success: function(event) {
+        App.util.alertSuccess("Saved successfully");
+        self.hideModal(event);
+      },
       error: this.handleError
     };
 

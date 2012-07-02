@@ -13,6 +13,7 @@ App.BankTransactionListView = Backbone.View.extend({
   },
 
   initialize: function(config) {
+    this.parentView = config.parentView;
     this.bankId = config.bankId;
 
     App.transactions = new App.BankTransactions({bankId: this.bankId});
@@ -22,44 +23,26 @@ App.BankTransactionListView = Backbone.View.extend({
     App.transactions.on('add', this.render, this);
     App.transactions.on('change', this.render, this);
     App.transactions.on('destroy', this.render, this);
-  },
-
-  render: function() {
-    $(this.el).html(this.template({bankId: this.bankId, transactions: App.transactions}));
-
-    this.renderSubviews();
-
-    // set any previous filter values
-    // TODO: extract filter form into seperate template
-    $('form.form-search input.search-query').val(App.transactions.server_api.q);
-
-    return this;
-  },
-
-  renderSubviews: function() {
-    this.graphView = new App.BankAccountGraphView({
-      bankId: this.bankId,
-      parentView: this
-    });
-    this.graphView.render();
-
-    this.bankAccountView = new App.BankAccountView({
-      bankId: this.bankId,
-      parentView: this
-    });
-    this.bankAccountView.render();
-
-    this.importView = new App.ImportView({
-      bankId: this.bankId,
-      parentView: this
-    });
-    this.importView.render();
 
     this.paginationView = new App.PaginationView({
       collection: App.transactions,
       parentView: this
     });
+  },
+
+  render: function() {
+    this.$el.html(this.template({bankId: this.bankId, transactions: App.transactions}));
+    $('#tab-transactions', this.parentView.el).html(this.el);
+
+    // set any previous filter values
+    // TODO: extract filter form into seperate template
+    this.$el.find('form.form-search input.search-query').val(App.transactions.server_api.q);
+
     this.paginationView.render();
+
+    this.delegateEvents();
+
+    return this;
   },
 
   newTransaction: function(event) {
@@ -99,7 +82,7 @@ App.BankTransactionListView = Backbone.View.extend({
   filterTransactions: function(event) {
     event.preventDefault();
 
-    var q = $('form.form-search input.search-query').val();
+    var q = this.$el.find('form.form-search input.search-query').val();
     App.transactions.applyFilter(q);
   }
 
