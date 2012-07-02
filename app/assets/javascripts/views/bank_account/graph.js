@@ -3,6 +3,7 @@ App.BankAccountGraphView = Backbone.View.extend({
   template: JST['bank_accounts/graph'],
 
   events: {
+    'submit form.form-search': 'filterGraph'
     // 'click a.servernext': 'nextResultPage',
     // 'click a.serverprevious': 'previousResultPage',
   },
@@ -22,13 +23,17 @@ App.BankAccountGraphView = Backbone.View.extend({
 
     self = this;
 
-    // load graph data
+    this.fetchData();
+  },
+
+
+  // load graph data
+  fetchData: function(fromDate, toDate) {
     $.ajax({
       url: "/api/banks/" + this.bankId + "/balance",
       dataType: 'json',
       data: { date: '2012-08-01', from_date: '2010-01-01' },
       success: function(data, textStatus, xhr) {
-        console.log("success", data);
         self.renderPlot(data);
       }
     });
@@ -37,6 +42,11 @@ App.BankAccountGraphView = Backbone.View.extend({
   render: function () {
     var html = this.template({bankId: this.bankId});
     $('#tab-overview', this.parentView.el).html(this.$el.html(html));
+
+    this.$el.find('div.date').datepicker({
+      weekStart: 1
+      // format: 'dd.mm.YYYY'
+    });
     return this;
   },
 
@@ -56,6 +66,11 @@ App.BankAccountGraphView = Backbone.View.extend({
         data: data
       });
     }
+  },
+
+  filterGraph: function(event) {
+    event.preventDefault();
+    console.log("filter graph", event);
   },
 
   plot: function(options) {

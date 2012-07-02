@@ -5,6 +5,7 @@
 //= require backbone
 //= require backbone.paginator
 //= require bootbox
+//= require bootstrap-datepicker
 //= require accounting
 //= require d3.v2
 //= require jquery.upload-1.0.2
