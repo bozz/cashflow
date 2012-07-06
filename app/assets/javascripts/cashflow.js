@@ -23,6 +23,13 @@ window.App = {
 
 
 App.util = {
+
+  localDateFormat: 'dd.mm.yyyy',
+
+  convertDateToDbFormat: function(date) {
+    return moment(date, App.util.localDateFormat.toUpperCase()).format('YYYY-MM-DD');
+  },
+
   /**
    * Convert numbers from European to US format.
    * Example: 5.500,99 ==> 5500.99

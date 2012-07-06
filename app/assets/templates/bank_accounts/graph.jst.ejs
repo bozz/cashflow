@@ -1,12 +1,12 @@
 <form class="well form-search">
   <label>From Date:</label>
-  <div class="input-append date" id="dp3" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-    <input class="input-small" size="10" type="text" value="12-02-2012">
+  <div class="input-append date" id="dp3" data-date="<%= fromDate %>" data-date-format="<%= App.util.localDateFormat %>">
+    <input class="input-small" size="10" type="text" value="<%= fromDate %>" readonly="readonly">
     <span class="add-on"><i class="icon-th"></i></span>
   </div>
   <label>To Date:</label>
-  <div class="input-append date" id="dp4" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-    <input class="input-small" size="10" type="text" value="12-02-2012">
+  <div class="input-append date" id="dp4" data-date="<%= toDate %>" data-date-format="<%= App.util.localDateFormat %>">
+    <input class="input-small" size="10" type="text" value="<%= toDate %>" readonly="readonly">
     <span class="add-on"><i class="icon-th"></i></span>
   </div>
   <button type="submit" class="btn">Update</button>

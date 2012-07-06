@@ -14,7 +14,15 @@ App.TransactionView = Backbone.View.extend({
   },
 
   render: function() {
+    var self = this;
+
     $(this.el).html(this.template({bankId: this.bankId, model: this.model}));
+
+    this.$el.find('div.date').datepicker({ weekStart: 1 })
+      .on('show', function() {
+        self.showingDatepicker = true;
+      });
+
     return this;
   },
 
@@ -27,18 +35,22 @@ App.TransactionView = Backbone.View.extend({
   },
 
   closeModal: function(event) {
-    $('#transaction-modal').parent().remove();
+    if(!this.showingDatepicker) {
+      $('#transaction-modal').parent().remove();
+    }
+    this.showingDatepicker = false;
   },
 
   saveTransaction: function(event) {
     event.preventDefault();
-    self = this;
+    var self = this;
 
-    var amount = App.util.convertEurToUsNumber( $('#tm-amount').val() );
+    var amount = App.util.convertEurToUsNumber( this.$el.find('#tm-amount').val() );
+    var date   = App.util.convertDateToDbFormat( this.$el.find('#tm-date').val() );
 
     this.model.set({
       bank_account_id: this.bankId,
-      date: $('#tm-date').val(),
+      date: date,
       amount: amount,
       description: $('#tm-description').val(),
       note: $('#tm-note').val()

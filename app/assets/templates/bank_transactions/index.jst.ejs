@@ -21,7 +21,7 @@
     %>
     <tr>
       <td><%= transaction.get('id') %></td>
-      <td><%= transaction.get('date') %></td>
+      <td><%= transaction.getFormattedDate() %></td>
       <td><%= transaction.get('description') %></td>
       <td><%= accounting.formatMoney(transaction.get('amount')) %></td>
       <td>

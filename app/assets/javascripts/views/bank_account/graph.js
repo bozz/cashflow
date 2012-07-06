@@ -15,6 +15,10 @@ App.BankAccountGraphView = Backbone.View.extend({
     this.size = 200;
     this.duration = 500;
 
+    // set initial dates for graph
+    this.toDate = moment().format('YYYY-MM-DD');
+    this.fromDate = moment().subtract('months', 2).format('YYYY-MM-DD');
+
     this.fetchData();
   },
 
@@ -22,8 +26,8 @@ App.BankAccountGraphView = Backbone.View.extend({
   // load graph data
   fetchData: function(fromDate, toDate) {
     if(!fromDate || !toDate) {
-      toDate = moment().format('YYYY-MM-DD');
-      fromDate = moment().subtract('months', 2).format('YYYY-MM-DD');
+      toDate = this.toDate;
+      fromDate = this.fromDate;
     }
 
     var self = this;
@@ -38,13 +42,14 @@ App.BankAccountGraphView = Backbone.View.extend({
   },
 
   render: function () {
-    this.$el.html(this.template({bankId: this.bankId}));
+    var dateFormat = App.util.localDateFormat.toUpperCase();
+    var toDate   = moment(this.toDate).format(dateFormat);
+    var fromDate = moment(this.fromDate).format(dateFormat);
+
+    this.$el.html(this.template({toDate: toDate, fromDate: fromDate}));
     $('#tab-overview', this.parentView.el).html(this.el);
 
-    this.$el.find('div.date').datepicker({
-      weekStart: 1
-      // format: 'dd.mm.YYYY'
-    });
+    this.$el.find('div.date').datepicker({ weekStart: 1 });
     this.delegateEvents();
     return this;
   },
@@ -73,8 +78,9 @@ App.BankAccountGraphView = Backbone.View.extend({
     var toDate   = this.$el.find('#dp3 input').val();
     var fromDate = this.$el.find('#dp4 input').val();
 
-    toDate   = moment(toDate).format('YYYY-MM-DD');
-    fromDate = moment(fromDate).format('YYYY-MM-DD');
+    var dateFormat = App.util.localDateFormat.toUpperCase();
+    this.toDate   = moment(toDate, dateFormat).format('YYYY-MM-DD');
+    this.fromDate = moment(fromDate, dateFormat).format('YYYY-MM-DD');
 
     this.fetchData(toDate, fromDate);
   },

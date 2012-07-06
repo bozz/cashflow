@@ -15,7 +15,10 @@
         <div class="control-group">
           <label class="control-label" for="tm-date">Date</label>
           <div class="controls">
-            <input type="text" class="input-xlarge" id="tm-date" name="date" value="<%= model.get('date') %>">
+            <div class="input-append date" id="dp4" data-date="<%= model.getFormattedDate() %>" data-date-format="<%= App.util.localDateFormat %>">
+              <input id="tm-date" class="input-small" name="date" size="10" type="text" value="<%= model.getFormattedDate() %>" readonly="readonly">
+              <span class="add-on"><i class="icon-th"></i></span>
+            </div>
           </div>
         </div>
         <div class="control-group">
