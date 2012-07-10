@@ -33,6 +33,7 @@ Cashflow::Application.routes.draw do
     post   'banks'     => 'BankAccount#create'
     get    'banks/:id' => 'BankAccount#show'
     get    'banks/:id/balance' => 'BankAccount#balance'
+    get    'banks/:id/balance_range' => 'BankAccount#balance_range'
     put    'banks/:id' => 'BankAccount#update'
     delete 'banks/:id' => 'BankAccount#delete'
 

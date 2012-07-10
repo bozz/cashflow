@@ -32,9 +32,9 @@ App.BankAccountGraphView = Backbone.View.extend({
 
     var self = this;
     $.ajax({
-      url: "/api/banks/" + this.bankId + "/balance",
+      url: "/api/banks/" + this.bankId + "/balance_range",
       dataType: 'json',
-      data: { date: toDate, from_date: fromDate },
+      data: { from_date: fromDate, to_date: toDate },
       success: function(data, textStatus, xhr) {
         self.renderPlot(data);
       }
@@ -82,7 +82,7 @@ App.BankAccountGraphView = Backbone.View.extend({
     this.toDate   = moment(toDate, dateFormat).format('YYYY-MM-DD');
     this.fromDate = moment(fromDate, dateFormat).format('YYYY-MM-DD');
 
-    this.fetchData(toDate, fromDate);
+    this.fetchData(this.toDate, this.fromDate);
   },
 
   plot: function(options) {

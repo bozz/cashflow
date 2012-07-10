@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   class MissingParameterError < StandardError; end;
+  class InvalidDateError < StandardError; end;
 
   rescue_from ActiveRecord::RecordNotFound do |e|
     render json: {errorMsg: "item not found"}, status: :not_found

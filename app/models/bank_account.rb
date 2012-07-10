@@ -17,29 +17,42 @@ class BankAccount < ActiveRecord::Base
     :converter => Proc.new { |value| value.respond_to?(:to_money) ? value.to_money : raise(ArgumentError, "Can't convert #{value.class} to Money") }
 
 
-  # calculates and returns account balance. There are two modes for this
-  # method, if only one parameter is provided, then the balance on the
-  # specified date will be returned.
-  # If a second parameter (from_date) is
-  # specified then the balance in this range will be calculated for each
-  # day where there is at least one transaction - including an additional
-  # starting balance on the 'from_date' if no transactions on that day.
-  def balance(date, from_date)
+  # calculates and returns account balance. If no date is specified
+  # then current date is assumed.
+  def balance(date=nil)
     date ||= Time.now.strftime("%Y-%m-%d")
+    validate_date(date)
+
+    transaction_sum = BankTransaction.where("bank_account_id = ? AND date <= ?", id, date).sum('cents')
+    sum = initial_cents + transaction_sum
+    balance = get_formatted_balance(date, sum, currency)
+  end
+
+  # returns the balance in the given date range for each
+  # day where there is at least one transaction - including an additional
+  # starting balance on the 'from_date' if no transactions on that day, and 
+  # also additional final balance if no transactions on that day.
+  def balance_range(from_date, to_date)
+    parsed_from_date = validate_date(from_date)
+    parsed_to_date = validate_date(to_date)
+    return [] if from_date > to_date
 
     balance = []
-    if from_date.nil?
-      transaction_sum = BankTransaction.where("bank_account_id = ? AND date <= ?", id, date).sum('cents')
-      sum = initial_cents + transaction_sum
-      balance << get_formatted_balance(date, sum, currency)
-    else
-      transactions = BankTransaction.select("date(date) as date, currency, sum(cents) as cents").group("date(date)").having("bank_account_id = ? AND date >= ? AND date <= ?", id, from_date, date)
-      sum = initial_cents
-      transactions.each do |t|
-        sum += t.cents
-        balance << get_formatted_balance(t.date, sum, t.currency)
-      end
+    transactions = BankTransaction.select("date(date) as date, currency, sum(cents) as cents").group("date(date)").having("bank_account_id = ? AND date >= ? AND date <= ?", id, from_date, to_date)
+    sum = initial_cents
+    transactions.each do |t|
+      sum += t.cents
+      balance << get_formatted_balance(t.date, sum, t.currency)
     end
+
+    if balance.empty? || balance.first[:date] != parsed_from_date
+      balance.unshift balance(from_date)
+    end
+
+    if balance.empty? || balance.last[:date] != parsed_to_date
+      balance << balance(to_date)
+    end
+
     balance
   end
 
@@ -57,5 +70,19 @@ class BankAccount < ActiveRecord::Base
     hash = super(*args)
     hash['opening_balance'] = opening_balance.dollars
     return hash
+  end
+
+
+  private
+
+  # validates date format and also that date is not in the future.
+  def validate_date(date)
+    begin
+      date = Date.parse(date)
+      raise if date > Date.today
+    rescue
+      raise ApplicationController::InvalidDateError.new('invalid date')
+    end
+    date
   end
 end

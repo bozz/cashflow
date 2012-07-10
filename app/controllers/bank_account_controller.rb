@@ -6,7 +6,12 @@ class BankAccountController < ApplicationController
   end
 
   def balance
-    balance = BankAccount.find(params[:id]).balance(params[:date], params[:from_date])
+    balance = BankAccount.find(params[:id]).balance(params[:date])
+    render :json => balance
+  end
+
+  def balance_range
+    balance = BankAccount.find(params[:id]).balance_range(params[:from_date], params[:to_date])
     render :json => balance
   end
 
