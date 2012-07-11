@@ -1,4 +1,4 @@
-<form class="well form-search">
+<form class="well form-inline">
   <label>From Date:</label>
   <div class="input-append date" id="dp3" data-date="<%= fromDate %>" data-date-format="<%= App.util.localDateFormat %>">
     <input class="input-small" size="10" type="text" value="<%= fromDate %>" readonly="readonly">
@@ -12,6 +12,9 @@
   <button type="submit" class="btn">Update</button>
 </form>
 
-<h2>Balance: 0 EUR</h2>
+<div class="balance-display">
+  <p class="from-balance">Initial Balance (<span class="from-date"><%= fromDate %></span>): <span class="initial-balance"></span></p>
+  <p class="to-balance">Final Balance (<span class="to-date"><%= toDate %></span>): <span class="final-balance"></span></p>
+</div>
 
 <div class="graph"></div>

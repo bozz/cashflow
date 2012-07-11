@@ -3,7 +3,7 @@ App.BankAccountGraphView = Backbone.View.extend({
   template: JST['bank_accounts/graph'],
 
   events: {
-    'submit form.form-search': 'filterGraph'
+    'submit form.form-inline': 'filterGraph'
   },
 
   initialize: function (config) {
@@ -31,14 +31,31 @@ App.BankAccountGraphView = Backbone.View.extend({
     }
 
     var self = this;
+    this.$el.mask("Loading...");
     $.ajax({
       url: "/api/banks/" + this.bankId + "/balance_range",
       dataType: 'json',
       data: { from_date: fromDate, to_date: toDate },
       success: function(data, textStatus, xhr) {
+        self.updateBalanceDisplay(data);
         self.renderPlot(data);
+        self.$el.unmask();
+      },
+      error: function(xhr, textStatus, errorThrown) {
+        var response = jQuery.parseJSON(xhr.responseText);
+        App.util.alertError("Error loading graph data: " + response.errorMsg);
+        self.$el.unmask();
       }
     });
+  },
+
+  updateBalanceDisplay: function(data) {
+    if(data.length < 2) { return false; }
+
+    var initialBalance = data[0];
+    var finalBalance = data[data.length-1];
+    this.$el.find('span.initial-balance').html( initialBalance.amount + " " + initialBalance.currency );
+    this.$el.find('span.final-balance').html( finalBalance.amount + " " + finalBalance.currency );
   },
 
   render: function () {
@@ -82,7 +99,30 @@ App.BankAccountGraphView = Backbone.View.extend({
     this.toDate   = moment(toDate, dateFormat).format('YYYY-MM-DD');
     this.fromDate = moment(fromDate, dateFormat).format('YYYY-MM-DD');
 
-    this.fetchData(this.toDate, this.fromDate);
+    if(this.validateDates(this.toDate, this.fromDate)) {
+      this.fetchData(this.toDate, this.fromDate);
+    }
+  },
+
+  validateDates: function(fromDate, toDate) {
+    var today = moment().format('YYYY-MM-DD');
+    var errors = [];
+
+    if(fromDate > today) {
+      errors.push('The "From Date" cannot be in the future');
+    }
+    if(toDate > today) {
+      errors.push('The "To Date" cannot be in the future');
+    }
+    if(fromDate > toDate) {
+      errors.push('The "From Date" cannot be after the "To Date".');
+    }
+
+    if(errors.length > 0) {
+      alert(errors.join('\n'));
+      return false;
+    }
+    return true;
   },
 
   plot: function(options) {
