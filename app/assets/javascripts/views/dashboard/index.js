@@ -1,7 +1,5 @@
 App.DashboardView = Backbone.View.extend({
 
-  template: JST['dashboard/index'],
-
   events: {
     // 'click button.btn-new': 'newTransaction',
     // 'click button.btn-edit': 'editTransaction',
@@ -12,7 +10,8 @@ App.DashboardView = Backbone.View.extend({
   },
 
   render: function() {
-    $(this.el).html(this.template());
+    var template = App.util.getTemplate('dashboard/index');
+    $(this.el).html(template());
     // var graphView = new App.TransactionsGraphView({collection: App.transactions, targetEl: 'graph'});
     // $(this.el).append(graphView.render().el);
     return this;

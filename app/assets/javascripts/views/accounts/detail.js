@@ -1,7 +1,5 @@
 App.AccountView = Backbone.View.extend({
 
-  template: JST['accounts/detail'],
-
   events: {
     'click a.btn-close': 'hideModal',
     'click a.btn-submit': 'saveAccount',
@@ -9,7 +7,8 @@ App.AccountView = Backbone.View.extend({
   },
 
   render: function() {
-    $(this.el).html(this.template({model: this.model}));
+    var template = App.util.template('accounts/detail');
+    $(this.el).html(template({model: this.model}));
     return this;
   },
 

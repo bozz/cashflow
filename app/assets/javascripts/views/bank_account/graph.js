@@ -1,7 +1,5 @@
 App.BankAccountGraphView = Backbone.View.extend({
 
-  template: JST['bank_accounts/graph'],
-
   events: {
     'submit form.form-inline': 'filterGraph'
   },
@@ -59,11 +57,12 @@ App.BankAccountGraphView = Backbone.View.extend({
   },
 
   render: function () {
+    var template = App.util.getTemplate('bank_accounts/graph');
     var dateFormat = App.util.localDateFormat.toUpperCase();
     var toDate   = moment(this.toDate).format(dateFormat);
     var fromDate = moment(this.fromDate).format(dateFormat);
 
-    this.$el.html(this.template({toDate: toDate, fromDate: fromDate}));
+    this.$el.html(template({toDate: toDate, fromDate: fromDate}));
     $('#tab-overview', this.parentView.el).html(this.el);
 
     this.$el.find('div.date').datepicker({ weekStart: 1 });

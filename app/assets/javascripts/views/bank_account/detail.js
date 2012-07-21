@@ -1,7 +1,5 @@
 App.BankAccountView = Backbone.View.extend({
 
-  template: JST['bank_accounts/detail'],
-
   // events: {
   // },
 
@@ -10,7 +8,8 @@ App.BankAccountView = Backbone.View.extend({
   },
 
   render: function() {
-    $(this.el).html(this.template({model: this.model}));
+    var template = App.util.getTemplate('bank_accounts/detail');
+    $(this.el).html(template({model: this.model}));
     this.renderSubviews();
     return this;
   },

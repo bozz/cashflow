@@ -1,5 +1,4 @@
-//= require jquery
-//= require jquery_ujs
+//= require jquery-1.7.2
 //= require twitter/bootstrap
 //= require underscore
 //= require backbone

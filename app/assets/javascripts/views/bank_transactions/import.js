@@ -1,7 +1,5 @@
 App.ImportView = Backbone.View.extend({
 
-  template: JST['bank_transactions/import'],
-
   events: {
     'click #it-submit': 'submitTransactions'
   },
@@ -12,7 +10,8 @@ App.ImportView = Backbone.View.extend({
   },
 
   render: function() {
-    var html = this.template({bankId: this.bankId});
+    var template = App.util.getTemplate('bank_transactions/import');
+    var html = template({bankId: this.bankId});
     $('#tab-import', this.parentView.el).html(this.$el.html(html));
     this.delegateEvents();
 

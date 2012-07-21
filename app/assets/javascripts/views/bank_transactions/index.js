@@ -3,8 +3,6 @@ App.BankTransactionListView = Backbone.View.extend({
   // ID of current bank_account
   bankId: false,
 
-  template: JST['bank_transactions/index'],
-
   events: {
     'click button.btn-new': 'newTransaction',
     'click button.btn-edit': 'editTransaction',
@@ -31,7 +29,8 @@ App.BankTransactionListView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.template({bankId: this.bankId, transactions: App.transactions}));
+    var template = App.util.getTemplate('bank_transactions/index');
+    this.$el.html(template({bankId: this.bankId, transactions: App.transactions}));
     $('#tab-transactions', this.parentView.el).html(this.el);
 
     // set any previous filter values

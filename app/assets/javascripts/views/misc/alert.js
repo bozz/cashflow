@@ -1,7 +1,5 @@
 App.AlertView = Backbone.View.extend({
 
-  template: JST['misc/alert'],
-
   events: {
     'mouseover div.alert': 'stopTimer',
     'mouseout div.alert': 'startTimer',
@@ -16,7 +14,8 @@ App.AlertView = Backbone.View.extend({
   },
 
   render: function() {
-    var html = this.template({
+    var template = App.util.getTemplate('misc/alert');
+    var html = template({
       alertClass: this.alertClass,
       title: this.title,
       msg: this.msg

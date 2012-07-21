@@ -1,7 +1,5 @@
 App.AccountsListView = Backbone.View.extend({
 
-  template: JST['accounts/index'],
-
   events: {
     'click button.btn-new': 'newAccount',
     'click button.btn-edit': 'editAccount',
@@ -16,7 +14,8 @@ App.AccountsListView = Backbone.View.extend({
   },
 
   render: function() {
-    $(this.el).html(this.template({accounts: App.accounts}));
+    var template = App.util.getTemplate('accounts/index');
+    $(this.el).html(template({accounts: App.accounts}));
     return this;
   },
 

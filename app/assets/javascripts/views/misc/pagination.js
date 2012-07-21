@@ -1,7 +1,5 @@
 App.PaginationView = Backbone.View.extend({
 
-  template: JST['misc/pagination'],
-
   tagName: 'ul',
 
   events: {
@@ -20,7 +18,8 @@ App.PaginationView = Backbone.View.extend({
   },
 
   render: function () {
-    var html = this.template(this.collection.info());
+    var template = App.util.getTemplate('misc/pagination');
+    var html = template(this.collection.info());
     $('div.pagination', this.parentView.el).html(this.$el.html(html));
     this.delegateEvents();
     return this;

@@ -24,6 +24,10 @@ window.App = {
 
 App.util = {
 
+  getTemplate: function(path) {
+    return JST[path];
+  },
+
   localDateFormat: 'dd.mm.yyyy',
 
   convertDateToDbFormat: function(date) {

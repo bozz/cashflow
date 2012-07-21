@@ -20,7 +20,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+# gem 'jquery-rails'
 # gem 'backbone-on-rails'
 gem 'ejs'
 gem 'money', '>= 4.0.0'

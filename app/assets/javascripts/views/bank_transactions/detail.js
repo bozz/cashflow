@@ -1,8 +1,5 @@
 App.TransactionView = Backbone.View.extend({
 
-
-  template: JST['bank_transactions/detail'],
-
   events: {
     'click a.btn-close': 'hideModal',
     'click a.btn-submit': 'saveTransaction',
@@ -14,9 +11,10 @@ App.TransactionView = Backbone.View.extend({
   },
 
   render: function() {
+    var template = App.util.getTemplate('bank_transactions/detail');
     var self = this;
 
-    $(this.el).html(this.template({bankId: this.bankId, model: this.model}));
+    $(this.el).html(template({bankId: this.bankId, model: this.model}));
 
     this.$el.find('div.date').datepicker({ weekStart: 1 })
       .on('show', function() {

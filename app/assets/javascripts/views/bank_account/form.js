@@ -1,7 +1,5 @@
 App.BankAccountFormView = Backbone.View.extend({
 
-  template: JST['bank_accounts/form'],
-
   isModal: false,  // for new items, modal view is used
 
   events: {
@@ -21,11 +19,12 @@ App.BankAccountFormView = Backbone.View.extend({
   },
 
   render: function() {
+    var template = App.util.getTemplate('bank_accounts/form');
     if(this.isModal) {
-      var html = this.template({model: this.model, showFormActions: false});
+      var html = template({model: this.model, showFormActions: false});
       App.util.renderModalView(this.$el, html, "Create Transaction", "Create Transaction");
     } else {
-      var html = this.template({model: this.model, showFormActions: true});
+      var html = template({model: this.model, showFormActions: true});
       $('#tab-bank-account', this.parentView.el).html(this.$el.html(html));
     }
     return this;
