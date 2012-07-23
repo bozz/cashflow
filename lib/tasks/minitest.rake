@@ -12,6 +12,11 @@ namespace :test do
     t.pattern = "test/api/**/*_test.rb"
   end
 
+  desc "Run Testem for javascript tests"
+  task :js do
+    exec "testem -f test/javascripts/testem.yml"
+  end
+
 end
 
 task :default => 'test:unit'
