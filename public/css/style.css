@@ -1,0 +1,66 @@
+
+body { 
+  padding-top: 60px; 
+}
+
+#content h1 {
+  margin-bottom: 15px;
+}
+
+#alerts {
+  position: fixed;
+  right: 25px;
+  top: 50px;
+  width: 400px;
+}
+#alerts div.alert {
+  -moz-box-shadow: 0 0 8px #666;
+  -webkit-box-shadow: 0 0 8px #666;
+  box-shadow: 0 0 8px #666;
+}
+
+
+/* styling for demo d3 chart */
+.chart {
+  margin-left: 42px;
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+.chart div {
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+.chart rect {
+  stroke: white;
+  fill: steelblue;
+}
+.chart text.bar {
+  fill: white;
+}
+path.line {
+  fill: none;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+path.area {
+  fill: #e7e7e7;
+}
+.axis {
+  shape-rendering: crispEdges;
+}
+.x.axis line {
+  stroke: #fff;
+}
+.x.axis .minor {
+  stroke-opacity: .5;
+}
+.x.axis path {
+  display: none;
+}
+.y.axis line, .y.axis path {
+  fill: none;
+  stroke: #000;
+}

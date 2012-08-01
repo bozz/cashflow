@@ -1,5 +1,4 @@
-class ApplicationController < ActionController::Base
-  protect_from_forgery
+class ApplicationController < ActionController::API
 
   class MissingParameterError < StandardError; end;
   class InvalidDateError < StandardError; end;
