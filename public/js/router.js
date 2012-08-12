@@ -6,6 +6,14 @@ define(function(require) {
   var AccountsListView = require('views/accounts/index');
 
   var Router = Backbone.Router.extend({
+    contentEl: null,    // target DOM element for content
+    currentView: null,  // reference to current view
+
+    initialize: function(contentSelector) {
+      contentSelector = contentSelector || '#content';
+      this.contentEl = $(contentSelector).get(0);
+    },
+
     routes: {
       '': 'dashboard',
       'dashboard': 'dashboard',
@@ -15,30 +23,35 @@ define(function(require) {
       'accounts': 'accounts'
     },
 
+    showView: function(viewConstructor, params) {
+      if (this.currentView) {
+        this.currentView.close();
+      }
+      params = _.extend({el: this.contentEl}, (params || {}));
+      var view = new viewConstructor(params).render();
+      this.currentView = view;
+      return view;
+    },
+
     dashboard: function() {
-      var view = new DashboardView();
-      $('#content').html(view.render().el);
+      this.showView(DashboardView);
     },
 
     banking: function() {
-      var view = new BankAccountListView();
-      $('#content').html(view.render().el);
+      console.log("banking...");
+      this.showView(BankAccountListView);
     },
 
     bankDetail: function(id) {
-      var model = {}; //App.bankAccounts.get(id);
-      var view = new BankAccountView({model: model});
-      $('#content').html(view.render().el);
+      this.showView(BankAccountView, {id: id});
     },
 
     accounting: function() {
-      var view = new AccountsListView();
-      $('#content').html(view.render().el);
+      this.showView(AccountsListView);
     },
 
     accounts: function() {
-      var view = new AccountsListView();
-      $('#content').html(view.render().el);
+      this.showView(AccountsListView);
     }
   });
 

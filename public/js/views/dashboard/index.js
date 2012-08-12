@@ -6,17 +6,13 @@ define(function(require) {
 
     template: _.template(tpl),
 
-    events: {
-      // 'click button.btn-new': 'newTransaction',
-      // 'click button.btn-edit': 'editTransaction',
-      // 'click button.btn-delete': 'deleteTransaction',
-    },
-
-    initialize: function() {
+    close: function() {
+      this.remove();
+      this.unbind();
     },
 
     render: function() {
-      $(this.el).html(this.template());
+      this.$el.html(this.template());
 
       // var graphView = new App.TransactionsGraphView({collection: App.transactions, targetEl: 'graph'});
       // $(this.el).append(graphView.render().el);

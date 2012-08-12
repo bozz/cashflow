@@ -6,6 +6,7 @@ define(function(require) {
   var BankTransactions = require('collections/BankTransactions');
   var BankTransactionView = require('views/bank_transactions/detail');
   var PaginationView = require('views/misc/pagination');
+  var accounting = require('accounting');
 
   var BankTransactionListView = Backbone.View.extend({
 
@@ -39,9 +40,21 @@ define(function(require) {
       });
     },
 
+    close: function() {
+      this.remove();
+      this.unbind();
+      this.collection.off('reset', this.render);
+      this.collection.off('add', this.render);
+      this.collection.off('change', this.render);
+      this.collection.off('destroy', this.render);
+    },
+
     render: function() {
-      this.$el.html(this.template({bankId: this.bankId, transactions: this.collection}));
-      $('#tab-transactions', this.parentView.el).html(this.el);
+      this.$el.html(this.template({
+        bankId: this.bankId,
+        transactions: this.collection,
+        accounting: accounting
+      }));
 
       // set any previous filter values
       // TODO: extract filter form into seperate template

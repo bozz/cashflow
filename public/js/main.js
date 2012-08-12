@@ -7,6 +7,7 @@ require.config({
     bootstrap: "../vendor/bootstrap/js/bootstrap",
     accounting: "../vendor/accounting/accounting-0.3.2",
     moment: "../vendor/moment/moment-1.6.2",
+    d3: "../vendor/d3/d3.v2",
 
     // Plugins and Extensions
     text: "../vendor/require-text/text-2.0.1",
@@ -28,7 +29,10 @@ require.config({
     jqueryUpload: ["jquery"],
     bootstrap: ["jquery"],
     bootstrapBootbox: ["bootstrap"],
-    bootstrapDatepicker: ["bootstrap"]
+    bootstrapDatepicker: ["bootstrap"],
+    d3: {
+      exports: 'd3'
+    }
 
   } // end Shim Configuration
 });
@@ -41,7 +45,10 @@ require([
   'jqueryUpload',
   'backbone',
   'backbonePaginator',
-  'app'
+  'app',
+  'bootstrap',
+  'bootstrapDatepicker',
+  'bootstrapBootbox'
 ], function(_, $, loadmask, upload, Backbone, Paginator, App) {
   App.initialize();
 });

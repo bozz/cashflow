@@ -1,5 +1,6 @@
 define(function(require) {
   var Backbone = require('backbone');
+  var d3 = require('d3');
   var utils = require('utils');
   var tpl = require('text!/templates/bank_accounts/graph.jst.ejs');
 
@@ -27,6 +28,10 @@ define(function(require) {
       this.fetchData();
     },
 
+    close: function() {
+      this.remove();
+      this.unbind();
+    },
 
     // load graph data
     fetchData: function(fromDate, toDate) {
@@ -68,8 +73,7 @@ define(function(require) {
       var toDate   = moment(this.toDate).format(dateFormat);
       var fromDate = moment(this.fromDate).format(dateFormat);
 
-      this.$el.html(this.template({toDate: toDate, fromDate: fromDate}));
-      $('#tab-overview', this.parentView.el).html(this.el);
+      this.$el.html(this.template({toDate: toDate, fromDate: fromDate, dateFormat: utils.localDateFormat}));
 
       this.$el.find('div.date').datepicker({ weekStart: 1 });
       this.delegateEvents();

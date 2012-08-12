@@ -1,6 +1,7 @@
 define(function(require) {
   var utils = require('utils');
   var tpl = require('text!/templates/bank_accounts/form.jst.ejs');
+  var BankAccounts = require('collections/BankAccounts');
 
   var BankAccountFormView = Backbone.View.extend({
 
@@ -14,6 +15,7 @@ define(function(require) {
     },
 
     initialize: function (options) {
+      this.collection = BankAccounts.getInstance();
       this.parentView = options.parentView;
       if(options.bankId) {
         this.bankId = options.bankId;
@@ -24,14 +26,14 @@ define(function(require) {
       }
     },
 
+    close: function() {
+      this.remove();
+      this.unbind();
+    },
+
     render: function() {
-      if(this.isModal) {
-        var html = this.template({model: this.model, showFormActions: false});
-        utils.renderModalView(this.$el, html, "Create Transaction", "Create Transaction");
-      } else {
-        var html = this.template({model: this.model, showFormActions: true});
-        $('#tab-bank-account', this.parentView.el).html(this.$el.html(html));
-      }
+      var html = this.template({model: this.model, showFormActions: true});
+      this.$el.html(html);
       return this;
     },
 

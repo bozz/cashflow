@@ -16,12 +16,16 @@ define(function(require) {
       this.parentView = options.parentView;
     },
 
+    close: function() {
+      this.remove();
+      this.unbind();
+    },
+
     render: function() {
       var html = this.template({bankId: this.bankId});
-      $('#tab-import', this.parentView.el).html(this.$el.html(html));
+      this.$el.html(html);
       this.delegateEvents();
 
-      // $(this.el).html(this.template());
       return this;
     },
 

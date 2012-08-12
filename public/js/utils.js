@@ -9,6 +9,10 @@ define(function(require) {
       return JST[path];
     },
 
+    getApiBaseUrl: function() {
+      return "localhost:3000";
+    },
+
     localDateFormat: 'dd.mm.yyyy',
 
     convertDateToDbFormat: function(date) {
