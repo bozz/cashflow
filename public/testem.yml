@@ -1,0 +1,26 @@
+# framework: jasmine
+test_page: spec_runner.html
+# src_files:
+# - public/vendor/require/require-2.0.4.js
+# - public/vendor/require-text/text-2.0.1.js
+# - public/vendor/jquery/jquery-1.7.2.js
+# - public/vendor/jquery-loadmask/jquery.loadmask-0.4.js
+# - public/vendor/underscore/underscore-1.3.3.js
+# - public/vendor/backbone/backbone-0.9.2.js
+# - public/vendor/backbone-paginator/backbone.paginator.js
+# - public/vendor/bootstrap-bootbox/bootbox-2.3.1.js
+# - public/vendor/accounting/accounting-0.3.2.js
+# - public/vendor/moment/moment-1.6.2.js
+# - public/js/router.js
+# - public/js/utils.js
+# - public/js/app.js
+# - public/js/models/**/*.js
+# - public/js/collections/BaseCollection.js
+# - public/js/collections/**/*.js
+# - public/js/views/**/*.js
+# - public/js/main.js
+# - test/javascripts/lib/sinon-1.4.2.js
+# - test/javascripts/lib/jasmine-sinon.js
+# - test/javascripts/lib/app.js
+# - test/javascripts/models/**/*.js
+# - test/javascripts/controllers/**/*.js

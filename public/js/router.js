@@ -38,7 +38,6 @@ define(function(require) {
     },
 
     banking: function() {
-      console.log("banking...");
       this.showView(BankAccountListView);
     },
 
