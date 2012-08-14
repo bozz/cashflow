@@ -46,8 +46,13 @@ require([
   'backbone',
   'backbonePaginator',
 
+  // include tested modules
+  'models/BankAccount',
+  'collections/BankAccounts',
+
   // include all specs to be run
-  'specs/models/BankAccount.spec'
+  'specs/models/BankAccount.spec',
+  'specs/collections/BankAccounts.spec'
 ], function(_, $, loadmask, upload, Backbone, Paginator) {
   // run tests
   jasmine.getEnv().addReporter(new jasmine.HtmlReporter());
