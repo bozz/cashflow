@@ -1,7 +1,7 @@
-define(function(require) {
-  var utils = require('utils');
-  var tpl = require('text!/templates/bank_accounts/form.jst.ejs');
-  var BankAccounts = require('collections/BankAccounts');
+define([
+  'text!./../../../bank_accounts/form.jst.ejs',
+  'collections/BankAccounts'
+], function(tpl, BankAccounts) {
 
   var BankAccountFormView = Backbone.View.extend({
 
@@ -15,6 +15,7 @@ define(function(require) {
     },
 
     initialize: function (options) {
+      options = options || {};
       this.collection = BankAccounts.getInstance();
       this.parentView = options.parentView;
       if(options.bankId) {
@@ -69,10 +70,10 @@ define(function(require) {
       this.$el.unmask();
 
       if(this.isModal) {
-        utils.alertSuccess("Bank account created successfully");
+        // utils.alertSuccess("Bank account created successfully");
         this.closeModal(event);
       } else {
-        utils.alertSuccess("Settings saved successfully");
+        // utils.alertSuccess("Settings saved successfully");
         alert("refresh relevant areas of ui...");
       }
     },
@@ -109,7 +110,7 @@ define(function(require) {
           model.fetch();
         }
       } else {
-        utils.alertError(response.errorMsg);
+        // utils.alertError(response.errorMsg);
       }
     }
 

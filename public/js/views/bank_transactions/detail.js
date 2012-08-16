@@ -1,5 +1,4 @@
 define(function(require) {
-  var Backbone = require('backbone');
   var utils = require('utils');
   var tpl = require('text!/templates/bank_transactions/detail.jst.ejs');
 

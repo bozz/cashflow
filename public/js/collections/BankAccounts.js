@@ -1,5 +1,6 @@
 // BankAccounts (Collection) Singleton
 define(function(require) {
+  // var Backbone = require('backbone'),
   var BankAccount = require('models/BankAccount'),
       instance = null;
 

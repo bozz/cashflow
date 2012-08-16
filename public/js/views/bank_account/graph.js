@@ -1,6 +1,5 @@
 define(function(require) {
-  var Backbone = require('backbone');
-  var d3 = require('d3');
+  // var d3 = require('d3');
   var utils = require('utils');
   var tpl = require('text!/templates/bank_accounts/graph.jst.ejs');
 

@@ -1,5 +1,7 @@
 require.config({
   paths: {
+    'tpl': "./../templates",
+
     // Third-Party Libraries
     jquery: "../vendor/jquery/jquery-1.7.2",
     underscore: "../vendor/underscore/underscore-1.3.3",
@@ -32,8 +34,10 @@ require.config({
     bootstrapDatepicker: ["bootstrap"],
     d3: {
       exports: 'd3'
+    },
+    accounting: {
+      exports: 'accounting'
     }
-
   } // end Shim Configuration
 });
 
@@ -47,13 +51,39 @@ require([
   'backbonePaginator',
 
   // include tested modules
+  // 'moment',
+  // 'utils',
+  // 'accounting',
+  // 'd3',
+  // 'text',
+  // 'text!/templates/bank_accounts/index.jst/ejs',
+  // 'text!/templates/bank_accounts/detail.jst/ejs',
+  // 'text!/templates/bank_accounts/graph.jst/ejs',
+  // 'text!/templates/bank_accounts/form.jst/ejs',
+  // 'text!/templates/bank_transactions/index.jst/ejs',
+  // 'text!/templates/bank_transactions/detail.jst/ejs',
+  // 'text!/templates/bank_transactions/import.jst/ejs',
   'models/BankAccount',
+  // 'models/BankTransaction',
   'collections/BankAccounts',
+  // 'collections/BankTransactions',
+  // 'views/bank_account/index',
+  // 'views/bank_account/detail',
+  // 'views/bank_account/graph',
+  'views/bank_account/form',
+  // 'views/bank_transactions/index',
+  // 'views/bank_transactions/detail',
+  // 'views/bank_transactions/import',
+  // 'views/misc/alert',
+  // 'views/misc/pagination',
 
   // include all specs to be run
+  'specs/collections/BankAccounts.spec',
   'specs/models/BankAccount.spec',
-  'specs/collections/BankAccounts.spec'
+  'specs/views/bank_account/BankAccountFormView.spec'
+  // 'specs/views/bank_account/BankAccountListView'
 ], function(_, $, loadmask, upload, Backbone, Paginator) {
+  console.log("runt tests...", Backbone);
   // run tests
   jasmine.getEnv().addReporter(new jasmine.HtmlReporter());
   jasmine.getEnv().execute();
