@@ -61,7 +61,7 @@ var testr, define;
 			// plugin
 			path = path.split('!');
 			if (path[1]) {
-				path[1] = contextReq.toUrl(path[1]).substring(baseUrl.length);
+				path[1] = contextReq.toUrl(path[1]); // .substring(baseUrl.length);
 			}
 			return path.join('!');
 		}

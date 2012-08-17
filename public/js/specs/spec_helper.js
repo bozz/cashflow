@@ -1,39 +1,74 @@
-beforeEach(function() {
 
-  this.fixtures = {
+// Factory module for creating generic models with prefilled data 
+// and for creating predefined responses
+var Factory = (function() {
+  var models = {
+    BankAccount: [{
+      'id': 1,
+      'account_number': 1234567,
+      'bank': 'BigBank',
+      'name': 'BigBank',
+      'currency': 'EUR',
+      'initial_cents': 0
+    }, {
+      'id': 2,
+      'account_number': 9876543,
+      'bank': 'Bank of Mud',
+      'name': 'Bank of Mud',
+      'currency': 'EUR',
+      'initial_cents': 100000
+    }]
+  };
+
+  var responses = {
+    BankAccount: {
+      valid: {
+        'status': 'OK',
+        'version': '1.0',
+        'response': models.BankAccount[0]
+      }
+    },
     BankAccounts: {
       valid: { // response starts here
-        "status": "OK",
-        "version": "1.0",
-        "response": [{
-          "id": 1,
-          "account_number": 1234567,
-          "bank": "BigBank",
-          "name": "BigBank",
-          "currency": "EUR",
-          "initial_cents": 0
-        }, {
-          "id": 2,
-          "account_number": 9876543,
-          "bank": "Bank of Mud",
-          "name": "Bank of Mud",
-          "currency": "EUR",
-          "initial_cents": 100000
-        }]
+        'status': 'OK',
+        'version': '1.0',
+        'response': models.BankAccount
       }
     }
-
   };
 
-  this.validResponse = function(responseText) {
+  var wrapResponse = function(response, status) {
+    var statusMapping = { 'valid': 200 }
     return [
-      200,
+      statusMapping[status],
       {"Content-Type": "application/json"},
-      JSON.stringify(responseText)
+      JSON.stringify(response.response)
     ];
-  };
+  }
 
-});
+  return {
+    createModel: function(name) {
+      if(models[name]) {
+        return new Backbone.Model(_.first(models[name]));
+      } else {
+        console.warn("Warning: 'createmodel' failed for: ", name);
+        return new Backbone.Model();
+      }
+    },
+    createResponse: function(name, status) {
+      if(responses[name] && responses[name][status]) {
+        var response = responses[name][status];
+        return {
+          raw: response,
+          wrapped: wrapResponse(response, status)
+        }
+      } else {
+        console.warn("Warning: 'createResponse' failed for: ", name, status);
+        return [];
+      }
+    }
+  }
+}())
 
 
 // see http://cederwall.cem/p/teiyewch(function() {
