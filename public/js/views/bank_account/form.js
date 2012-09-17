@@ -1,29 +1,29 @@
 define([
   'text!/templates/bank_accounts/form.jst.ejs',
-  'collections/BankAccounts'
-], function(tpl, BankAccounts) {
+  'models/BankAccount'
+], function(tpl, BankAccount) {
 
   var BankAccountFormView = Backbone.View.extend({
-
-    isModal: false,  // for new items, modal view is used
 
     template: _.template(tpl),
 
     events: {
-      'click a.btn-submit': 'saveAccount',
-      'click a.btn-close': 'hideModal'
+      'click a.btn-submit': 'saveAccount'
     },
 
     initialize: function (options) {
       options = options || {};
-      this.collection = BankAccounts.getInstance();
-      this.parentView = options.parentView;
-      if(options.bankId) {
-        this.bankId = options.bankId;
-        this.model = this.collection.get(this.bankId);
-      } else {
-        this.isModal = true;
+
+      if(!options.id && !options.model) {
+        this.model = new BankAccount();
+      } else if(options.model) {
         this.model = options.model;
+      } else {
+        this.model = new BankAccount({
+          id: options.id
+        });
+        this.model.on('change', this.render, this);
+        this.model.fetch();
       }
     },
 
@@ -58,7 +58,7 @@ define([
 
       this.$el.mask("Saving...");
       if (this.model.isNew()) {
-        this.collection.create(this.model, options);
+        // this.collection.create(this.model, options);
       } else {
         this.model.save(this.model, options);
       }
@@ -69,24 +69,8 @@ define([
 
       this.$el.unmask();
 
-      if(this.isModal) {
-        // utils.alertSuccess("Bank account created successfully");
-        this.closeModal(event);
-      } else {
-        // utils.alertSuccess("Settings saved successfully");
-        alert("refresh relevant areas of ui...");
-      }
-    },
-
-    hideModal: function(event) {
-      if(event.preventDefault) { event.preventDefault(); }
-      $('div.modal', this.$el).modal('hide');
-    },
-
-    closeModal: function(event) {
-      if(event.preventDefault) { event.preventDefault(); }
-      this.hideModal(event);
-      this.$el.remove();
+      // utils.alertSuccess("Settings saved successfully");
+      alert("refresh relevant areas of ui...");
     },
 
     handleError: function(model, response) {
