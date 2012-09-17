@@ -1,5 +1,5 @@
 define([
-  'text!./../../../bank_accounts/form.jst.ejs',
+  'text!/templates/bank_accounts/form.jst.ejs',
   'collections/BankAccounts'
 ], function(tpl, BankAccounts) {
 
